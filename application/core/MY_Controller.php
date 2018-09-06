@@ -60,6 +60,10 @@ class Public_Controller extends MY_Controller{
 	}
 
 	public function template($data = array()){
+		if(!isset($data['script'])){
+			$c = explode('/', $data['content']);
+			$data['script'] = $this->session->userdata('template_use').$c[0].'/'.$c[1].'/script';
+		}
 		$data['content'] 	= $this->session->userdata('template_use').$data['content'];
 		$this->load->view($this->session->userdata('template'), $data);
 	}
