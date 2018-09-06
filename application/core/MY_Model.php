@@ -1080,20 +1080,23 @@ class MY_Model extends CI_Model
      * For Datatable
      */
     
-    public $dt_indexs       = array();
-    public $dt_action_index = 0; // start from 0
-    public $dt_edit_action  = true;
-    public $dt_delete_action = true;
-    public $dt_url_action   = '';
-    public $dt_index_edit   = 'id';
-    public $dt_join         = array();
-    public $dt_where        = array();
-    public $dt_group        = '';
-    public $dt_edit_label   = 'Edit';
-    public $dt_delete_label = 'Delete';
+    public $dt_indexs           = array();
+    public $dt_action_index     = 0; // start from 0
+    public $dt_edit_action      = true;
+    public $dt_edit_label       = 'Edit';
+    public $dt_delete_action    = true;
+    public $dt_delete_label     = 'Delete';
+    public $dt_detail_action    = false;
+    public $dt_read_action      = false;
+    public $dt_url_action       = '';
+    public $dt_index_edit       = 'id';
+    public $dt_group            = '';
+    public $dt_join             = array();
+    public $dt_where            = array();
 
     public function datatable(){
         $search = $this->input->get('search');
+        $columns = $this->input->get('columns');
         $search_value = $search['value'];
         $order  = $this->input->get('order');
 
@@ -1103,7 +1106,7 @@ class MY_Model extends CI_Model
         $return['recordsFiltered'] = 0;
         $return['data'] = array();
 
-        $datas = $this->_get_data_datatable($order, $search_value, 'data');
+        $datas = $this->_get_data_datatable($order, $search_value, 'data', $columns);
 
         foreach ($datas as $i => $data) {
             foreach ($this->dt_indexs as $j => $index) {
@@ -1127,9 +1130,9 @@ class MY_Model extends CI_Model
                 }
             }
         }
-
+        $return['lastQuery'] = $this->db->last_query();
         $return['recordsTotal'] = $this->_count_all_datatable();
-        $return['recordsFiltered'] = $this->_get_data_datatable($order, $search_value, 'count');
+        $return['recordsFiltered'] = $this->_get_data_datatable($order, $search_value, 'count', $columns);
         return json_encode($return);
     }
 
@@ -1146,7 +1149,7 @@ class MY_Model extends CI_Model
         return $data[0]['total'];
     }
 
-    private function _get_data_datatable($order = array(), $search_value = '', $type = 'data'){ // $type == 'data'/'count'
+    private function _get_data_datatable($order = array(), $search_value = '', $type = 'data', $columns = array()){ // $type == 'data'/'count'
         
         if(count($this->dt_where) > 0){
             foreach ($this->dt_where as $index => $value) {
@@ -1162,9 +1165,11 @@ class MY_Model extends CI_Model
         if($search_value != ''){
             $this->db->group_start();
             foreach ($this->dt_indexs as $i => $index) {
-                $dex = explode(' as ', $index);
-                $index = $dex[0];
-                $this->db->or_like($index, $search_value);
+                if($columns[$i]['searchable'] == 'true' or $columns[$i]['searchable'] == '1'){
+                    $dex = explode(' as ', $index);
+                    $index = $dex[0];
+                    $this->db->or_like($index, $search_value);
+                }
             }
             $this->db->group_end();
         }
@@ -1172,6 +1177,7 @@ class MY_Model extends CI_Model
         foreach ($this->dt_indexs as $i => $index) {
             $dex = explode(' as ', $index);
             $index = $dex[0];
+            if(count($dex) > 1) $index = $dex[1];
             if($i == $order[0]['column']){
                 $this->order_by($index, $order[0]['dir']);
             }
@@ -1183,7 +1189,8 @@ class MY_Model extends CI_Model
             $this->db->limit($this->input->get('length'));
             return $this->get_all();
         }elseif($type == 'count'){
-            $this->db->select("COUNT(DISTINCT ".$this->dt_indexs[0].") as total");
+            // $this->db->select("COUNT(DISTINCT ".$this->dt_indexs[0].") as total");
+            $this->db->select("COUNT(*) as total");
             $data = $this->get_all();
             return $data[0]['total'];
         }
