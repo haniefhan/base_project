@@ -86,4 +86,8 @@ class Login extends Public_Controller {
 		$img->font_ratio = 0.3;
 		return $img->show();
 	}
+
+	public function clear_session(){
+		$this->session->sess_destroy();
+	}
 }
