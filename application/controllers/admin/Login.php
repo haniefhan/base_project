@@ -28,6 +28,8 @@ class Login extends Public_Controller {
 		$data = $this->input->post();
 		$this->load->model('User_model', 'user');
 		$user = $this->user->get_by(array('username' => $data['username']));
+		$user['foto'] = asset_url().'production/images/tester.png';
+		
 		// check user exist
 		if($user != NULL){
 			// check captcha
