@@ -1,0 +1,35 @@
+.dataTables_length {
+    float: left;
+    width: 40%;
+}
+
+.dataTables_filter {
+    float: right;
+    text-align: right;
+    width: 50%;
+}
+
+.dataTables_info {
+    float: left;
+    width: 60%;
+}
+
+.dataTables_paginate {
+    float: right;
+    text-align: right;
+}
+
+.dataTables_paginate a {
+    background: #eee none repeat scroll 0 0 !important;
+    border-color: #eee !important;
+    padding: 6px 9px !important;
+    cursor: pointer;
+}
+
+.dataTables_length select{
+    cursor: pointer;
+}
+
+a.paginate_button.current{
+    background-color: #ddd!important;
+}
