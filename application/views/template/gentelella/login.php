@@ -8,15 +8,15 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title><?php echo $this->session->userdata('site_title').' | '.$title; ?></title>
 		<!-- Bootstrap -->
-		<link href="<?php echo asset_url(); ?>vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
+		<link href="<?php echo asset_admin_url(); ?>vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 		<!-- Font Awesome -->
-		<link href="<?php echo asset_url(); ?>vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+		<link href="<?php echo asset_admin_url(); ?>vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 		<!-- NProgress -->
-		<link href="<?php echo asset_url(); ?>vendors/nprogress/nprogress.css" rel="stylesheet">
+		<link href="<?php echo asset_admin_url(); ?>vendors/nprogress/nprogress.css" rel="stylesheet">
 		<!-- Animate.css -->
-		<link href="<?php echo asset_url(); ?>vendors/animate.css/animate.min.css" rel="stylesheet">
+		<link href="<?php echo asset_admin_url(); ?>vendors/animate.css/animate.min.css" rel="stylesheet">
 		<!-- Custom Theme Style -->
-		<link href="<?php echo asset_url(); ?>build/css/custom.min.css" rel="stylesheet">
+		<link href="<?php echo asset_admin_url(); ?>build/css/custom.min.css" rel="stylesheet">
 		<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/img/ico.png">
 	</head>
 	<body class="login">

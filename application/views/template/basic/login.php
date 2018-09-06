@@ -9,10 +9,10 @@
 	<meta name="author" content="">
 	<link rel="icon" href="<?php echo $this->session->userdata('logo'); ?>">
 	<title><?php echo $this->session->userdata('site_title').' | '.$title; ?></title>
-	<link href="<?php echo asset_url(); ?>dist/css/bootstrap.min.css" rel="stylesheet">
-	<link href="<?php echo asset_url(); ?>css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-	<link href="<?php echo asset_url(); ?>css/signin.css" rel="stylesheet">
-	<script src="<?php echo asset_url(); ?>js/ie-emulation-modes-warning.js"></script>
+	<link href="<?php echo asset_admin_url(); ?>dist/css/bootstrap.min.css" rel="stylesheet">
+	<link href="<?php echo asset_admin_url(); ?>css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+	<link href="<?php echo asset_admin_url(); ?>css/signin.css" rel="stylesheet">
+	<script src="<?php echo asset_admin_url(); ?>js/ie-emulation-modes-warning.js"></script>
 </head>
 <body>
 	<div class="container">
@@ -47,6 +47,6 @@
 			<?php } ?>
 		</form>
 	</div>
-	<script src="<?php echo asset_url(); ?>js/ie10-viewport-bug-workaround.js"></script>
+	<script src="<?php echo asset_admin_url(); ?>js/ie10-viewport-bug-workaround.js"></script>
 </body>
 </html>

@@ -51,7 +51,7 @@ class Theme extends Admin_Controller implements ControllerInterface{
 			if($type == 'admin'){
 				$this->session->set_userdata('template_admin', $theme['url'].'index');
 				$this->session->set_userdata('template_admin_use', $theme['url']);
-				// $this->session->set_userdata('template_login', $theme['url'].'login');
+				$this->session->set_userdata('template_login', $theme['url'].'login');
 			}
 
 			$this->session->set_flashdata('notif_status', true);
