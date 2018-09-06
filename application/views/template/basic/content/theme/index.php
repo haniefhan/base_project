@@ -1,20 +1,20 @@
 <div class="row" id="theme">
 	<div class="col-lg-12">
-		<h3><?php echo lang('Admin Template') ?></h3>
+		<h3>Admin Template</h3>
 	</div>
 	<?php foreach ($admin as $data) {?>
 		<div class="col-lg-3">
 			<div class="panel panel-default">
 				<div class="panel-heading"><?php echo ucwords(str_replace('_', ' ', $data['name'])); ?></div>
 				<div class="panel-body">
-					<img src="<?php echo base_url().'assets/'.$data['url'].'screenshot-home.png' ?>" class="screenshot">
+					<img src="<?php echo base_url().'assets/'.$data['url'].'screenshot-home.png' ?>" class="screenshot"  style="max-height: 100px;">
 				</div>
 				<div class="panel-footer">
 					<a href="<?php echo base_url_admin() ?>theme/index?type=examples&id=<?php echo $data['id'] ?>" class="btn btn-default">Doc</a>
 					<?php if($data['url'] != $this->session->userdata('template_admin_use')){ ?>
-						<a href="<?php echo base_url_admin() ?>theme/update?id=<?php echo $data['id'] ?>" class="btn btn-primary"><?php echo lang('Activate') ?></a>
+						<a href="<?php echo base_url_admin() ?>theme/update?id=<?php echo $data['id'] ?>" class="btn btn-primary">Activate</a>
 					<?php }else{ ?>
-						<span class="btn btn-success" disabled="disabled"><?php echo lang('Activated') ?></span>
+						<span class="btn btn-success" disabled="disabled">Activated</span>
 					<?php } ?>
 				</div>
 			</div>

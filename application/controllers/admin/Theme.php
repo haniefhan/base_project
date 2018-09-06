@@ -38,11 +38,16 @@ class Theme extends Admin_Controller implements ControllerInterface{
 		$theme = $this->theme->get($id);
 		$this->load->model("Setting_model", 'setting');
 		$data[] = array('name' => 'template', 'value' => $theme['name']);
+		$data[] = array('name' => 'template_admin', 'value' => $theme['name']);
 
 		if($this->setting->update_batch($data, 'name')){
 			$this->session->set_userdata('template', $theme['url'].'index');
 			$this->session->set_userdata('template_use', $theme['url']);
 			$this->session->set_userdata('template_name', $theme['name']);
+
+			$this->session->set_userdata('template_admin', $theme['url'].'index');
+			$this->session->set_userdata('template_admin_use', $theme['url']);
+			// $this->session->set_userdata('template_login', $theme['url'].'login');
 
 			$this->session->set_flashdata('notif_status', true);
 			$this->session->set_flashdata('notif_msg', ' success');
