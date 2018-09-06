@@ -40,6 +40,7 @@
                 <div class="alert alert-<?php echo $this->session->flashdata('notif_status') == true ? 'success' : 'danger' ; ?> text-center alert-dismissable col-lg-12">
                     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button><?php echo $this->session->flashdata('notif_msg') ?>
                 </div>
+                <div class="clearfix"></div>
             <?php } ?>
             <form action="<?php echo base_url_admin(); ?>login/signin" method="post">
                 <div class="form-group has-feedback">
@@ -50,6 +51,12 @@
                     <input type="password" class="form-control" placeholder="Password" id="password" name="password">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
+                <?php if($this->session->userdata('login_attempt') > 1){ ?>
+                <div class="text-center">
+                    <img id="captcha" src="<?php echo base_url_admin().'login/gen_captcha' ?>" alt="CAPTCHA Image" />
+                    <input type="text" name="captcha_code" maxlength="6" style="" placeholder="Captcha" class="form-control" />
+                </div>
+                <?php } ?>
                 <div class="row">
                     <div class="col-xs-8">&nbsp;</div>
                     <!-- /.col -->
