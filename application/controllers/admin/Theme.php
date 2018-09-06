@@ -14,6 +14,7 @@ class Theme extends Admin_Controller implements ControllerInterface{
 			$data['title']		= $this->title;
 			$data['content']	= 'content/theme/index';
 			$data['admin'] 		= $this->theme->get_many_by(array('type' => 'admin'));
+			$data['public'] 	= $this->theme->get_many_by(array('type' => 'public'));
 			$this->template($data);
 		}else{
 			$id 	= $this->input->get('id');
