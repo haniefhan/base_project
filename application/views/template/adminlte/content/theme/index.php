@@ -12,7 +12,7 @@
 				<div class="box-footer">
 					<a href="<?php echo base_url_admin() ?>theme/index?type=examples&id=<?php echo $data['id'] ?>" class="btn btn-default">Doc</a>
 					<?php if($data['url'] != $this->session->userdata('template_admin_use')){ ?>
-						<a href="<?php echo base_url_admin() ?>theme/update?id=<?php echo $data['id'] ?>" class="btn btn-primary">Activate</a>
+						<a href="<?php echo base_url_admin().'theme/update?id='.$data['id'].'&type='.$data['type'] ?>" class="btn btn-primary">Activate</a>
 					<?php }else{ ?>
 						<span class="btn btn-success" disabled="disabled">Activated</span>
 					<?php } ?>

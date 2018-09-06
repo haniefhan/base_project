@@ -35,19 +35,24 @@ class Theme extends Admin_Controller implements ControllerInterface{
 
 	function update(){
 		$id = $this->input->get('id');
+		$type = $this->input->get('type');
 		$theme = $this->theme->get($id);
 		$this->load->model("Setting_model", 'setting');
-		$data[] = array('name' => 'template', 'value' => $theme['name']);
-		$data[] = array('name' => 'template_admin', 'value' => $theme['name']);
+		if($type == 'public') $data[] = array('name' => 'template', 'value' => $theme['name']);
+		if($type == 'admin') $data[] = array('name' => 'template_admin', 'value' => $theme['name']);
 
 		if($this->setting->update_batch($data, 'name')){
-			$this->session->set_userdata('template', $theme['url'].'index');
-			$this->session->set_userdata('template_use', $theme['url']);
-			$this->session->set_userdata('template_name', $theme['name']);
+			if($type == 'public'){
+				$this->session->set_userdata('template', $theme['url'].'index');
+				$this->session->set_userdata('template_use', $theme['url']);
+				$this->session->set_userdata('template_name', $theme['name']);
+			}
 
-			$this->session->set_userdata('template_admin', $theme['url'].'index');
-			$this->session->set_userdata('template_admin_use', $theme['url']);
-			// $this->session->set_userdata('template_login', $theme['url'].'login');
+			if($type == 'admin'){
+				$this->session->set_userdata('template_admin', $theme['url'].'index');
+				$this->session->set_userdata('template_admin_use', $theme['url']);
+				// $this->session->set_userdata('template_login', $theme['url'].'login');
+			}
 
 			$this->session->set_flashdata('notif_status', true);
 			$this->session->set_flashdata('notif_msg', ' success');

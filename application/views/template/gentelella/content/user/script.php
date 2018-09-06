@@ -1,8 +1,5 @@
 <?php if(!isset($state)){ ?>
 <!-- view -->
-<script type="text/javascript" src="<?php echo asset_admin_url() ?>dist/datatables.net/js/jquery.datatables.js"></script>
-<script type="text/javascript" src="<?php echo asset_admin_url() ?>dist/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-<link rel="stylesheet" type="text/css" href="<?php echo asset_admin_url() ?>css/datatables.css">
 <script type="text/javascript">
 	$(function(){
 		$('body').delegate('.delete', 'click', function(event) {
@@ -26,7 +23,6 @@
 </script>
 <?php }elseif($state == 'add' or $state == 'edit'){ ?>
 <!-- add, edit -->
-<script type="text/javascript" src="<?php echo asset_admin_url() ?>dist/ckeditor/ckeditor.js"></script>
 <script type="text/javascript">
 	$(function(){
 		$('.form').submit(function(){
