@@ -1,6 +1,62 @@
 <?php
 class Group_model extends MY_Model {
 	protected $_table 		= 'group';
-	protected $_primary_key = 'id';	
+	public $primary_key = 'id';
+
+	public $table_field = array(
+		0 => array(
+			// table param
+			'name' 			=> 'No',
+			'table_index'	=> 'id',
+			'style' 		=> 'width:15px;',
+			'in_table' 		=> true,
+			// datatable param
+			'searchable' 	=> false,
+			'sortable' 		=> false,
+			// form param
+			'in_form' 		=> false,
+			'type' 			=> 'hidden', // hidden, text, select, textarea
+			'value' 		=> '',
+			'required' 		=> false,
+		),
+		1 => array(
+			// table param
+			'name' 			=> 'Name',
+			'table_index'	=> 'name',
+			'style' 		=> '',
+			'in_table' 		=> true,
+			// datatable param
+			'searchable' 	=> true,
+			'sortable' 		=> true,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'text', // hidden, text, select, textarea
+			'value' 		=> '',
+			'required' 		=> true,
+		),
+		2 => array(
+			// table param
+			'name' 			=> 'Action',
+			'table_index'	=> 'id',
+			'style' 		=> 'width:150px;',
+			'in_table' 		=> true,
+			// datatable param
+			'searchable' 	=> false,
+			'sortable' 		=> false,
+			// form param
+			'in_form' 		=> false,
+			'type' 			=> 'hidden', // hidden, text, select, textarea
+			'value' 		=> '',
+			'required' 		=> false,
+		),
+	);
+
+	public function get_dt_table_field(){
+		$ret = array();
+		foreach ($this->table_field as $tf) {
+			$ret[] = $tf['table_index'];
+		}
+		return $ret;
+	}
 }
 ?>
