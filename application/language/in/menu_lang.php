@@ -7,5 +7,6 @@ $lang['Appearance'] = 'Tampilan';
 $lang['Theme'] = 'Theme';
 $lang['Setting'] = 'Setting';
 $lang['General'] = 'Setting Umum';
+$lang['Group'] = 'Grup';
 $lang['Access Right'] = 'Hak Akses';
 $lang['Sign Out'] = 'Sign Out';
