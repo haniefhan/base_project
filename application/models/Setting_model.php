@@ -1,7 +1,7 @@
 <?php
 class Setting_model extends MY_Model {
 	protected $_table 		= 'setting';
-	protected $_primary_key = 'id';
+	protected $primary_key = 'id';
 
 	// observer
 	public $_user_id = 0; // from session 

@@ -1,7 +1,7 @@
 <?php
 class Menu_model extends MY_Model {
 	protected $_table 		= 'menu';
-	protected $_primary_key = 'id';
+	protected $primary_key = 'id';
 
 	public function menu_structured(){
 		$res = $this->get_all();
@@ -17,6 +17,7 @@ class Menu_model extends MY_Model {
 
 				$child[$v['parent']][$v['order']] = $v;
 				unset($res[$i]);
+				ksort($child[$v['parent']], SORT_NUMERIC);
 			}
 		}
 
