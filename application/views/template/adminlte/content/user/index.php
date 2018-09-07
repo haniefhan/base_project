@@ -7,8 +7,8 @@
 				<a href="<?php echo base_url_admin().'user/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Tambah User</a>
 				<!-- <div class="clearfix"></div> -->
 			</div>
-			<div class="box-body">
-				<table class="table table-striped table-bordered table-hover datatable" id="tb-user">
+			<div class="box-body table-responsive">
+				<table class="table table-striped table-bordered table-hover datatable" id="tb-user" style="width: 100%">
 					<thead>
 						<th>No</th>
 						<th>Username</th>
