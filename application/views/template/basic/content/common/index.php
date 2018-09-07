@@ -1,12 +1,11 @@
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2><?php echo $title; ?></h2>
+		<div class="panel panel-default">
+			<div class="panel-heading"><?php echo $title; ?>
 				<a href="<?php echo base_url_admin().$controller.'/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Add <?php echo $title ?></a>
 				<div class="clearfix"></div>
 			</div>
-			<div class="x_content">
+			<div class="panel-body">
 				<table class="table table-striped table-bordered table-hover datatable" id="tb-<?php echo $controller ?>">
 					<thead>
 						<?php foreach ($table_field as $index => $tf) {?>

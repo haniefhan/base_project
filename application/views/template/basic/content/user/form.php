@@ -12,7 +12,7 @@
 	<form role="form" class="form form-horizontal" action="<?php echo $url ?>" method="POST">
 		<div class="col-lg-10">
 			<div class="panel panel-default">
-				<div class="panel-heading"><?php echo lang('User') ?></div>
+				<div class="panel-heading">Add New User</div>
 				<div class="panel-body">
 					<div class="form-group">
 						<label class="control-label col-sm-3" for="username"><?php echo lang('Username') ?></label>
