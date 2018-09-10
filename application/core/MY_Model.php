@@ -1195,4 +1195,38 @@ class MY_Model extends CI_Model
             return $data[0]['total'];
         }
     }
+
+    /*
+    @haniefhan
+    2018-09-10 : add for common model use
+
+    public $table_field = array(
+        0 => array(
+            // table param
+            'name'          => '', // Name in table in CI view and form
+            'table_index'   => '', // Name table field in database
+            'style'         => '', // add style in table
+            'in_table'      => true, // show in table : true / false
+            // datatable param
+            'searchable'    => false, // searchable in datatable : true / false
+            'sortable'      => false, // sortable in datatable : true / false
+            // form param
+            'in_form'       => false, // show in form : true / false
+            'type'          => 'hidden', // type in form : hidden, text, select, textarea, date, datepicker, numeric, money
+            'value'         => '', // default value
+            'required'      => false, // required in form
+            'maxlength'     => '', // maxlength in form
+        ),
+        ...
+    );
+     */
+    public $table_field = array();
+
+    public function get_dt_table_field(){
+        $ret = array();
+        foreach ($this->table_field as $tf) {
+            if($tf['in_table'] == true) $ret[] = $tf['table_index'];
+        }
+        return $ret;
+    }
 }

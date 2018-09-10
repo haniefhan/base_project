@@ -53,13 +53,5 @@ class Group_model extends MY_Model {
 			'maxlength' 	=> '',
 		),
 	);
-
-	public function get_dt_table_field(){
-		$ret = array();
-		foreach ($this->table_field as $tf) {
-			$ret[] = $tf['table_index'];
-		}
-		return $ret;
-	}
 }
 ?>
