@@ -15,9 +15,10 @@ class Group_model extends MY_Model {
 			'sortable' 		=> false,
 			// form param
 			'in_form' 		=> false,
-			'type' 			=> 'hidden', // hidden, text, select, textarea
+			'type' 			=> 'hidden', // hidden, text, select, textarea, date, datepicker, numeric, money
 			'value' 		=> '',
 			'required' 		=> false,
+			'maxlength' 	=> '',
 		),
 		1 => array(
 			// table param
@@ -30,24 +31,26 @@ class Group_model extends MY_Model {
 			'sortable' 		=> true,
 			// form param
 			'in_form' 		=> true,
-			'type' 			=> 'text', // hidden, text, select, textarea
+			'type' 			=> 'text', // hidden, text, select, textarea, date, datepicker, numeric, money
 			'value' 		=> '',
 			'required' 		=> true,
+			'maxlength' 	=> '255',
 		),
 		2 => array(
 			// table param
 			'name' 			=> 'Action',
 			'table_index'	=> 'id',
-			'style' 		=> 'width:150px;',
+			'style' 		=> '', // 'width:15%;',
 			'in_table' 		=> true,
 			// datatable param
 			'searchable' 	=> false,
 			'sortable' 		=> false,
 			// form param
 			'in_form' 		=> false,
-			'type' 			=> 'hidden', // hidden, text, select, textarea
+			'type' 			=> 'hidden', // hidden, text, select, textarea, date, datepicker, numeric, money
 			'value' 		=> '',
 			'required' 		=> false,
+			'maxlength' 	=> '',
 		),
 	);
 
