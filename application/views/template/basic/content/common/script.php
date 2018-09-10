@@ -45,4 +45,26 @@
 	})
 </script>
 <?php }elseif($state == 'add' or $state == 'edit'){ ?>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$('form input').eq(0).focus();
+		})
+	</script>
+	<?php 
+		$types = array();
+		foreach ($table_field as $tf) {
+			$types[$tf['type']] = $tf['type'];
+		}
+	?>
+	<?php if(isset($types['datepicker']) or isset($types['date'])){ ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo asset_admin_url() ?>dist/bootstrap-datepicker-1.6.4/css/bootstrap-datepicker.css">
+		<script src="<?php echo asset_admin_url() ?>dist/bootstrap-datepicker-1.6.4/js/bootstrap-datepicker.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.date').datepicker({
+					format: 'dd/mm/yyyy'
+				});
+			})
+		</script>
+	<?php } ?>
 <?php } ?>
