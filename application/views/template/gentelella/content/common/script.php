@@ -42,18 +42,68 @@
 	})
 </script>
 <?php }elseif($state == 'add' or $state == 'edit'){ ?>
-	<!-- select with select2 autocomplete -->
-	<script type="text/javascript" src="<?php echo asset_admin_url() ?>vendors/select2/dist/js/select2.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="<?php echo asset_admin_url() ?>vendors/select2/dist/css/select2.min.css">
-
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('.autocomplete').select2();
+			$('form input').eq(0).focus();
 		})
 	</script>
-	<style type="text/css">
-		.select2-container--default .select2-selection--single .select2-selection__arrow{
-			height: 100%;
+	<?php 
+		$types = array();
+		foreach ($table_field as $tf) {
+			$types[$tf['type']] = $tf['type'];
 		}
-	</style>
+	?>
+	<?php if(isset($types['select'])){ ?>
+		<!-- select with select2 autocomplete -->
+		<script type="text/javascript" src="<?php echo asset_admin_url() ?>vendors/select2/dist/js/select2.min.js"></script>
+		<link rel="stylesheet" type="text/css" href="<?php echo asset_admin_url() ?>vendors/select2/dist/css/select2.min.css">
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('.autocomplete').select2();
+			})
+		</script>
+		<style type="text/css">
+			.select2-container--default .select2-selection--single .select2-selection__arrow{
+				height: 100%;
+			}
+		</style>
+	<?php } ?>
+	<!-- ## InputMask ## -->
+	<?php if(isset($types['date']) or isset($types['numeric']) or isset($types['money'])){ ?>
+		<script src="<?php echo asset_admin_url() ?>vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
+	<?php } ?>
+	<?php if(isset($types['date'])){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.datemask').inputmask("date");
+			})
+		</script>
+	<?php } ?>
+	<?php if(isset($types['numeric'])){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.numeric').inputmask('numeric', {rightAlign: true, radixPoint: ',', groupSeparator: '.', prefix: '', digits:0, autoGroup:true});
+			})
+		</script>
+	<?php } ?>
+	<?php if(isset($types['money'])){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.currency').inputmask('currency', {rightAlign: true, radixPoint: ',', groupSeparator: '.', prefix: '', digits: 0});
+			})
+		</script>
+	<?php } ?>
+	<!-- ## End of InputMask ## -->
+	<?php if(isset($types['datepicker'])){ ?>
+		<link rel="stylesheet" type="text/css" href="<?php echo asset_admin_url() ?>vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css">
+		<script src="<?php echo asset_admin_url() ?>vendors/moment/min/moment.min.js"></script>
+		<script src="<?php echo asset_admin_url() ?>vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.daterangepicker').datetimepicker({
+					format: 'DD/MM/YYYY'
+				});
+			})
+		</script>
+	<?php } ?>
 <?php } ?>
