@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-md-12 col-sm-12 col-xs-12">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo $title; ?></h3>
@@ -57,11 +57,11 @@
 						<?php } ?>
 					<?php } ?>
 					<div class="form-group">
-						<label class="control-label col-md-2 col-sm-2 col-xs-2" for="role">&nbsp;</label>
-						<div class="col-lg-2 col-md-4 col-sm-4 col-xs-5">
+						<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-12" for="role">&nbsp;</label>
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 							<input type="submit" class="btn btn-primary form-control" value="Save <?php echo ucfirst($controller) ?>">
 						</div>
-						<div class="col-lg-2 col-md-4 col-sm-4 col-xs-5">
+						<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 							<a href="<?= base_url_admin().$controller;?>" class="btn btn-default form-control">Back</a>
 						</div>
 					</div>
