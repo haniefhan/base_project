@@ -9,7 +9,8 @@
 				if(!isset($datas)){
 					$url = base_url_admin().$controller.'/insert';
 				}else{
-					$url = base_url_admin().$controller.'/update?'.$primary_key.'='.$id;
+					// $url = base_url_admin().$controller.'/update?'.$primary_key.'='.$id;
+					$url = base_url_admin().$controller.'/update?id='.$id;
 				}
 				?>
 				<form role="form" class="form form-horizontal" action="<?php echo $url ?>" method="POST">
