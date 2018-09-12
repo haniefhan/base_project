@@ -33,9 +33,11 @@
 					$('td:eq(0)', nRow).html(info.recordsDisplay - iDisplayIndex - (info.page * info.length));
 				}
 				<?php $n = 0; foreach ($table_field as $i => $tf) {?>
-					<?php if($tf['type'] == 'numeric' or $tf['type'] == 'money'){ ?>
+					<?php if($tf['type'] == 'numeric'){ ?>
 						$('td:eq(<?php echo $i; ?>)', nRow).html(numberWithCommas(aData[<?php echo $i ?>]));
 						$('td:eq(<?php echo $i; ?>)', nRow).addClass('text-right');
+					<?php }elseif($tf['type'] == 'money'){ ?>
+						$('td:eq(<?php echo $i; ?>)', nRow).html('Rp. <span class="pull-right">'+numberWithCommas(aData[<?php echo $i ?>])+'</span>');
 					<?php }elseif($tf['type'] == 'date' or $tf['type'] == 'datepicker'){ ?>
 						d = aData[<?php echo $i ?>].split('-');
 						dd = d[2]+'/'+d[1]+'/'+d[0];
