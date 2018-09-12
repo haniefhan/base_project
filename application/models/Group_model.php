@@ -19,6 +19,8 @@ class Group_model extends MY_Model {
 			'value' 		=> '',
 			'required' 		=> false,
 			'maxlength' 	=> '',
+			// print param
+			'in_print'		=> true,
 		),
 		1 => array(
 			// table param
@@ -35,6 +37,8 @@ class Group_model extends MY_Model {
 			'value' 		=> '',
 			'required' 		=> true,
 			'maxlength' 	=> '255',
+			// print param
+			'in_print'		=> true,
 		),
 		2 => array(
 			// table param
@@ -51,6 +55,8 @@ class Group_model extends MY_Model {
 			'value' 		=> '',
 			'required' 		=> false,
 			'maxlength' 	=> '',
+			// print param
+			'in_print'		=> false,
 		),
 	);
 }

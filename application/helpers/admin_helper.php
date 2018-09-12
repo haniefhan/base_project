@@ -66,6 +66,7 @@ if ( ! function_exists('set_menu')){
 						$acc_grant[] = 'admin/'.$v['url'].'/index';
 						$acc_grant[] = 'admin/'.$v['url'];
 						$acc_grant[] = 'admin/'.$v['url'].'/datatable';
+						$acc_grant[] = 'admin/'.$v['url'].'/print_excel';
 					}
 
 					if($v['add'] == 1){
@@ -117,6 +118,7 @@ if ( ! function_exists('set_menu')){
 					$acc_grant[] = 'admin/'.$v['url'].'/index';
 					$acc_grant[] = 'admin/'.$v['url'];
 					$acc_grant[] = 'admin/'.$v['url'].'/datatable';
+					$acc_grant[] = 'admin/'.$v['url'].'/print_excel';
 				}
 
 				if($v['add'] == 1){

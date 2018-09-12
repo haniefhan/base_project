@@ -3,6 +3,7 @@
 		<div class="box box-primary">
 			<div class="box-header with-border">
 				<h3 class="box-title"><?php echo $title; ?></h3>
+				<a href="<?php echo base_url_admin().$controller.'/print_excel' ?>" class="btn btn-primary pull-right btn-sm"><i class="fa fa-print"></i> Print <?php echo $title ?></a>
 				<a href="<?php echo base_url_admin().$controller.'/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Add <?php echo $title ?></a>
 				<!-- <div class="clearfix"></div> -->
 			</div>
@@ -26,3 +27,8 @@
 		</div>
 	</div>
 </div>
+<style type="text/css">
+	div.box-header.with-border a{
+		margin: 0px 2px;
+	}
+</style>
