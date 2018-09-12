@@ -163,9 +163,22 @@ class Common_model extends MY_Model {
 		return $data;
 	}
 
-	protected function reformat_date($date = ''){
-		$d = explode('/', $date);
-		return $d[2].'-'.$d[1].'-'.$d[0];
+	public function reformat_sql_to_form($data = array()){
+		$table_field = $this->table_field;
+
+		foreach ($table_field as $i => $tf) {
+			if($tf['in_form'] == true){
+				if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
+				elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
+			}
+		}
+
+		return $data;
+	}
+
+	protected function reformat_date($date = '', $split = '/', $separator = '-'){
+		$d = explode($split, $date);
+		return $d[2].$separator.$d[1].$separator.$d[0];
 	}
 
 	protected function reformat_numeric($numeric = 0){

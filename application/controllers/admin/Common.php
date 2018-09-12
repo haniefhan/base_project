@@ -52,6 +52,8 @@ class Common extends Admin_Controller implements ControllerInterface{
 		$data['content']	= 'content/common/form';
 		$data['datas']      = $this->common->get($id);
 
+		$data['datas'] = $this->common->reformat_sql_to_form($data['datas']);
+
 		$this->template($data);
 	}
 
