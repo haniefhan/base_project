@@ -34,7 +34,7 @@
 						if(isset($tf['in_table'])) $in_table = $tf['in_table'];
 					?>
 					<?php if($in_table == true){ ?>
-						{"bSearchable" : <?php echo (int)$tf['searchable'] ?>, "bSortable": <?php echo (int)$tf['sortable'] ?>}<?php if($n < count($table_field)) echo ', '; ?>
+						{"bSearchable" : <?php echo ($tf['searchable'] == true) ? 'true' : 'false'; ?>, "bSortable": <?php echo ($tf['sortable'] == true) ? 'true' : 'false'; ?>}<?php if($n < count($table_field)) echo ', '; ?>
 					<?php $n++; } ?>
 				<?php } ?>
 				// {"bSearchable" : false},

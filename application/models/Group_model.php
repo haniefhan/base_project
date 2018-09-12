@@ -12,7 +12,7 @@ class Group_model extends MY_Model {
 			'in_table' 		=> true,
 			// datatable param
 			'searchable' 	=> false,
-			'sortable' 		=> false,
+			'sortable' 		=> true,
 			// form param
 			'in_form' 		=> false,
 			'type' 			=> 'hidden', // hidden, text, select, textarea, date, datepicker, numeric, money
