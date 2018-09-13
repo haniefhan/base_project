@@ -1271,4 +1271,13 @@ class MY_Model extends CI_Model
         }
         return $numeric;
     }
+
+    public function populate_select($index_field = '', $value_field = '', $where = array()){
+        $ret = array();
+        $this->select("$index_field, $value_field");
+        foreach ($this->get_many_by($where) as $data) {
+            $ret[$data[$index_field]] = $data[$value_field];
+        }
+        return $ret;
+    }
 }

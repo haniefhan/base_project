@@ -3,6 +3,8 @@ class Common_model extends MY_Model {
 	protected $_table 		= 'common';
 	public $primary_key = 'com_id';
 
+	public $belongs_to = array('group' => array('from_column' => 'group_id', 'to_column' => 'id'));
+
 	public $table_field = array(
 		0 => array(
 			// table param
@@ -131,6 +133,24 @@ class Common_model extends MY_Model {
 			'in_print'		=> true,
 		),
 		7 => array(
+			// table param
+			'name' 			=> 'Group',
+			'table_index'	=> 'group_id',
+			'style' 		=> '',
+			'in_table' 		=> true,
+			// datatable param
+			'searchable' 	=> true,
+			'sortable' 		=> true,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'select', // hidden, text, select, textarea, date, datepicker, numeric, money
+			'value' 		=> array('Group_model', 'id', 'name', array()),
+			'required' 		=> true,
+			'maxlength' 	=> '',
+			// print param
+			'in_print'		=> true,
+		),
+		8 => array(
 			// table param
 			'name' 			=> 'Action',
 			'table_index'	=> 'com_id',

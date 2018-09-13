@@ -32,6 +32,12 @@ class Common extends Admin_Controller implements ControllerInterface{
 
 		// because it's simple index and form, use common form
 		$data['table_field'] = $this->common->table_field;
+		foreach ($data['table_field'] as $i => $tf) {
+			if($tf['type'] == 'select'){
+				$this->load->model($tf['value'][0]);
+				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+			}
+		}
 		$data['primary_key'] = $this->common->primary_key;
 		$data['content']	= 'content/common/form';
 		$this->template($data);
@@ -48,6 +54,12 @@ class Common extends Admin_Controller implements ControllerInterface{
 
 		// because it's simple index and form, use common form
 		$data['table_field'] = $this->common->table_field;
+		foreach ($data['table_field'] as $i => $tf) {
+			if($tf['type'] == 'select'){
+				$this->load->model($tf['value'][0]);
+				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+			}
+		}
 		$data['primary_key'] = $this->common->primary_key;
 		$data['content']	= 'content/common/form';
 		$data['datas']      = $this->common->get($id);
@@ -110,8 +122,16 @@ class Common extends Admin_Controller implements ControllerInterface{
 
 	public function datatable(){
 		$indexs = $this->common->get_dt_table_field();
-		$this->common->dt_indexs        = $indexs;// array('gn_id', 'gn_name', "gn_id");
 
+		// if use join and 'as' in SELECT
+		foreach ($indexs as $i => $index) {
+			if($index == 'group_id'){
+				$indexs[$i] = 'group.name as group_name';
+				$this->common->dt_join = array('group');
+			}
+		}
+
+		$this->common->dt_indexs        = $indexs;// array('gn_id', 'gn_name', "gn_id");
 		$this->common->dt_action_index  = (count($indexs) - 1);
 		$this->common->dt_edit_action   = true;
 		$this->common->dt_delete_action = true;
@@ -123,11 +143,27 @@ class Common extends Admin_Controller implements ControllerInterface{
 	}
 
 	public function print_excel(){
-		$filename = 'Print Data '.$this->title;
-
 		$this->load->library('excel');
-		$datas = $this->common->get_all();
+		$filename = 'Print Data '.$this->title;
 		$table_field = $this->common->table_field;
+
+		// if use join and 'as' in SELECT
+		$indexs = array();
+		foreach ($table_field as $i => $tf) {
+			$indexs[$i] = $tf['table_index'];
+			// in this case i want to change group_id to show group.name in excel
+			if($tf['table_index'] == 'group_id'){
+				$indexs[$i] = 'group.name as group_name';
+				$table_field[$i]['table_index'] = 'group_name';
+			}
+		}
+		$this->common->select(implode(', ', $indexs));
+		foreach ($this->common->belongs_to as $table => $join) {
+			$this->common->join($table);
+		}
+		// # end of // if use join and 'as' in SELECT
+		
+		$datas = $this->common->get_all();
 
 		$objPHPExcel = new PHPExcel();
 
@@ -155,18 +191,31 @@ class Common extends Admin_Controller implements ControllerInterface{
 			}
 		}
 		$row++;
+		
+		// for date format
+		PHPExcel_Cell::setValueBinder( new PHPExcel_Cell_AdvancedValueBinder() );
 
 		foreach ($datas as $data) {
 			$huruf = 'A';
 			foreach ($table_field as $tf) {
 				if($tf['in_print'] == true){
-					$objWorksheet->getCell($huruf.$row)->setValue($data[$tf['table_index']]);
+					$value = $data[$tf['table_index']];
+
+					$objWorksheet->getCell($huruf.$row)->setValue($value);
 					$objWorksheet->getColumnDimension($huruf)->setAutoSize(true);
+
+					if($tf['type'] == 'date' or $tf['type'] == 'datepicker'){
+						$objWorksheet->getStyle($huruf.$row)->getNumberFormat()->setFormatCode('dd/mm/yyyy');
+						// $objWorksheet->getStyle($huruf.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_YYYYMMDDSLASH);
+						// $objWorksheet->getStyle($huruf.$row)->getNumberFormat()->setFormatCode(PHPExcel_Style_NumberFormat::FORMAT_DATE_DDMMYYYY);
+					}
+
 					$huruf++;
 				}
 			}
 			$row++;
 		}
+
 		// set border
 		$huruf = chr(ord($huruf) - 1);
 		$row--;
