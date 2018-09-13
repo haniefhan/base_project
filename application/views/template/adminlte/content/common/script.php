@@ -87,6 +87,14 @@
 			.select2-container--default .select2-selection--single .select2-selection__arrow{
 				height: 100%;
 			}
+			.select2-container .select2-selection--single{
+				height: 34px;
+			}
+
+			.select2-container--default .select2-selection--single{
+				border:1px solid #ccc;
+				border-radius:0px;
+			}
 		</style>
 	<?php } ?>
 	<!-- ## InputMask ## -->
