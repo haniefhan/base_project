@@ -149,46 +149,5 @@ class Common_model extends MY_Model {
 			'in_print'		=> false,
 		),
 	);
-
-	public function reformat_post_to_sql($data = array()){
-		$table_field = $this->table_field;
-
-		foreach ($table_field as $i => $tf) {
-			if($tf['in_form'] == true){
-				if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']]);
-				elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
-			}
-		}
-
-		return $data;
-	}
-
-	public function reformat_sql_to_form($data = array()){
-		$table_field = $this->table_field;
-
-		foreach ($table_field as $i => $tf) {
-			if($tf['in_form'] == true){
-				if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
-				elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
-			}
-		}
-
-		return $data;
-	}
-
-	protected function reformat_date($date = '', $split = '/', $separator = '-'){
-		$d = explode($split, $date);
-		return $d[2].$separator.$d[1].$separator.$d[0];
-	}
-
-	protected function reformat_numeric($numeric = 0){
-		// indonesian format
-		if(strpos($numeric, '.')){
-			$numeric = str_replace('.', '', $numeric);
-		}elseif(strpos($numeric, ',')){
-			$numeric = str_replace(',', '.', $numeric);
-		}
-		return $numeric;
-	}
 }
 ?>

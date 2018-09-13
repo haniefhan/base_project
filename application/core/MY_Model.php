@@ -1199,6 +1199,7 @@ class MY_Model extends CI_Model
     /*
     @haniefhan
     2018-09-10 : add for common model use
+    2018-09-12 : add function reformat_post_to_sql, reformat_sql_to_form for format data when insert, update and edit
 
     public $table_field = array(
         0 => array(
@@ -1228,5 +1229,46 @@ class MY_Model extends CI_Model
             if($tf['in_table'] == true) $ret[] = $tf['table_index'];
         }
         return $ret;
+    }
+
+    public function reformat_post_to_sql($data = array()){
+        $table_field = $this->table_field;
+
+        foreach ($table_field as $i => $tf) {
+            if($tf['in_form'] == true){
+                if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']]);
+                elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
+            }
+        }
+
+        return $data;
+    }
+
+    public function reformat_sql_to_form($data = array()){
+        $table_field = $this->table_field;
+
+        foreach ($table_field as $i => $tf) {
+            if($tf['in_form'] == true){
+                if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
+                elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
+            }
+        }
+
+        return $data;
+    }
+
+    protected function reformat_date($date = '', $split = '/', $separator = '-'){
+        $d = explode($split, $date);
+        return $d[2].$separator.$d[1].$separator.$d[0];
+    }
+
+    protected function reformat_numeric($numeric = 0){
+        // indonesian format
+        if(strpos($numeric, '.')){
+            $numeric = str_replace('.', '', $numeric);
+        }elseif(strpos($numeric, ',')){
+            $numeric = str_replace(',', '.', $numeric);
+        }
+        return $numeric;
     }
 }
