@@ -9,7 +9,7 @@
 		<!-- menu profile quick info -->
 		<div class="profile clearfix">
 			<div class="profile_pic">
-				<img src="<?php echo $this->session->userdata('foto'); ?>" alt="..." class="img-circle profile_img">
+				<img src="<?php echo asset_admin_url().'production/images/tester.png'; ?>" alt="..." class="img-circle profile_img">
 			</div>
 			<div class="profile_info">
 				<span>Selamat Datang,</span>
