@@ -226,7 +226,24 @@ class Common extends Admin_Controller implements ControllerInterface{
 		}
 
 		// set border
-		$huruf = chr(ord($huruf) - 1);
+		// set the borderline
+		if($huruf == 'AA'){
+			$huruf = 'Z';
+		}elseif($huruf == 'AAA'){
+			$huruf = 'ZZ';
+		}elseif(strlen($huruf) == 2){
+			$first_huruf = substr($huruf, 0, 1);
+			$last_huruf = substr($huruf, 1, 1);
+			if($last_huruf == 'A'){
+				$first_huruf = chr(ord($first_huruf) - 1);
+				$last_huruf = 'Z';
+			}else{
+				$last_huruf = chr(ord($last_huruf) - 1);
+			}
+			$huruf = $first_huruf.$last_huruf;
+		}else{
+			$huruf = chr(ord($huruf) - 1);
+		}
 		$row--;
 		$objWorksheet->getStyle("A1:".$huruf.$row)->applyFromArray(
 			array(
