@@ -130,12 +130,15 @@ class Common extends Admin_Controller implements ControllerInterface{
 		$indexs = $this->common->get_dt_table_field();
 
 		// if use join and 'as' in SELECT
+		$dt_join = array();
 		foreach ($indexs as $i => $index) {
 			if($index == 'group_id'){
 				$indexs[$i] = 'group.name as group_name';
-				$this->common->dt_join = array('group');
+				$dt_join[] = 'group';
 			}
 		}
+
+		if(count($dt_join) > 0) $this->common->dt_join = $dt_join;
 
 		$this->common->dt_indexs        = $indexs;// array('gn_id', 'gn_name', "gn_id");
 		$this->common->dt_action_index  = (count($indexs) - 1);
