@@ -103,11 +103,20 @@
 		<script src="<?php echo asset_admin_url() ?>plugins/input-mask/jquery.inputmask.js"></script>
 		<script src="<?php echo asset_admin_url() ?>plugins/input-mask/inputmask.extensions.js"></script>
 	<?php } ?>
-	<?php if(isset($types['date'])){ ?>
+	<?php if(isset($types['date']) or isset($types['year'])){ ?>
 		<script src="<?php echo asset_admin_url() ?>plugins/input-mask/inputmask.date.extensions.js"></script>
+	<?php } ?>
+	<?php if(isset($types['date'])){ ?>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('input.datemask').inputmask("datetime", {inputFormat:'dd/mm/yyyy'});
+			})
+		</script>
+	<?php } ?>
+	<?php if(isset($types['year'])){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.yearmask').inputmask("datetime", {inputFormat:'yyyy'});
 			})
 		</script>
 	<?php } ?>
