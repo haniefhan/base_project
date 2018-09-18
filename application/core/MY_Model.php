@@ -1200,6 +1200,7 @@ class MY_Model extends CI_Model
     @haniefhan
     2018-09-10 : add for common model use
     2018-09-12 : add function reformat_post_to_sql, reformat_sql_to_form for format data when insert, update and edit
+    2018-09-18 : add function populate_select_year
 
     public $table_field = array(
         0 => array(
@@ -1277,6 +1278,20 @@ class MY_Model extends CI_Model
         $this->select("$index_field, $value_field");
         foreach ($this->get_many_by($where) as $data) {
             $ret[$data[$index_field]] = $data[$value_field];
+        }
+        return $ret;
+    }
+
+    public function populate_select_year($max_year = 0, $range_year = 0, $order = 'DESC'){
+        if($max_year == 'now') $max_year = date('Y');
+
+        $ret = array();
+        if($order == 'DESC'){
+            $min_year = $max_year - $range_year;
+
+            for ($i = $max_year; $i >= $min_year; $i--) {
+                $ret[$i] = $i;
+            }
         }
         return $ret;
     }
