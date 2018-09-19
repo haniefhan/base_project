@@ -190,6 +190,25 @@ class Common_model extends MY_Model {
 		),
 		array(
 			// table param
+			'name' 			=> 'File',
+			'table_index'	=> 'file',
+			'style' 		=> '',
+			'in_table' 		=> false,
+			// datatable param
+			'searchable' 	=> false,
+			'sortable' 		=> false,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'file', // hidden, text, select, textarea, date, datepicker, numeric, money, email, select-year, year
+			'value' 		=> '',
+			'required' 		=> false,
+			'maxlength' 	=> '',
+			// print param
+			'in_print'		=> false,
+			'form-width'	=> 'full'
+		),
+		array(
+			// table param
 			'name' 			=> 'Action',
 			'table_index'	=> 'com_id',
 			'style' 		=> '', // 'width:15%;',

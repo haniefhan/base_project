@@ -81,6 +81,23 @@ class Common extends Admin_Controller implements ControllerInterface{
 
 		$data = $this->common->reformat_post_to_sql($data);
 
+		// upload file
+		$files = $_FILES;
+		foreach ($files as $index => $file) {
+			if($file['error'] === 0){
+				$this->securefile->allowed_file_type = 'jpg|png|jpeg';
+				$data[$index] = $this->securefile->save_file($file);
+				if($data[$index] == false){
+					$filetype = explode('|', $this->securefile->allowed_file_type);
+					$this->session->set_flashdata('notif_status', false);
+					$this->session->set_flashdata('notif_msg', 'File upload failed, because file type not allowed. (Allowed file type : '.implode(', ', $filetype).')');
+					$this->db->trans_complete();
+					redirect($this->redirect_url);
+				}
+			}
+		}
+		// end of upload file
+
 		if($this->common->insert($data)){
 			$this->session->set_flashdata('notif_status', true);
 			$this->session->set_flashdata('notif_msg', 'Add new '.$this->title.' success');
@@ -90,7 +107,6 @@ class Common extends Admin_Controller implements ControllerInterface{
 		}
 
 		$this->db->trans_complete();
-
 		redirect($this->redirect_url);
 	}
 
@@ -100,6 +116,23 @@ class Common extends Admin_Controller implements ControllerInterface{
 		$data = $this->input->post();
 
 		$data = $this->common->reformat_post_to_sql($data);
+
+		// upload file
+		$files = $_FILES;
+		foreach ($files as $index => $file) {
+			if($file['error'] === 0){
+				$this->securefile->allowed_file_type = 'jpg|png|jpeg';
+				$data[$index] = $this->securefile->save_file($file);
+				if($data[$index] == false){
+					$filetype = explode('|', $this->securefile->allowed_file_type);
+					$this->session->set_flashdata('notif_status', false);
+					$this->session->set_flashdata('notif_msg', 'File upload failed, because file type not allowed. (Allowed file type : '.implode(', ', $filetype).')');
+					$this->db->trans_complete();
+					redirect($this->redirect_url);
+				}
+			}
+		}
+		// end of upload file
 
 		$st = $this->common->update($id, $data);
 		if($st !== false){
@@ -116,6 +149,14 @@ class Common extends Admin_Controller implements ControllerInterface{
 
 	function delete(){
 		$id = $this->input->get('id');
+
+		// delete the file uploaded
+		$data = $this->common->get($id);
+		if($data['file'] != ''){
+			$this->securefile->delete_file($data['file']);
+		}
+		// end of delete the file uploaded
+
 		if($this->common->delete($id)){
 			$this->session->set_flashdata('notif_status', true);
 			$this->session->set_flashdata('notif_msg', 'Delete '.$this->title.' success');
