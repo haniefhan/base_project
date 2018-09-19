@@ -71,7 +71,7 @@
 										<input type="file" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> />
 										<?php if(isset($datas[$tf['table_index']])){ ?>
 											<br/>
-											<center><img src="<?php echo $this->securefile->open_file($datas[$tf['table_index']], true); ?>" style="width: 80%"></center>
+											<center><img src="<?php echo $this->securefile->open_file($datas[$tf['table_index']], true); ?>" style="<?php echo $tf['style'] ?>"></center>
 											<br/>
 										<?php } ?>
 									<?php } ?>
