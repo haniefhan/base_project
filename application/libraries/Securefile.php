@@ -71,10 +71,25 @@ class Securefile {
         return $ext;
     }
 
+    public function is_has_filetype($filename = ''){
+        $x = explode('.', $filename);
+        if (count($x) === 1) return false;
+        else return true;
+    }
+
     public function save_file($file = array(), $filename = '', $folder = ''){
         $destination = $this->folder_management($folder, '');
 
-        if($filename != '') $destination .= $filename;
+        if($filename != ''){
+            $destination .= $filename;
+
+            if($this->is_has_filetype($filename) == false){
+                // $fn = basename($file['name']);
+                $ext = $this->get_extension($file['name']);
+                $destination .= '.'.$ext;
+                $filename .= '.'.$ext;
+            }            
+        }
         else $destination .= $file['name'];
 
         if($this->is_allowed($filename)){
