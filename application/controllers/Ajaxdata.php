@@ -20,7 +20,14 @@ class Ajaxdata extends Public_Controller {
 		}
 
 		$this->load->model(ucwords($model), 'select');
-		$selects = $this->select->get_many_like(array($index_value => $this->input->get('q')));
+
+		if($this->input->get('q') != ''){
+			$selects = $this->select->get_many_like(array($index_value => $this->input->get('q')));
+		}
+
+		if($this->input->get('whr') != ''){
+			$selects = $this->select->get_many_by($this->input->get('whr'));
+		}
 		
 		foreach ($selects as $sel) {
 			$arr['results'][] = array('id' => $sel[$index_field], 'text' => $sel[$index_value]);
