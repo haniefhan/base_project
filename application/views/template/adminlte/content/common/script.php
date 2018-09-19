@@ -39,16 +39,16 @@
 					?>
 					<?php if($in_table == true){ ?>
 						<?php if($tf['type'] == 'numeric'){ ?>
-							$('td:eq(<?php echo $i; ?>)', nRow).html(numberWithCommas(aData[<?php echo $i ?>]));
-							$('td:eq(<?php echo $i; ?>)', nRow).addClass('text-right');
+							$('td:eq(<?php echo $n; ?>)', nRow).html(numberWithCommas(aData[<?php echo $n ?>]));
+							$('td:eq(<?php echo $n; ?>)', nRow).addClass('text-right');
 						<?php }elseif($tf['type'] == 'money'){ ?>
-							$('td:eq(<?php echo $i; ?>)', nRow).html('Rp. <span class="pull-right">'+numberWithCommas(aData[<?php echo $i ?>])+'</span>');
+							$('td:eq(<?php echo $n; ?>)', nRow).html('Rp. <span class="pull-right">'+numberWithCommas(aData[<?php echo $n ?>])+'</span>');
 						<?php }elseif($tf['type'] == 'date' or $tf['type'] == 'datepicker'){ ?>
-							d = aData[<?php echo $i ?>].split('-');
+							d = aData[<?php echo $n ?>].split('-');
 							dd = d[2]+'/'+d[1]+'/'+d[0];
-							$('td:eq(<?php echo $i; ?>)', nRow).html(dd);
+							$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
 						<?php } ?>
-					<?php } ?>
+					<?php $n++; } ?>
 				<?php } ?>
 			},
 			"aoColumns": [

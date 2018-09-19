@@ -44,6 +44,42 @@ class Common_model extends MY_Model {
 		),
 		array(
 			// table param
+			'name' 			=> 'Password',
+			'table_index'	=> 'com_password',
+			'style' 		=> '',
+			'in_table' 		=> false,
+			// datatable param
+			'searchable' 	=> false,
+			'sortable' 		=> false,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'password', // hidden, text, select, textarea, date, datepicker, numeric, money, email, select-year, year
+			'value' 		=> '',
+			'required' 		=> true,
+			'maxlength' 	=> '255',
+			// print param
+			'in_print'		=> false,
+		),
+		array(
+			// table param
+			'name' 			=> 'Confirm Password',
+			'table_index'	=> 'confirm_password',
+			'style' 		=> '',
+			'in_table' 		=> false,
+			// datatable param
+			'searchable' 	=> false,
+			'sortable' 		=> false,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'password', // hidden, text, select, textarea, date, datepicker, numeric, money, email, select-year, year
+			'value' 		=> '',
+			'required' 		=> true,
+			'maxlength' 	=> '255',
+			// print param
+			'in_print'		=> false,
+		),
+		array(
+			// table param
 			'name' 			=> 'Date 1',
 			'table_index'	=> 'com_date1',
 			'style' 		=> '',

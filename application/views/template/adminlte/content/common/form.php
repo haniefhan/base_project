@@ -28,7 +28,13 @@
 										$full_width = false;
 									}
 								}
+
+								// special for password
+								if($state == 'edit' && $tf['type'] == 'password'){
+									$tf['required'] = false;
+								}
 							?>
+
 							<?php if($full_width == true or ($full_width == false and $first_half == true)){ ?><div class="form-group"><?php } ?>
 								<label class="control-label <?php echo $label_width; ?>" for="<?php echo $tf['table_index'] ?>"><?php echo $tf['name'] ?> <?php if($tf['required']){ ?><span class="required">*</span><?php } ?></label>
 								<div class="<?php echo $input_width; ?>">
@@ -74,6 +80,8 @@
 											<center><img src="<?php echo $this->securefile->open_file($datas[$tf['table_index']], true); ?>" style="<?php echo $tf['style'] ?>"></center>
 											<br/>
 										<?php } ?>
+									<?php }elseif($tf['type'] == 'password'){ ?>
+										<input type="password" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> <?php if(isset($tf['maxlength'])){ ?> maxlength="<?php echo $tf['maxlength']; ?>" <?php }else{ ?>maxlength="255"<?php } ?> placeholder="<?php echo $tf['name'] ?>" />
 									<?php } ?>
 								</div>
 								<?php 

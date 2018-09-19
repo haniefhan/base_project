@@ -81,6 +81,18 @@ class Common extends Admin_Controller implements ControllerInterface{
 
 		$data = $this->common->reformat_post_to_sql($data);
 
+		// confirm password
+		if($data['com_password'] != $data['confirm_password']){
+			$this->session->set_flashdata('notif_status', false);
+			$this->session->set_flashdata('notif_msg', 'Password and Confirm Password must be same!');
+			$this->db->trans_complete();
+			redirect($this->redirect_url);
+		}elseif($data['com_password'] != ''){
+			$data['com_password'] = genpass($data['com_password']);
+			unset($data['confirm_password']);
+		}
+		// end of confirm password
+
 		// upload file
 		$files = $_FILES;
 		foreach ($files as $index => $file) {
@@ -116,6 +128,21 @@ class Common extends Admin_Controller implements ControllerInterface{
 		$data = $this->input->post();
 
 		$data = $this->common->reformat_post_to_sql($data);
+
+		// confirm password
+		if($data['com_password'] != '' AND ($data['com_password'] != $data['confirm_password'])){
+			$this->session->set_flashdata('notif_status', false);
+			$this->session->set_flashdata('notif_msg', 'Password and Confirm Password must be same!');
+			$this->db->trans_complete();
+			redirect($this->redirect_url);
+		}elseif($data['com_password'] != ''){
+			$data['com_password'] = genpass($data['com_password']);
+			unset($data['confirm_password']);
+		}else{
+			unset($data['com_password']);
+			unset($data['confirm_password']);
+		}
+		// end of confirm password
 
 		// upload file
 		$files = $_FILES;
