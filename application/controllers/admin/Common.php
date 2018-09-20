@@ -227,11 +227,13 @@ class Common extends Admin_Controller implements ControllerInterface{
 		// if use join and 'as' in SELECT
 		$indexs = array();
 		foreach ($table_field as $i => $tf) {
-			$indexs[$i] = $tf['table_index'];
-			// in this case i want to change group_id to show group.name in excel
-			if($tf['table_index'] == 'group_id'){
-				$indexs[$i] = 'group.name as group_name';
-				$table_field[$i]['table_index'] = 'group_name';
+			if($tf['in_print'] == true){
+				$indexs[$i] = $tf['table_index'];
+				// in this case i want to change group_id to show group.name in excel
+				if($tf['table_index'] == 'group_id'){
+					$indexs[$i] = 'group.name as group_name';
+					$table_field[$i]['table_index'] = 'group_name';
+				}
 			}
 		}
 		$this->common->select(implode(', ', $indexs));
