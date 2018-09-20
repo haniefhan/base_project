@@ -51,19 +51,22 @@ class Access extends Admin_Controller implements ControllerInterface{
 
 		$id = $this->input->get('id');
 		$post = $this->input->post();
-		$data = $post['menus'];
-		foreach ($data as $i => $v) {
-			foreach ($access as $acc) {
-				if(!isset($data[$i][$acc])) $data[$i][$acc] = 0;
+		$data = array();
+		if(isset($post['menus'])){
+			$data = $post['menus'];
+			foreach ($data as $i => $v) {
+				foreach ($access as $acc) {
+					if(!isset($data[$i][$acc])) $data[$i][$acc] = 0;
+				}
+				$data[$i]['group_id'] = $id;
+				$data[$i]['menu_id'] = $i;
 			}
-			$data[$i]['group_id'] = $id;
-			$data[$i]['menu_id'] = $i;
 		}
 		
 		$this->db->trans_start();
 		$this->access->delete_by(array('group_id' => $id));
 
-		$this->access->insert_batch($data);
+		if(count($data) > 0) $this->access->insert_batch($data);
 		$this->db->trans_complete();
 
 		if($this->db->trans_status()){
