@@ -93,6 +93,8 @@ class Group extends Admin_Controller implements ControllerInterface{
 	function delete(){
 		$id = $this->input->get('id');
 		if($this->group->delete($id)){
+			$this->load->model("Menugroup_model", 'access');
+			$this->access->delete_by(array('group_id' => $id));
 			$this->session->set_flashdata('notif_status', true);
 			$this->session->set_flashdata('notif_msg', 'Delete '.$this->title.' success');
 		}else{
