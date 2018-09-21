@@ -5,6 +5,7 @@ class Access extends Admin_Controller implements ControllerInterface{
 		parent::__construct();
 		$this->load->model("Menugroup_model", 'access');
 		$this->title = 'Access Right';
+		$this->controller = 'access';
 		$this->redirect_url = base_url_admin().'access';
 		$this->lang->load('access', $this->session->userdata('lang'));
 	}

@@ -5,6 +5,8 @@ class General extends Admin_Controller implements ControllerInterface{
 
 	public function __construct(){
 		parent::__construct();
+		$this->title = 'General';
+		$this->controller = 'general';
 		$this->load->model('Setting_model', 'setting');
 		$this->redirect_url = base_url_admin().'general';
 		$this->lang->load('general', $this->session->userdata('lang'));

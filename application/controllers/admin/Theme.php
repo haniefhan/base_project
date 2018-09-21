@@ -4,6 +4,7 @@ class Theme extends Admin_Controller implements ControllerInterface{
 		parent::__construct();
 		$this->load->model("Template_model", 'theme');
 		$this->title = 'Theme';
+		$this->controller = 'theme';
 		$this->redirect_url = base_url_admin().'theme';
 		$this->lang->load('theme', $this->session->userdata('lang'));
 	}
@@ -19,6 +20,7 @@ class Theme extends Admin_Controller implements ControllerInterface{
 		}else{
 			$id 	= $this->input->get('id');
 			if($id != ''){
+				$this->breadcrumb[] = array('url' => $this->redirect_url.'/index?type=examples&id='.$id, 'name' => 'Dokumentasi');
 				$data['title']		= $this->title;
 				$data['content']	= 'content/theme/examples';
 				$data['data'] 		= $this->theme->get($id);
