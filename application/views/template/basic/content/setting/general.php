@@ -4,29 +4,29 @@
 	<!-- #Notification -->
 	<div class="col-lg-8">
 		<div class="panel panel-default">
-			<div class="panel-heading"><?php echo lang('General Setting') ?></div>
+			<div class="panel-heading">General Setting</div>
 			<div class="panel-body">
 				<form class="form-horizontal" role="form" action="<?php echo base_url_admin().'general/update' ?>" method="POST">
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="site_title"><?php echo lang('Site Title') ?></label>
+						<label class="control-label col-sm-2" for="site_title">Site Title</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" id="site_title" name="site_title" required="required" value="<?php echo isset($datas['site_title'])? $datas['site_title'] : '' ?>">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="tagline"><?php echo lang('Tagline') ?></label>
+						<label class="control-label col-sm-2" for="tagline">Tagline</label>
 						<div class="col-sm-8">
 							<input type="text" class="form-control" id="tagline" name="tagline" value="<?php echo isset($datas['tagline'])? $datas['tagline'] : '' ?>">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="email"><?php echo lang('Email') ?></label>
+						<label class="control-label col-sm-2" for="email">Email</label>
 						<div class="col-sm-8">
 							<input type="email" class="form-control" id="email" name="email" required="required" value="<?php echo isset($datas['email'])? $datas['email'] : '' ?>">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="time_zone"><?php echo lang('Time Zone') ?></label>
+						<label class="control-label col-sm-2" for="time_zone">Time Zone</label>
 						<div class="col-sm-8">
 							<?php $sel_time_zone = isset($datas['time_zone'])? $datas['time_zone'] : ''; ?>
 							<select id="time_zone" name="time_zone" class="form-control">
@@ -41,7 +41,7 @@
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="control-label col-sm-2" for="lang"><?php echo lang('Language') ?></label>
+						<label class="control-label col-sm-2" for="lang">Language</label>
 						<?php $sel_lang = isset($datas['lang'])? $datas['lang'] : ''; ?>
 						<div class="col-sm-8">
 							<?php
@@ -61,20 +61,20 @@
 							</select>
 						</div>
 					</div>
-					<button type="submit" class="btn btn-primary"><?php echo lang('Save Setting') ?></button>
+					<button type="submit" class="btn btn-primary">Save Setting</button>
 				</form>
 			</div>
 		</div>
 	</div>
 	<div class="col-lg-4">
 		<div class="panel panel-default">
-			<div class="panel-heading"><?php echo lang('Site Logo') ?></div>
+			<div class="panel-heading">Site Logo</div>
 			<div class="panel-body">
 				<form action="<?php echo base_url_admin().'general/update?state=logo' ?>" method="POST" enctype="multipart/form-data">
 					<?php if(!isset($datas['logo'])){ ?>
 					<div class="placeholder">
 						<div class="inner">
-							<span><?php echo lang('No image selected') ?></span>
+							<span>No image selected</span>
 						</div>
 					</div>
 					<?php }else{ ?>
@@ -84,10 +84,10 @@
 						</center>
 					</div>
 					<?php } ?>
-					<div class="col-lg-12"><span><?php echo lang('File Max') ?></span></div>
-					<button type="submit" class="btn btn-primary pull-right fileUpload"><?php echo lang('Save') ?></button>
+					<div class="col-lg-12"><span>File width x height maximum : 250px x 85px</span></div>
+					<button type="submit" class="btn btn-primary pull-right fileUpload">Save</button>
 					<div class="fileUpload btn btn-default pull-right col-lg-8">
-						<span><?php echo lang('Change Image') ?></span>
+						<span>Change Image</span>
 						<input type="file" class="upload" name="logo">
 					</div>
 				</form>

@@ -11,12 +11,12 @@
 			<div class="panel-body">
 				<table class="table table-striped table-bordered table-hover datatable" id="tb-user">
 					<thead>
-						<th><?php echo lang('No') ?></th>
-						<th><?php echo lang('Username') ?></th>
-						<th><?php echo lang('Full Name') ?></th>
-						<th><?php echo lang('Email') ?></th>
-						<th><?php echo lang('Role') ?></th>
-						<th><?php echo lang('Action') ?></th>
+						<th>No</th>
+						<th>Username</th>
+						<th>Full Name</th>
+						<th>Email</th>
+						<th>Role</th>
+						<th>Action</th>
 					</thead>
 					<tbody>
 						<?php $no = 1; ?>

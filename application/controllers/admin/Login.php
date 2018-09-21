@@ -8,7 +8,6 @@ class Login extends Public_Controller {
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('admin');
-		$this->lang->load('login', $this->session->userdata('lang'));
 		// var_dump($this->config->item('index_page')); // change all of index.php to this
 	}
 
@@ -52,17 +51,17 @@ class Login extends Public_Controller {
 					$this->session->set_userdata('login_attempt', 0);
 				}else{
 					$this->session->set_flashdata('notif_status', false);
-					$this->session->set_flashdata('notif_msg', lang('User password missmatch'));
+					$this->session->set_flashdata('notif_msg', 'User & password missmatch');
 					$this->session->set_userdata('login_attempt', $this->session->userdata('login_attempt') + 1);
 				}
 			}else{
 				$this->session->set_flashdata('notif_status', false);
-				$this->session->set_flashdata('notif_msg', lang('Captcha incorrect'));
+				$this->session->set_flashdata('notif_msg', 'Captcha incorrect');
 				$this->session->set_userdata('login_attempt', $this->session->userdata('login_attempt') + 1);
 			}
 		}else{
 			$this->session->set_flashdata('notif_status', false);
-			$this->session->set_flashdata('notif_msg', lang('User not registered'));
+			$this->session->set_flashdata('notif_msg', 'User not registered');
 			$this->session->set_userdata('login_attempt', $this->session->userdata('login_attempt') + 1);
 		}
 		redirect(base_url_admin().'login');

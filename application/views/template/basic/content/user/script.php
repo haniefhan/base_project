@@ -6,7 +6,7 @@
 <script type="text/javascript">
 	$(function(){
 		$('body').delegate('.delete', 'click', function(event) {
-			c = confirm("<?php echo lang('Delete Popup') ?>");
+			c = confirm("Delete this user?");
 			if(!c){
 				return false;
 			}

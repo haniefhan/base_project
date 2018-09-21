@@ -7,7 +7,6 @@ class Access extends Admin_Controller implements ControllerInterface{
 		$this->title = 'Access Right';
 		$this->controller = 'access';
 		$this->redirect_url = base_url_admin().'access';
-		$this->lang->load('access', $this->session->userdata('lang'));
 	}
 
 	function index(){
@@ -72,10 +71,10 @@ class Access extends Admin_Controller implements ControllerInterface{
 
 		if($this->db->trans_status()){
 			$this->session->set_flashdata('notif_status', true);
-			$this->session->set_flashdata('notif_msg', lang('Update Success'));
+			$this->session->set_flashdata('notif_msg', 'Set access right has been success. Please <a href="'.base_url_admin().'login/signout" class="btn btn-danger btn-xs">Sign Out</a> to look the change');
 		}else{
 			$this->session->set_flashdata('notif_status', false);
-			$this->session->set_flashdata('notif_msg', lang('Update Fail'));
+			$this->session->set_flashdata('notif_msg', 'Set access right has been failed.');
 		}
 
 		redirect($this->redirect_url.'/edit?id='.$id);

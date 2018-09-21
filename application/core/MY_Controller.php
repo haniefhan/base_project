@@ -34,8 +34,6 @@ class Admin_Controller extends MY_Controller{
 		$this->load->helper('admin');
 		login_check(true);
 		site_info();
-		$this->lang->load('menu', $this->session->userdata('lang'));
-		$this->lang->load('table', $this->session->userdata('lang'));
 
 		if(!in_array(uri_string(), $this->session->userdata('acc_grant'))){
 			// access not granted

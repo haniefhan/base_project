@@ -9,7 +9,6 @@ class General extends Admin_Controller implements ControllerInterface{
 		$this->controller = 'general';
 		$this->load->model('Setting_model', 'setting');
 		$this->redirect_url = base_url_admin().'general';
-		$this->lang->load('general', $this->session->userdata('lang'));
 	}
 
 	public function index(){
@@ -39,10 +38,10 @@ class General extends Admin_Controller implements ControllerInterface{
 
 			if($this->setting->update_batch($data, 'name')){
 				$this->session->set_flashdata('notif_status', true);
-				$this->session->set_flashdata('notif_msg', lang('Update Success'));
+				$this->session->set_flashdata('notif_msg', 'Save setting general success');
 			}else{
 				$this->session->set_flashdata('notif_status', false);
-				$this->session->set_flashdata('notif_msg', lang('Update Fail'));
+				$this->session->set_flashdata('notif_msg', 'Save setting general failed');
 			}
 		}else{
 			$config['upload_path'] 		= getcwd().'/assets/img';
@@ -58,7 +57,7 @@ class General extends Admin_Controller implements ControllerInterface{
 				$data = array('name' => 'logo', 'value' => base_url().'assets/img/'.$this->upload->data('file_name'));
 				$this->setting->update_by(array('name' => 'logo'), $data);
 				$this->session->set_flashdata('notif_status', true);
-				$this->session->set_flashdata('notif_msg', lang('Logo Success'));
+				$this->session->set_flashdata('notif_msg', 'Upload logo success');
 			}
 			else{
 				$this->session->set_flashdata('notif_status', false);

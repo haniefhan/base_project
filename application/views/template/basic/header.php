@@ -17,16 +17,16 @@
 				<?php foreach ($menus as $i => $menu) { ?>
 					<?php if(!isset($menu['children'])){ ?>
 						<li>
-							<a href="<?php echo base_url_admin().$menu['url'] ?>"><?php echo lang($menu['name']) ?></a>
+							<a href="<?php echo base_url_admin().$menu['url'] ?>"><?php echo $menu['name']; ?></a>
 						</li>
 					<?php }else{ ?>
 						<li class="dropdown">
 							<a href="<?php echo base_url_admin().$menu['url'] ?>" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-								<?php echo lang($menu['name']) ?> <span class="caret"></span>
+								<?php echo $menu['name']; ?> <span class="caret"></span>
 							</a>
 							<ul class="dropdown-menu">
 								<?php foreach ($menu['children'] as $j => $menu) {?>
-									<li><a href="<?php echo base_url_admin().$menu['url'] ?>"><?php echo lang($menu['name']) ?></a></li>
+									<li><a href="<?php echo base_url_admin().$menu['url'] ?>"><?php echo $menu['name']; ?></a></li>
 								<?php } ?>
 							</ul>
 						</li>

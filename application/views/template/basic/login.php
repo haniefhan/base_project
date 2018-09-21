@@ -20,10 +20,10 @@
 			<center>
 				<img src="<?php echo $this->session->userdata('logo'); ?>" style="max-width:100px">
 			</center>
-			<h2 class="form-signin-heading"><?php echo lang('Please sign in') ?></h2>
-			<label class="sr-only" for="username"><?php echo lang('Username') ?></label>
+			<h2 class="form-signin-heading">Please sign in</h2>
+			<label class="sr-only" for="username">Username</label>
 			<input id="username" name="username" class="form-control" placeholder="Username" required="required" autofocus="" type="text">
-			<label class="sr-only" for="password"><?php echo lang('Password') ?></label>
+			<label class="sr-only" for="password">Password</label>
 			<input id="password" name="password" class="form-control" placeholder="Password" required="required" type="password">
 			<?php if($this->session->userdata('login_attempt') > 1){ ?>
 			    <div class="form-group text-center">
@@ -37,7 +37,7 @@
 					Remember me
 				</label>
 			</div> -->
-			<button class="btn btn-lg btn-primary btn-block" type="submit"><?php echo lang('Sign in') ?></button>
+			<button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
 			<br/>
 			<?php if($this->session->flashdata() != NULL){ ?>
 			<div class="alert alert-<?php echo $this->session->flashdata('notif_status') == true ? 'success' : 'danger' ; ?> text-center alert-dismissable col-lg-12">

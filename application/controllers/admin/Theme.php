@@ -6,7 +6,6 @@ class Theme extends Admin_Controller implements ControllerInterface{
 		$this->title = 'Theme';
 		$this->controller = 'theme';
 		$this->redirect_url = base_url_admin().'theme';
-		$this->lang->load('theme', $this->session->userdata('lang'));
 	}
 
 	function index(){
