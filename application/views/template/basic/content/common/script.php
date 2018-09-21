@@ -12,6 +12,12 @@
 			}
 		});
 
+		function numberWithCommas(number) {
+		    var parts = number.toString().split(".");
+		    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+		    return parts.join(",");
+		}
+
 		table = $('#tb-<?php echo $controller ?>').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -26,6 +32,24 @@
 					info = table.page.info()
 					$('td:eq(0)', nRow).html(info.recordsDisplay - iDisplayIndex - (info.page * info.length));
 				}
+				<?php $n = 0; foreach ($table_field as $i => $tf) {?>
+					<?php 
+						$in_table = true;
+						if(isset($tf['in_table'])) $in_table = $tf['in_table'];
+					?>
+					<?php if($in_table == true){ ?>
+						<?php if($tf['type'] == 'numeric'){ ?>
+							$('td:eq(<?php echo $n; ?>)', nRow).html(numberWithCommas(aData[<?php echo $n ?>]));
+							$('td:eq(<?php echo $n; ?>)', nRow).addClass('text-right');
+						<?php }elseif($tf['type'] == 'money'){ ?>
+							$('td:eq(<?php echo $n; ?>)', nRow).html('Rp. <span class="pull-right">'+numberWithCommas(aData[<?php echo $i ?>])+'</span>');
+						<?php }elseif($tf['type'] == 'date' or $tf['type'] == 'datepicker'){ ?>
+							d = aData[<?php echo $n ?>].split('-');
+							dd = d[2]+'/'+d[1]+'/'+d[0];
+							$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
+						<?php } ?>
+					<?php $n++; } ?>
+				<?php } ?>
 			},
 			"aoColumns": [
 				<?php $n = 0; foreach ($table_field as $tf) {?>
