@@ -11,7 +11,8 @@
 				if(!isset($datas)){
 					$url = base_url_admin().$controller.'/insert';
 				}else{
-					$url = base_url_admin().$controller.'/update?'.$primary_key.'='.$id;
+					// $url = base_url_admin().$controller.'/update?'.$primary_key.'='.$id;
+					$url = base_url_admin().$controller.'/update?id='.$id;
 				}
 				?>
 				<form role="form" class="form form-horizontal" action="<?php echo $url ?>" method="POST">
@@ -27,6 +28,11 @@
 										$input_width = 'col-lg-3 col-md-3 col-sm-8 col-xs-12';
 										$full_width = false;
 									}
+								}
+
+								// special for password
+								if($state == 'edit' && $tf['type'] == 'password'){
+									$tf['required'] = false;
 								}
 							?>
 							<?php if($full_width == true or ($full_width == false and $first_half == true)){ ?><div class="form-group"><?php } ?>
@@ -67,9 +73,29 @@
 										</div>
 									<?php }elseif($tf['type'] == 'year'){ ?>
 										<input type="text" class="form-control yearmask" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" value="<?php echo isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> />
+									<?php }elseif($tf['type'] == 'file'){ ?>
+										<input type="file" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> />
+										<?php if(isset($datas[$tf['table_index']])){ ?>
+											<br/>
+											<center><img src="<?php echo $this->securefile->open_file($datas[$tf['table_index']], true); ?>" style="<?php echo $tf['style'] ?>"></center>
+											<br/>
+										<?php } ?>
+									<?php }elseif($tf['type'] == 'password'){ ?>
+										<input type="password" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> <?php if(isset($tf['maxlength'])){ ?> maxlength="<?php echo $tf['maxlength']; ?>" <?php }else{ ?>maxlength="255"<?php } ?> placeholder="<?php echo $tf['name'] ?>" />
 									<?php } ?>
 								</div>
-							<?php if($full_width == true or ($full_width == false and $first_half == false)){ ?></div><?php } ?>
+								<?php 
+									$if_half_case = false;
+									// $next_width_half = false;
+									// if(isset($tf[$i+1]['form-width'])){
+									// 	if($tf[$i+1]['form-width'] == 'half') $next_width_half = true;
+									// }
+
+									if($full_width == false and $first_half == false){
+										$if_half_case = true;
+									}
+								?>
+							<?php if($full_width == true or $if_half_case == true){ ?></div><?php } ?>
 							<?php
 								if(isset($tf['form-width'])){
 									if($tf['form-width'] == 'half'){

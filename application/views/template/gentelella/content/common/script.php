@@ -9,6 +9,12 @@
 			}
 		});
 
+		function numberWithCommas(number) {
+		    var parts = number.toString().split(".");
+		    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+		    return parts.join(",");
+		}
+
 		table = $('#tb-<?php echo $controller ?>').DataTable({
 			"processing": true,
 			"serverSide": true,
@@ -30,16 +36,16 @@
 					?>
 					<?php if($in_table == true){ ?>
 						<?php if($tf['type'] == 'numeric'){ ?>
-							$('td:eq(<?php echo $i; ?>)', nRow).html(numberWithCommas(aData[<?php echo $i ?>]));
-							$('td:eq(<?php echo $i; ?>)', nRow).addClass('text-right');
+							$('td:eq(<?php echo $n; ?>)', nRow).html(numberWithCommas(aData[<?php echo $n ?>]));
+							$('td:eq(<?php echo $n; ?>)', nRow).addClass('text-right');
 						<?php }elseif($tf['type'] == 'money'){ ?>
-							$('td:eq(<?php echo $i; ?>)', nRow).html('Rp. <span class="pull-right">'+numberWithCommas(aData[<?php echo $i ?>])+'</span>');
+							$('td:eq(<?php echo $n; ?>)', nRow).html('Rp. <span class="pull-right">'+numberWithCommas(aData[<?php echo $i ?>])+'</span>');
 						<?php }elseif($tf['type'] == 'date' or $tf['type'] == 'datepicker'){ ?>
-							d = aData[<?php echo $i ?>].split('-');
+							d = aData[<?php echo $n ?>].split('-');
 							dd = d[2]+'/'+d[1]+'/'+d[0];
-							$('td:eq(<?php echo $i; ?>)', nRow).html(dd);
+							$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
 						<?php } ?>
-					<?php } ?>
+					<?php $n++; } ?>
 				<?php } ?>
 			},
 			"aoColumns": [
@@ -83,6 +89,9 @@
 		<style type="text/css">
 			.select2-container--default .select2-selection--single .select2-selection__arrow{
 				height: 100%;
+			}
+			.select2-container .select2-selection--single{
+				width: 100%;
 			}
 		</style>
 	<?php } ?>
