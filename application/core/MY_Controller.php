@@ -53,7 +53,7 @@ class Admin_Controller extends MY_Controller{
 		$data['content'] 	= $this->session->userdata('template_admin_use').$data['content'];
 
 		$data['breadcrumb'] = array();
-		if(isset($this->controller) && isset($this->title)){
+		if($this->controller != '' && $this->title != ''){
 			$data['breadcrumb'][] = array('url' => base_url_admin().$this->controller, 'name' => $this->title);
 		}
 
