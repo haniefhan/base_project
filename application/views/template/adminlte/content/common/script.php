@@ -95,6 +95,7 @@
 			}
 			.select2-container .select2-selection--single{
 				height: 34px;
+				width: 100%;
 			}
 
 			.select2-container--default .select2-selection--single{
