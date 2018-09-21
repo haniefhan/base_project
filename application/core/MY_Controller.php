@@ -23,6 +23,11 @@ interface ControllerInterface{
 }
 
 class Admin_Controller extends MY_Controller{
+	public $title = '';
+	public $controller = '';
+	public $redirect_url = '';
+	public $breadcrumb = array();
+
 	public function __construct(){
 		parent::__construct();
 		$this->load->helper('general');
@@ -46,6 +51,20 @@ class Admin_Controller extends MY_Controller{
 			$data['script'] = $this->session->userdata('template_admin_use').$c[0].'/'.$c[1].'/script';
 		}
 		$data['content'] 	= $this->session->userdata('template_admin_use').$data['content'];
+
+		$data['breadcrumb'] = array();
+		if(isset($this->controller) && isset($this->title)){
+			$data['breadcrumb'][] = array('url' => base_url_admin().$this->controller, 'name' => $this->title);
+		}
+
+		if(isset($data['state'])){
+			$data['breadcrumb'][] = array('url' => current_url(), 'name' => $data['title']);
+		}
+
+		foreach ($this->breadcrumb as $bc) {
+			$data['breadcrumb'][] = array('url' => $bc['url'], 'name' => $bc['name']);
+		}
+
 		$this->load->view($this->session->userdata('template_admin'), $data);
 	}
 }

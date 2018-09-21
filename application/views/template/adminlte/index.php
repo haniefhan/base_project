@@ -12,6 +12,9 @@
 				<h1><?php echo $title; ?></h1>
 				<ol class="breadcrumb">
 					<li><a href="<?php echo base_url_admin(); ?>"><i class="fa fa-dashboard"></i> Home</a></li>
+					<?php foreach ($breadcrumb as $bc) { ?>
+						<li><a href="<?php echo $bc['url'] ?>" class="active"><?php echo $bc['name'] ?></a></li>
+					<?php } ?>
 					<!-- <li><a href="#">Forms</a></li>
 					<li class="active">General Elements</li> -->
 				</ol>
