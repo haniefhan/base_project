@@ -1,8 +1,8 @@
 <div class="row">
 	<div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
-		<form role="form" class="form-horizontal" action="<?php echo base_url_admin() ?>access/edit" method="GET">
-			<div class="box box-primary">
-				<div class="box-body">
+		<div class="box box-primary">
+			<div class="box-body">
+				<form role="form" class="form-horizontal" action="<?php echo base_url_admin() ?>access/edit" method="GET">
 					<div class="form-group">
 						<label class="control-label col-lg-1 col-md-1 col-sm-2 col-xs-2" for="parent">Group</label>
 						<div class="col-lg-7 col-md-7 col-sm-6 col-xs-6">
@@ -18,9 +18,9 @@
 							<input type="submit" value="Show Access" class="btn btn-primary form-control">
 						</div>
 					</div>
-				</div>
+				</form>
 			</div>
-		</form>
+		</div>
 	</div>
 	<!-- Notification -->
 	<?php // $this->load->view($this->session->userdata('template_admin_use').'notification'); ?>
