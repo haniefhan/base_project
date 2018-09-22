@@ -1,10 +1,10 @@
 <div class="row" id="theme">
 	<?php if(count($public) > 0){ ?>
-		<div class="col-lg-12">
+		<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<h3>Public Template</h3>
 		</div>
 		<?php foreach ($public as $data) {?>
-			<div class="col-lg-3">
+			<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 				<div class="box box-primary">
 					<div class="box-header with-border"><h3 class="box-title"><?php echo ucwords(str_replace('_', ' ', $data['name'])); ?></h3></div>
 					<div class="box-body">
@@ -22,11 +22,11 @@
 			</div>
 		<?php } ?>
 	<?php } ?>
-	<div class="col-lg-12">
+	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<h3>Admin Template</h3>
 	</div>
 	<?php foreach ($admin as $data) {?>
-		<div class="col-lg-3">
+		<div class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
 			<div class="box box-primary">
 				<div class="box-header with-border"><h3 class="box-title"><?php echo ucwords(str_replace('_', ' ', $data['name'])); ?></h3></div>
 				<div class="box-body">
