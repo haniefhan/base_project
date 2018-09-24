@@ -49,7 +49,7 @@ class General extends Admin_Controller implements ControllerInterface{
 			$config['allowed_types'] 	= 'gif|jpg|png';
 			$config['max_size'] 		= 2048;
 			$config['max_width'] 		= 250;
-			$config['max_height'] 		= 85;
+			$config['max_height'] 		= 250;
 
 			$this->load->library('upload', $config);
 

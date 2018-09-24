@@ -17,7 +17,7 @@
 		<link href="<?php echo asset_admin_url(); ?>vendors/animate.css/animate.min.css" rel="stylesheet">
 		<!-- Custom Theme Style -->
 		<link href="<?php echo asset_admin_url(); ?>build/css/custom.min.css" rel="stylesheet">
-		<link rel="shortcut icon" href="<?php echo base_url(); ?>assets/img/ico.png">
+		<link rel="shortcut icon" href="<?php echo $this->session->userdata('logo'); ?>">
 	</head>
 	<body class="login">
 		<div>
