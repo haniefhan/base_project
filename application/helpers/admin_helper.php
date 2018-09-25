@@ -44,6 +44,7 @@ if ( ! function_exists('set_menu')){
 		if($CI->session->userdata('menus')){
 			return $CI->session->userdata('menus');
 		}else{
+			$admin_folder = 'admin/';
 			$CI->db->select('id, name, url, icon, parent, order');
 			$CI->db->select('view, add, edit, delete');
 			$CI->db->join('menu', 'menugroup.menu_id = menu.id', 'LEFT');
@@ -63,24 +64,23 @@ if ( ! function_exists('set_menu')){
 					unset($res[$i]);
 
 					if($v['view'] == 1){
-						$acc_grant[] = 'admin/'.$v['url'].'/index';
-						$acc_grant[] = 'admin/'.$v['url'];
-						$acc_grant[] = 'admin/'.$v['url'].'/datatable';
-						$acc_grant[] = 'admin/'.$v['url'].'/print_excel';
+						$acc_grant[] = $admin_folder.$v['url'].'/index';
+						$acc_grant[] = $admin_folder.$v['url'];
+						$acc_grant[] = $admin_folder.$v['url'].'/datatable';
 					}
 
 					if($v['add'] == 1){
-						$acc_grant[] = 'admin/'.$v['url'].'/add';
-						$acc_grant[] = 'admin/'.$v['url'].'/insert';
+						$acc_grant[] = $admin_folder.$v['url'].'/add';
+						$acc_grant[] = $admin_folder.$v['url'].'/insert';
 					}
 
 					if($v['edit'] == 1){
-						$acc_grant[] = 'admin/'.$v['url'].'/edit';
-						$acc_grant[] = 'admin/'.$v['url'].'/update';
+						$acc_grant[] = $admin_folder.$v['url'].'/edit';
+						$acc_grant[] = $admin_folder.$v['url'].'/update';
 					}
 
 					if($v['delete'] == 1){
-						$acc_grant[] = 'admin/'.$v['url'].'/delete';
+						$acc_grant[] = $admin_folder.$v['url'].'/delete';
 					}
 				}
 			}
@@ -115,27 +115,39 @@ if ( ! function_exists('set_menu')){
 
 				// set whitelist
 				if($v['view'] == 1){
-					$acc_grant[] = 'admin/'.$v['url'].'/index';
-					$acc_grant[] = 'admin/'.$v['url'];
-					$acc_grant[] = 'admin/'.$v['url'].'/datatable';
-					$acc_grant[] = 'admin/'.$v['url'].'/print_excel';
+					$acc_grant[] = $admin_folder.$v['url'].'/index';
+					$acc_grant[] = $admin_folder.$v['url'];
+					$acc_grant[] = $admin_folder.$v['url'].'/datatable';
 				}
 
 				if($v['add'] == 1){
-					$acc_grant[] = 'admin/'.$v['url'].'/add';
-					$acc_grant[] = 'admin/'.$v['url'].'/insert';
+					$acc_grant[] = $admin_folder.$v['url'].'/add';
+					$acc_grant[] = $admin_folder.$v['url'].'/insert';
 				}
 
 				if($v['edit'] == 1){
-					$acc_grant[] = 'admin/'.$v['url'].'/edit';
-					$acc_grant[] = 'admin/'.$v['url'].'/update';
+					$acc_grant[] = $admin_folder.$v['url'].'/edit';
+					$acc_grant[] = $admin_folder.$v['url'].'/update';
 				}
 
 				if($v['delete'] == 1){
-					$acc_grant[] = 'admin/'.$v['url'].'/delete';
+					$acc_grant[] = $admin_folder.$v['url'].'/delete';
 				}
-
 			}
+
+			/* @haniefhan : for special case for menu like detail, or cetak */
+			$CI->load->config('special_access');
+			$special_access = $CI->config->item('special_access');
+
+			if(count($special_access) > 0){
+				foreach ($special_access as $url => $sps) {
+					foreach ($sps as $sp) {
+						if($sp != '') $acc_grant[] = $admin_folder.$url.'/'.$sp;
+						else $acc_grant[] = $admin_folder.$url;
+					}
+				}
+			}
+
 			ksort($tree);
 			
 			$CI->session->set_userdata('menus', $tree);
