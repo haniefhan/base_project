@@ -1275,9 +1275,26 @@ class MY_Model extends CI_Model
 
     public function populate_select($index_field = '', $value_field = '', $where = array()){
         $ret = array();
-        $this->select("$index_field, $value_field");
+        $select = array();
+        $select[] = $index_field;
+        if(is_array($value_field)){
+            foreach ($value_field as $vf) {
+                $select[] = $vf;
+            }
+        }else{
+            $select[] = $value_field;
+        }
+        $this->select(implode(', ', $select));
         foreach ($this->get_many_by($where) as $data) {
-            $ret[$data[$index_field]] = $data[$value_field];
+            if(is_array($value_field)){
+                $ret[$data[$index_field]] = '';
+                foreach ($value_field as $vf) {
+                    if($ret[$data[$index_field]] != '') $ret[$data[$index_field]] .= ' - ';
+                    $ret[$data[$index_field]] .= $data[$vf];
+                }
+            }else{
+                $ret[$data[$index_field]] = $data[$value_field];
+            }
         }
         return $ret;
     }
