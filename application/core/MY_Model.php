@@ -1259,8 +1259,12 @@ class MY_Model extends CI_Model
     }
 
     protected function reformat_date($date = '', $split = '/', $separator = '-'){
-        $d = explode($split, $date);
-        return $d[2].$separator.$d[1].$separator.$d[0];
+        if($date != '' && $date != '0000-00-00'){
+            $d = explode($split, $date);
+            return $d[2].$separator.$d[1].$separator.$d[0];
+        }else{
+            return '';
+        }
     }
 
     protected function reformat_numeric($numeric = 0){
