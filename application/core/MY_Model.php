@@ -1277,7 +1277,7 @@ class MY_Model extends CI_Model
         return $numeric;
     }
 
-    public function populate_select($index_field = '', $value_field = '', $where = array()){
+    public function populate_select($index_field = '', $value_field = '', $where = array(), $join = array()){
         $ret = array();
         $select = array();
         $select[] = $index_field;
@@ -1289,6 +1289,11 @@ class MY_Model extends CI_Model
             $select[] = $value_field;
         }
         $this->select(implode(', ', $select));
+        if(count($join) > 0){
+            foreach ($join as $j) {
+                $this->join($j);   
+            }
+        }
         foreach ($this->get_many_by($where) as $data) {
             if(is_array($value_field)){
                 $ret[$data[$index_field]] = '';
