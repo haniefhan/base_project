@@ -34,7 +34,7 @@
 						<span class=" fa fa-angle-down"></span>
 					</a>
 					<ul class="dropdown-menu dropdown-usermenu pull-right">
-						<li><a href="<?php echo base_url_admin().'profile' ?>"> Profil</a></li>
+						<li><a href="<?php echo base_url_admin().'profile' ?>"> Profile</a></li>
 						<!-- <li>
 							<a href="javascript:;">
 								<span class="badge bg-red pull-right">50%</span>
