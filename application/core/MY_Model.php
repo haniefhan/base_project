@@ -1322,3 +1322,372 @@ class MY_Model extends CI_Model
         return $ret;
     }
 }
+
+class MY_Excel_Model extends CI_Model{
+    protected $_table;
+    protected $primary_key = 'id';
+
+    protected $before_create = array();
+    protected $after_create = array();
+    protected $before_update = array();
+    protected $after_update = array();
+    protected $before_get = array();
+    protected $after_get = array();
+    protected $before_delete = array();
+    protected $after_delete = array();
+    
+    protected $protected_attributes = array();
+
+    protected $return_type = 'array';
+    protected $_temporary_return_type = NULL;
+
+    public $inputFileType = '';
+    public $objPHPExcel = array();
+    public $file_path = '';
+
+    public function __construct()
+    {
+
+        $this->load->helper('inflector');
+
+        $this->_fetch_table();
+
+        array_unshift($this->before_create, 'protect_attributes');
+        array_unshift($this->before_update, 'protect_attributes');
+
+        $this->_temporary_return_type = $this->return_type;
+
+        // use config/file.php
+        $this->load->config('file');
+        // need PHPExcel library!
+        $this->load->library('excel');
+
+        try {
+            $folder_path = $this->config->item('file_folder_path');
+            $this->file_path = $folder_path.$this->_table;
+
+            $this->inputFileType = PHPExcel_IOFactory::identify($this->file_path);
+            $objReader = PHPExcel_IOFactory::createReader($this->inputFileType);
+            $this->objPHPExcel = $objReader->load($this->file_path);
+        } catch(Exception $e) {
+            die('Error loading file "'.pathinfo($this->file_path,PATHINFO_BASENAME).'": '.$e->getMessage());
+        }
+    }
+
+    private function _fetch_table()
+    {
+        if ($this->_table == NULL)
+        {
+            $this->_table = plural(preg_replace('/(_m|_model)?$/', '', strtolower(get_class($this))));
+        }
+    }
+
+    public function protect_attributes($row)
+    {
+        foreach ($this->protected_attributes as $attr)
+        {
+            if (is_object($row))
+            {
+                unset($row->$attr);
+            }
+            else
+            {
+                unset($row[$attr]);
+            }
+        }
+
+        return $row;
+    }
+
+    public function get($primary_value)
+    {
+        return $this->get_by($this->primary_key, $primary_value);
+    }
+
+    public function get_by(){
+        $where = func_get_args();
+
+        $table_field = $this->get_dt_table_field();
+
+        $objWorksheet = $this->objPHPExcel->getSheet($this->activeSheet);
+        $firstRow = $this->firstRow;
+        $lastRow = $objWorksheet->getHighestRow();
+
+        $data = array();
+        // check in all of data, because PHPExcel not have in-built search...
+        for ($row = $firstRow; $row <= $lastRow ; $row++) {
+            if($objWorksheet->getCell($where[0].$row)->getValue() == $where[1]){
+                foreach ($table_field as $tf) {
+                    $data[$tf] = $objWorksheet->getCell($tf.$row)->getValue();
+                }   
+            }
+        }
+
+        $this->_with = array();
+        // return type always array
+        return $data;
+    }
+
+    public function insert($data, $skip_validation = FALSE){
+        $objWorksheet = $this->objPHPExcel->getSheet($this->activeSheet);
+        $lastRow = $objWorksheet->getHighestRow();
+
+        $last_id = $objWorksheet->getCell($this->primary_key.$lastRow)->getValue();
+        $id = $last_id + 1;
+        $row = $lastRow + 1;
+
+        $objWorksheet->SetCellValue($this->primary_key.$row, $id);
+        foreach ($data as $index => $value) {
+            $objWorksheet->SetCellValue($index.$row, $value);
+        }
+
+        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, $this->inputFileType);
+        $objWriter->save($this->file_path);
+        return $id;
+    }
+
+    public function update($primary_value, $data, $skip_validation = FALSE){
+        $objWorksheet = $this->objPHPExcel->getSheet($this->activeSheet);
+        $firstRow = $this->firstRow;
+        $lastRow = $objWorksheet->getHighestRow();
+        $row = 0;
+
+        for ($i = $firstRow; $i <= $lastRow ; $i++) {
+            $value = $objWorksheet->getCell($this->primary_key.$i)->getValue();
+            if($value == $primary_value){
+                $row = $i;
+                break;
+            }
+        }
+
+        foreach ($data as $index => $value) {
+            $objWorksheet->SetCellValue($index.$row, $value);
+        }
+
+        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, $this->inputFileType);
+        $objWriter->save($this->file_path);
+    }
+
+    public function delete($id){
+        try {
+            $folder_path = $this->config->item('file_folder_path');
+            $this->file_path = $folder_path.$this->_table;
+
+            $this->inputFileType = PHPExcel_IOFactory::identify($this->file_path);
+            $objReader = PHPExcel_IOFactory::createReader($this->inputFileType);
+            $this->objPHPExcel = $objReader->load($this->file_path);
+        } catch(Exception $e) {
+            $msg = 'Error loading file "'.pathinfo($this->file_path,PATHINFO_BASENAME).'": '.$e->getMessage();
+        }
+
+        $objWorksheet = $this->objPHPExcel->getSheet($this->activeSheet);
+        $firstRow = $this->firstRow;
+        $lastRow = $objWorksheet->getHighestRow();
+        $row = 0;
+
+        for ($i = $firstRow; $i <= $lastRow ; $i++) {
+            $value = $objWorksheet->getCell($this->primary_key.$i)->getValue();
+            if($value == $id){
+                $row = $i;
+                break;
+            }
+        }
+
+        $objWorksheet->removeRow($row,1);
+
+        $objWriter = PHPExcel_IOFactory::createWriter($this->objPHPExcel, $this->inputFileType);
+        $objWriter->save($this->file_path);
+        return true;
+    }
+
+    /**
+     * For Datatable
+     */
+    
+    public $dt_indexs           = array();
+    public $dt_action_index     = 0; // start from 0
+    public $dt_edit_action      = true;
+    public $dt_edit_label       = 'Edit';
+    public $dt_delete_action    = true;
+    public $dt_delete_label     = 'Delete';
+    public $dt_detail_action    = false;
+    public $dt_read_action      = false;
+    public $dt_url_action       = '';
+    public $dt_index_edit       = 'id';
+    public $dt_group            = '';
+    public $dt_join             = array();
+    public $dt_where            = array();
+
+    public $activeSheet = 0; // sheet in excel, start from 0
+    public $firstRow = 1; // minimal 1, because row minimal in excel is 1
+
+    public function datatable(){
+        $search = $this->input->get('search');
+        $columns = $this->input->get('columns');
+        $search_value = $search['value'];
+        $order  = $this->input->get('order');
+
+        $return = array();
+        $return['draw'] = $this->input->get('draw');
+        $return['recordsTotal'] = 0;
+        $return['recordsFiltered'] = 0;
+        $return['data'] = array();
+
+        $msg = '';
+
+        // $cell_collection = $this->objPHPExcel->getActiveSheet()->getCellCollection();
+
+        if($msg == ''){
+            $datas = $this->_get_data_datatable($order, $search_value, 'data', $columns);
+
+            foreach ($datas as $i => $data) {
+                foreach ($this->dt_indexs as $j => $index) {
+                    if($j != $this->dt_action_index) $return['data'][$i][] = $data[$index];//$objWorksheet->getCell($tf.$row)->getValue();
+                    else{
+                        $act = '';
+                        if($this->dt_edit_action == true){
+                            $act .= '<a class="btn btn-success btn-xs" href="'.$this->dt_url_action.'edit?'.$this->dt_index_edit.'='.$data[$index].'">'.$this->dt_edit_label.'</a>&nbsp;';
+                        }
+                        if($this->dt_delete_action == true){
+                            $act .= '<a class="btn btn-danger btn-xs delete" href="'.$this->dt_url_action.'delete?'.$this->dt_index_edit.'='.$data[$index].'">'.$this->dt_delete_label.'</a>';
+                        }
+                        $return['data'][$i][] = $act;
+                    }
+                }
+            }
+        }
+
+        $return['lastQuery'] = $msg;
+        $return['recordsTotal'] = $this->_count_all_datatable();
+        $return['recordsFiltered'] = $this->_get_data_datatable($order, $search_value, 'count', $columns);
+        return json_encode($return);
+    }
+
+    private function _count_all_datatable(){
+        /*if(count($this->dt_where) > 0){
+            foreach ($this->dt_where as $index => $value) {
+                $this->db->where($index, $value);
+            }
+        }*/
+        $objWorksheet = $this->objPHPExcel->getSheet($this->activeSheet);
+        return $objWorksheet->getHighestRow() - $this->firstRow + 1;
+    }
+
+    // $type == 'data'/'count'
+    private function _get_data_datatable($order = array(), $search_value = '', $type = 'data', $columns = array()){
+        $offset = $this->input->get('start');
+        $limit = $this->input->get('length');
+
+        $table_field = $this->get_dt_table_field();
+
+        $objWorksheet = $this->objPHPExcel->getSheet($this->activeSheet);
+        $firstRow = $this->firstRow;
+        $lastRow = $objWorksheet->getHighestRow();
+
+        $datas = array();
+        $i = 0;
+        // get all of data, because PHPExcel not have in-built search...
+        for ($row = $firstRow; $row <= $lastRow ; $row++) {
+            foreach ($table_field as $tf) {
+                $datas[$i][$tf] = $objWorksheet->getCell($tf.$row)->getValue();
+            }
+            $i++;
+        }
+
+        // filter by search value
+        if($search_value != ''){
+            foreach ($datas as $i => $data) {
+                $in_row = false;
+                foreach ($this->dt_indexs as $j => $index) {
+                    if($columns[$j]['searchable'] == 'true' or $columns[$j]['searchable'] == '1'){
+                        if(strpos(strtolower($data[$index]), strtolower($search_value)) !== false){
+                            $in_row = true;
+                        }
+                    }
+                }
+
+                if($in_row == false){
+                    unset($datas[$i]);
+                }
+            }
+        }
+
+        // order by
+        foreach ($this->dt_indexs as $i => $index) {
+            if($i == $order[0]['column']){
+                $direction = $order[0]['dir']; // asc / desc
+
+                $temp = array();
+                foreach ($datas as $j => $data) {
+                    $temp[$data[$index].$j] = $data;
+                }
+                if($direction == 'asc') ksort($temp, SORT_NATURAL);
+                else krsort($temp, SORT_NATURAL);
+                $datas = array_values($temp);
+                unset($temp);
+            }
+        }
+
+        if($type == 'data'){
+            // just splice data from offset to limit
+            return array_slice($datas, $offset, $limit);
+        }elseif($type == 'count'){
+            return count($datas);
+        }
+    }
+
+    public $table_field = array();
+
+    public function get_dt_table_field(){
+        $ret = array();
+        foreach ($this->table_field as $tf) {
+            if($tf['in_table'] == true) $ret[] = $tf['table_index'];
+        }
+        return $ret;
+    }
+
+    public function reformat_post_to_sql($data = array()){
+        $table_field = $this->table_field;
+
+        foreach ($table_field as $i => $tf) {
+            if($tf['in_form'] == true){
+                if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']]);
+                elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
+            }
+        }
+
+        return $data;
+    }
+
+    public function reformat_sql_to_form($data = array()){
+        $table_field = $this->table_field;
+
+        foreach ($table_field as $i => $tf) {
+            if($tf['in_form'] == true){
+                if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
+                elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
+            }
+        }
+
+        return $data;
+    }
+
+    protected function reformat_date($date = '', $split = '/', $separator = '-'){
+        if($date != '' && $date != '0000-00-00'){
+            $d = explode($split, $date);
+            return $d[2].$separator.$d[1].$separator.$d[0];
+        }else{
+            return '';
+        }
+    }
+
+    protected function reformat_numeric($numeric = 0){
+        // indonesian format
+        if(strpos($numeric, '.')){
+            $numeric = str_replace('.', '', $numeric);
+        }elseif(strpos($numeric, ',')){
+            $numeric = str_replace(',', '.', $numeric);
+        }
+        return $numeric;
+    }
+}
