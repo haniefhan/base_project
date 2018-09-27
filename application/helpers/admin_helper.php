@@ -221,3 +221,15 @@ if ( ! function_exists('button_access')){
 		return '';
 	}
 }
+
+if ( ! function_exists('check_access_menu')){
+	function check_access_menu($url = ''){
+		$CI = & get_instance();
+		
+		if(in_array($url, $CI->session->userdata('acc_grant'))){
+			return true;
+		}else{
+			return false;
+		}
+	}
+}

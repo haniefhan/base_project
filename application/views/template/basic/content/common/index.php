@@ -1,7 +1,11 @@
 <div class="row">
 	<div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 		<div class="panel panel-default">
-			<div class="panel-heading"><?php echo $title; ?>
+			<div class="panel-heading">
+				<?php echo $title; ?>
+				<?php if(check_access_menu(uri_string().'/print_excel')){ ?>
+					<a href="<?php echo base_url_admin().$controller.'/print_excel' ?>" class="btn btn-primary pull-right btn-sm"><i class="fa fa-print"></i> Print <?php echo $title ?></a>
+				<?php } ?>
 				<a href="<?php echo base_url_admin().$controller.'/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Add <?php echo $title ?></a>
 				<div class="clearfix"></div>
 			</div>

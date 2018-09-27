@@ -3,7 +3,9 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2><?php echo $title; ?></h2>
-				<a href="<?php echo base_url_admin().$controller.'/print_excel' ?>" class="btn btn-primary pull-right btn-sm"><i class="fa fa-print"></i> Print <?php echo $title ?></a>
+				<?php if(check_access_menu(uri_string().'/print_excel')){ ?>
+					<a href="<?php echo base_url_admin().$controller.'/print_excel' ?>" class="btn btn-primary pull-right btn-sm"><i class="fa fa-print"></i> Print <?php echo $title ?></a>
+				<?php } ?>
 				<a href="<?php echo base_url_admin().$controller.'/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Add <?php echo $title ?></a>
 				<div class="clearfix"></div>
 			</div>
