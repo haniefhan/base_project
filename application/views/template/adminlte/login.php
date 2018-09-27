@@ -44,21 +44,24 @@
             <?php } ?>
             <form action="<?php echo base_url_admin(); ?>login/signin" method="post">
                 <div class="form-group has-feedback">
-                    <input type="text" class="form-control" placeholder="Username" id="username" name="username">
+                    <input type="text" class="form-control" placeholder="Username" id="username" name="username" required="required">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>
                 </div>
                 <div class="form-group has-feedback">
-                    <input type="password" class="form-control" placeholder="Password" id="password" name="password">
+                    <input type="password" class="form-control" placeholder="Password" id="password" name="password" required="required">
                     <span class="glyphicon glyphicon-lock form-control-feedback"></span>
                 </div>
                 <?php if($this->session->userdata('login_attempt') > 1){ ?>
                 <div class="text-center">
                     <img id="captcha" src="<?php echo base_url_admin().'login/gen_captcha' ?>" alt="CAPTCHA Image" />
-                    <input type="text" name="captcha_code" maxlength="6" style="" placeholder="Captcha" class="form-control" />
+                    <input type="text" name="captcha_code" maxlength="6" style="" placeholder="Captcha" class="form-control" required="required" />
                 </div>
                 <?php } ?>
                 <div class="row">
-                    <div class="col-xs-8">&nbsp;</div>
+                    <div class="col-xs-6">
+                        <a href="<?php echo base_url_admin().'login/forgot_password' ?>" class="btn btn-default">Forgot Password</a>
+                    </div>
+                    <div class="col-xs-2">&nbsp;</div>
                     <!-- /.col -->
                     <div class="col-xs-4">
                         <button type="submit" class="btn btn-primary btn-block btn-flat">Log In</button>

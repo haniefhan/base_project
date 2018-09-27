@@ -180,6 +180,7 @@ if ( ! function_exists('admin_template')){
 
 			$CI->session->set_userdata('template_admin', $template['url'].'index');
 			$CI->session->set_userdata('template_login', $template['url'].'login');
+			$CI->session->set_userdata('template_forgot', $template['url'].'forgot');
 			$CI->session->set_userdata('template_admin_use', $template['url']);
 			$CI->session->set_userdata('login_attempt', 0);
 			// $CI->session->set_userdata('title', 'Sintesa Admin |');
