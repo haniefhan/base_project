@@ -201,6 +201,9 @@ class Common extends Admin_Controller implements ControllerInterface{
 		$dt_join = array();
 		foreach ($indexs as $i => $index) {
 			if($index == 'group_id'){
+				// concat example
+				// $indexs[$i] = "CONCAT(jenjang_name, ' - ', prodi_name)";
+				// $this->konsentrasi->dt_join = array('mst_prodi', 'mst_jenjang');
 				$indexs[$i] = 'group.name as group_name';
 				$dt_join[] = 'group';
 			}
