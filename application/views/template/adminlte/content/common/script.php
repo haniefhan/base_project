@@ -13,9 +13,13 @@
 		});
 
 		function numberWithCommas(number) {
-		    var parts = number.toString().split(".");
-		    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-		    return parts.join(",");
+			if(number != null){
+				var parts = number.toString().split(".");
+				parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+				return parts.join(",");
+			}else{
+				return number;
+			}
 		}
 
 		table = $('#tb-<?php echo $controller ?>').DataTable({
