@@ -226,6 +226,42 @@ class Common_model extends MY_Model {
 		),
 		array(
 			// table param
+			'name' 			=> 'Date Time',
+			'table_index'	=> 'com_datetime',
+			'style' 		=> '',
+			'in_table' 		=> true,
+			// datatable param
+			'searchable' 	=> true,
+			'sortable' 		=> true,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'datetime', // hidden, text, select, textarea, date, datepicker, numeric, money, email, select-year, year
+			'value' 		=> '',
+			'required' 		=> true,
+			'maxlength' 	=> '',
+			// print param
+			'in_print'		=> true,
+		),
+		array(
+			// table param
+			'name' 			=> 'WYSIWYG',
+			'table_index'	=> 'com_wysiwyg',
+			'style' 		=> '',
+			'in_table' 		=> false,
+			// datatable param
+			'searchable' 	=> false,
+			'sortable' 		=> false,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'ckeditor', // hidden, text, select, textarea, date, datepicker, numeric, money, email, select-year, year
+			'value' 		=> '',
+			'required' 		=> true,
+			'maxlength' 	=> '',
+			// print param
+			'in_print'		=> true,
+		),
+		array(
+			// table param
 			'name' 			=> 'File',
 			'table_index'	=> 'file',
 			'style' 		=> '',

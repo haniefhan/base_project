@@ -48,12 +48,19 @@
 										</select>
 									<?php }elseif($tf['type'] == 'textarea'){ ?>
 										<textarea class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?>><?php echo isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value'] ?></textarea>
+									<?php }elseif($tf['type'] == 'ckeditor'){ ?>
+										<textarea class="form-control ckeditor" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?>><?php echo isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value'] ?></textarea>
 									<?php }elseif($tf['type'] == 'email'){ ?>
 										<input type="email" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" value="<?php echo isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value'] ?>"  <?php if($tf['required']){ ?> required="required" <?php } ?> <?php if(isset($tf['maxlength'])){ ?> maxlength="<?php echo $tf['maxlength']; ?>" <?php }else{ ?>maxlength="255"<?php } ?> placeholder="<?php echo $tf['name'] ?>" pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-z]{2,3}$" title="Masukan format email dengan benar" />
 									<?php }elseif($tf['type'] == 'date'){ ?>
 										<div class="input-group">
 											<div class="input-group-addon"><i class="fa fa-calendar"></i></div>
 											<input type="text" class="form-control date" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" value="<?php echo isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> />
+										</div>
+									<?php }elseif($tf['type'] == 'datetime'){ ?>
+										<div class="input-group">
+											<div class="input-group-addon"><i class="fa fa-clock-o"></i></div>
+											<input type="text" class="form-control datetime" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" value="<?php echo isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> />
 										</div>
 									<?php }elseif($tf['type'] == 'datepicker'){ ?>
 										<div class="input-group">
@@ -73,9 +80,15 @@
 									<?php }elseif($tf['type'] == 'file'){ ?>
 										<input type="file" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> />
 										<?php if(isset($datas[$tf['table_index']])){ ?>
-											<br/>
-											<center><img src="<?php echo $this->securefile->open_file($datas[$tf['table_index']], true); ?>" style="<?php echo $tf['style'] ?>"></center>
-											<br/>
+											<?php 
+												$img = '';
+												if($this->securefile->open_file($datas[$tf['table_index']], true) != '')  $img = $this->securefile->open_file($datas[$tf['table_index']], true);
+											?>
+											<?php if($img != ''){ ?>
+												<br/>
+												<center><img src="<?php echo $img; ?>" style="<?php echo $tf['style'] ?>"></center>
+												<br/>
+											<?php } ?>
 										<?php } ?>
 									<?php }elseif($tf['type'] == 'password'){ ?>
 										<input type="password" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?> <?php if(isset($tf['maxlength'])){ ?> maxlength="<?php echo $tf['maxlength']; ?>" <?php }else{ ?>maxlength="255"<?php } ?> placeholder="<?php echo $tf['name'] ?>" />

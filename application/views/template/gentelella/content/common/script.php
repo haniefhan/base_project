@@ -10,9 +10,13 @@
 		});
 
 		function numberWithCommas(number) {
-		    var parts = number.toString().split(".");
-		    parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
-		    return parts.join(",");
+		    if(number != null){
+				var parts = number.toString().split(".");
+				parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+				return parts.join(",");
+			}else{
+				return number;
+			}
 		}
 
 		table = $('#tb-<?php echo $controller ?>').DataTable({
@@ -44,6 +48,13 @@
 							d = aData[<?php echo $n ?>].split('-');
 							dd = d[2]+'/'+d[1]+'/'+d[0];
 							$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
+						<?php }elseif($tf['type'] == 'datetime'){ ?>
+							if(aData[<?php echo $n ?>] != null){
+								d = aData[<?php echo $n ?>].split(' ');
+								dd = d[0].split('-');
+								ddd = dd[2]+'/'+dd[1]+'/'+dd[0]+' '+d[1];
+								$('td:eq(<?php echo $n; ?>)', nRow).html(ddd);
+							}
 						<?php } ?>
 					<?php $n++; } ?>
 				<?php } ?>
@@ -96,13 +107,20 @@
 		</style>
 	<?php } ?>
 	<!-- ## InputMask ## -->
-	<?php if(isset($types['date']) or isset($types['numeric']) or isset($types['money'])){ ?>
+	<?php if(isset($types['date']) or isset($types['numeric']) or isset($types['money']) or isset($types['year']) or isset($types['datetime'])){ ?>
 		<script src="<?php echo asset_admin_url() ?>vendors/jquery.inputmask/dist/min/jquery.inputmask.bundle.min.js"></script>
 	<?php } ?>
 	<?php if(isset($types['date'])){ ?>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('input.datemask').inputmask("date");
+			})
+		</script>
+	<?php } ?>
+	<?php if(isset($types['datetime'])){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.datetime').inputmask("datetime");
 			})
 		</script>
 	<?php } ?>
@@ -139,5 +157,14 @@
 				});
 			})
 		</script>
+	<?php } ?>
+	<?php if(isset($types['ckeditor'])){ ?>
+		<!-- <script src="<?php echo asset_admin_url() ?>vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
+		<link href="<?php echo asset_admin_url() ?>vendors/google-code-prettify/bin/prettify.min.css" rel="stylesheet">
+		<script>
+			$(function () {
+				$('.ckeditor').wysiwyg();
+			})
+		</script> -->
 	<?php } ?>
 <?php } ?>

@@ -52,10 +52,12 @@
 							dd = d[2]+'/'+d[1]+'/'+d[0];
 							$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
 						<?php }elseif($tf['type'] == 'datetime'){ ?>
-							d = aData[<?php echo $n ?>].split(' ');
-							dd = d[0].split('-');
-							ddd = dd[2]+'/'+dd[1]+'/'+dd[0]+' '+d[1];
-							$('td:eq(<?php echo $n; ?>)', nRow).html(ddd);
+							if(aData[<?php echo $n ?>] != null){
+								d = aData[<?php echo $n ?>].split(' ');
+								dd = d[0].split('-');
+								ddd = dd[2]+'/'+dd[1]+'/'+dd[0]+' '+d[1];
+								$('td:eq(<?php echo $n; ?>)', nRow).html(ddd);
+							}
 						<?php } ?>
 					<?php $n++; } ?>
 				<?php } ?>
@@ -179,6 +181,6 @@
 				// CKEDITOR.replace('editor1')
 				CKEDITOR.replaceClass = 'ckeditor';
 			})
-	</script>
+		</script>
 	<?php } ?>
 <?php } ?>
