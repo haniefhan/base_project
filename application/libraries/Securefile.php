@@ -86,11 +86,15 @@ class Securefile {
             if($this->is_has_filetype($filename) == false){
                 // $fn = basename($file['name']);
                 $ext = $this->get_extension($file['name']);
-                $destination .= '.'.$ext;
+                // $destination .= '.'.$ext;
                 $filename .= '.'.$ext;
             }            
         }
         else $destination .= $file['name'];
+
+        if($filename == ''){
+            $filename = $file['name'];
+        }
 
         if($this->is_allowed($filename)){
             if(move_uploaded_file($file['tmp_name'], $this->file_folder_path.$destination)){
@@ -134,6 +138,11 @@ class Securefile {
      */
     public function open_file($filepath = '', $base64_encode = true, $inline = false){
         $path = $this->file_folder_path.$filepath;
+        if(!is_file($path) or !file_exists($path)){
+            // $path = $this->file_folder_path.'no-image-available.jpg';
+            return '';
+        }
+
         $data = file_get_contents($path);
         
         if($base64_encode == true){
