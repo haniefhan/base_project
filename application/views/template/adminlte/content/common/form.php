@@ -43,7 +43,7 @@
 									<?php }elseif($tf['type'] == 'select' or $tf['type'] == 'select-year'){ ?>
 										<?php $select_value = isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value']; ?>
 										<select class="form-control autocomplete" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?>>
-											<!-- <option value=''>- Select <?php echo $tf['table_index'] ?> -</option> -->
+											<option value=''>- Select <?php echo $tf['name'] ?> -</option>
 											<?php foreach ($tf['value'] as $index => $value) {?>
 												<?php $sel = ''; if($index == $select_value) $sel = 'selected="selected"'; ?>
 												<option value="<?php echo $index ?>" <?php echo $sel ?>><?php echo $value ?></option>
