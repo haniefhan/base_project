@@ -1238,6 +1238,7 @@ class MY_Model extends CI_Model
         foreach ($table_field as $i => $tf) {
             if($tf['in_form'] == true){
                 if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']]);
+                elseif($tf['type'] == 'datetime') $data[$tf['table_index']] = $this->reformat_datetime($data[$tf['table_index']]);
                 elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
             }
         }
@@ -1251,6 +1252,7 @@ class MY_Model extends CI_Model
         foreach ($table_field as $i => $tf) {
             if($tf['in_form'] == true){
                 if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
+                elseif($tf['type'] == 'datetime') $data[$tf['table_index']] = $this->reformat_datetime($data[$tf['table_index']], '-', '/');
                 elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
             }
         }
@@ -1262,6 +1264,16 @@ class MY_Model extends CI_Model
         if($date != '' && $date != '0000-00-00'){
             $d = explode($split, $date);
             return $d[2].$separator.$d[1].$separator.$d[0];
+        }else{
+            return '';
+        }
+    }
+
+    protected function reformat_datetime($date = '', $split = '/', $separator = '-'){
+        if($date != '' && $date != '0000-00-00'){
+            $d = explode(' ', $date);
+            $dd = explode($split, $d[0]);
+            return $dd[2].$separator.$dd[1].$separator.$dd[0].' '.$d[1];
         }else{
             return '';
         }
@@ -1652,6 +1664,7 @@ class MY_Excel_Model extends CI_Model{
         foreach ($table_field as $i => $tf) {
             if($tf['in_form'] == true){
                 if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']]);
+                elseif($tf['type'] == 'datetime') $data[$tf['table_index']] = $this->reformat_datetime($data[$tf['table_index']]);
                 elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
             }
         }
@@ -1665,6 +1678,7 @@ class MY_Excel_Model extends CI_Model{
         foreach ($table_field as $i => $tf) {
             if($tf['in_form'] == true){
                 if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
+                elseif($tf['type'] == 'datetime') $data[$tf['table_index']] = $this->reformat_datetime($data[$tf['table_index']]);
                 elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
             }
         }
@@ -1676,6 +1690,16 @@ class MY_Excel_Model extends CI_Model{
         if($date != '' && $date != '0000-00-00'){
             $d = explode($split, $date);
             return $d[2].$separator.$d[1].$separator.$d[0];
+        }else{
+            return '';
+        }
+    }
+
+    protected function reformat_datetime($date = '', $split = '/', $separator = '-'){
+        if($date != '' && $date != '0000-00-00'){
+            $d = explode(' ', $date);
+            $dd = explode($split, $d[0]);
+            return $dd[2].$separator.$dd[1].$separator.$dd[0].' '.$d[1];
         }else{
             return '';
         }

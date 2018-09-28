@@ -51,6 +51,11 @@
 							d = aData[<?php echo $n ?>].split('-');
 							dd = d[2]+'/'+d[1]+'/'+d[0];
 							$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
+						<?php }elseif($tf['type'] == 'datetime'){ ?>
+							d = aData[<?php echo $n ?>].split(' ');
+							dd = d[0].split('-');
+							ddd = dd[2]+'/'+dd[1]+'/'+dd[0]+' '+d[1];
+							$('td:eq(<?php echo $n; ?>)', nRow).html(ddd);
 						<?php } ?>
 					<?php $n++; } ?>
 				<?php } ?>
@@ -109,18 +114,25 @@
 		</style>
 	<?php } ?>
 	<!-- ## InputMask ## -->
-	<?php if(isset($types['date']) or isset($types['numeric']) or isset($types['money'])){ ?>
+	<?php if(isset($types['date']) or isset($types['numeric']) or isset($types['money']) or isset($types['year']) or isset($types['datetime'])){ ?>
 		<script src="<?php echo asset_admin_url() ?>plugins/input-mask/inputmask.js"></script>
 		<script src="<?php echo asset_admin_url() ?>plugins/input-mask/jquery.inputmask.js"></script>
 		<script src="<?php echo asset_admin_url() ?>plugins/input-mask/inputmask.extensions.js"></script>
 	<?php } ?>
-	<?php if(isset($types['date']) or isset($types['year'])){ ?>
+	<?php if(isset($types['date']) or isset($types['year']) or isset($types['datetime'])){ ?>
 		<script src="<?php echo asset_admin_url() ?>plugins/input-mask/inputmask.date.extensions.js"></script>
 	<?php } ?>
 	<?php if(isset($types['date'])){ ?>
 		<script type="text/javascript">
 			$(document).ready(function(){
 				$('input.datemask').inputmask("datetime", {inputFormat:'dd/mm/yyyy'});
+			})
+		</script>
+	<?php } ?>
+	<?php if(isset($types['datetime'])){ ?>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				$('input.datetime').inputmask("datetime", {inputFormat:'dd/mm/yyyy HH:MM:ss'});
 			})
 		</script>
 	<?php } ?>
@@ -159,5 +171,14 @@
 				});
 			})
 		</script>
+	<?php } ?>
+	<?php if(isset($types['ckeditor'])){ ?>
+		<script src="<?php echo asset_admin_url() ?>bower_components/ckeditor/ckeditor.js"></script>
+		<script>
+			$(function () {
+				// CKEDITOR.replace('editor1')
+				CKEDITOR.replaceClass = 'ckeditor';
+			})
+	</script>
 	<?php } ?>
 <?php } ?>
