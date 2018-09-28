@@ -185,7 +185,7 @@ if ( ! function_exists('site_info')){
 			$CI->load->model('Setting_model', 'setting');
 			$set = $CI->setting->extract_data();
 			foreach ($set as $index => $value) {
-				if($index == 'site_title' or $index == 'logo' or $index == 'lang'){
+				if($index == 'site_title' or $index == 'logo' or $index == 'lang' or $index == 'tagline' or $index == 'template_admin_color'){
 					$CI->session->set_userdata($index, $value);
 				}
 			}

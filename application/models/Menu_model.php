@@ -130,7 +130,7 @@ class Menu_model extends MY_Model {
 			'in_form' 		=> true,
 			'type' 			=> 'select', // hidden, text, select, textarea, date, datepicker, numeric, money
 			'value' 		=> array('Menu_model', 'id', 'name', array()),
-			'required' 		=> true,
+			'required' 		=> false,
 			'maxlength' 	=> 2,
 			// print param
 			'in_print'		=> true,

@@ -3,7 +3,7 @@
 <head>
 	<?php $this->load->view('template/adminlte/head'); ?>
 </head>
-<body class="hold-transition skin-blue sidebar-mini">
+<body class="hold-transition <?php echo $this->session->userdata('template_admin_color'); ?> sidebar-mini">
 	<div class="wrapper">
 		<?php $this->load->view('template/adminlte/header'); ?>
 		<?php $this->load->view('template/adminlte/menu'); ?>
