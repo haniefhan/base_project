@@ -156,7 +156,7 @@ class Menu_model extends MY_Model {
 	);
 
 	public function menu_structured(){
-		$res = $this->get_all();
+		$res = $this->get_many_by(array('status' => 1));
 
 		$tree = array();
 		$child = array();
