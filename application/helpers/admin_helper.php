@@ -57,6 +57,7 @@ if ( ! function_exists('set_menu')){
 			$tree = array();
 			$child = array();
 			$acc_grant = array();
+			$in_access = array();
 
 			foreach ($res as $i => $v) {
 				if($v['parent'] != 0){
@@ -67,6 +68,7 @@ if ( ! function_exists('set_menu')){
 						$acc_grant[] = $admin_folder.$v['url'].'/index';
 						$acc_grant[] = $admin_folder.$v['url'];
 						$acc_grant[] = $admin_folder.$v['url'].'/datatable';
+						$in_access[$v['url']] = $v['url'];
 					}
 
 					if($v['add'] == 1){
@@ -118,6 +120,7 @@ if ( ! function_exists('set_menu')){
 					$acc_grant[] = $admin_folder.$v['url'].'/index';
 					$acc_grant[] = $admin_folder.$v['url'];
 					$acc_grant[] = $admin_folder.$v['url'].'/datatable';
+					$in_access[$v['url']] = $v['url'];
 				}
 
 				if($v['add'] == 1){
@@ -142,8 +145,15 @@ if ( ! function_exists('set_menu')){
 			if(count($special_access) > 0){
 				foreach ($special_access as $url => $sps) {
 					foreach ($sps as $sp) {
-						if($sp != '') $acc_grant[] = $admin_folder.$url.'/'.$sp;
-						else $acc_grant[] = $admin_folder.$url;
+						if($sp != ''){
+							if(in_array($url, $in_access)){
+								$acc_grant[] = $admin_folder.$url.'/'.$sp;
+							}
+						}
+						else{
+							$acc_grant[] = $admin_folder.$url;
+							$in_access[$url] = $url;
+						}
 					}
 				}
 			}
