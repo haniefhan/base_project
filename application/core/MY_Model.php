@@ -1333,6 +1333,35 @@ class MY_Model extends CI_Model
         }
         return $ret;
     }
+
+    /*
+    @haniefhan
+    2018-10-01 : populate select enum, select menggunakan enum yang ada di table
+
+    $enum_map = array(
+        1 => 'Laki-Laki',
+        2 => 'Perempuan'
+    );
+     */
+    
+    protected $enum_map = array();
+
+    public function populate_select_enum($enum_index = '', $enum_map = array()){
+        if(count($enum_map) == 0){
+            $enum_map = $this->enum_map;
+        }
+
+        $type = $this->db->query( "SHOW COLUMNS FROM ".$this->_table." WHERE Field = '".$enum_index."'" )->row(0)->Type;
+        preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
+        $enum = explode("','", $matches[1]);
+        foreach ($enum as $index => $value) {
+            if(isset($enum_map[$value])){
+                $enum[$enum_map[$value]] = $value;
+                unset($enum[$index]);
+            }
+        }
+        return $enum;
+    }
 }
 
 class MY_Excel_Model extends CI_Model{
