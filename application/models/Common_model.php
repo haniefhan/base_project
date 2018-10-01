@@ -188,6 +188,24 @@ class Common_model extends MY_Model {
 		),
 		array(
 			// table param
+			'name' 			=> 'Jenis Kelamin',
+			'table_index'	=> 'com_jk',
+			'style' 		=> '',
+			'in_table' 		=> true,
+			// datatable param
+			'searchable' 	=> true,
+			'sortable' 		=> true,
+			// form param
+			'in_form' 		=> true,
+			'type' 			=> 'select-simple', // hidden, text, select, textarea, date, datepicker, numeric, money, email, select-year, year
+			'value' 		=> array(1 => 'Laki-Laki', 2 => 'Perempuan'),
+			'required' 		=> true,
+			'maxlength' 	=> '',
+			// print param
+			'in_print'		=> true,
+		),
+		array(
+			// table param
 			'name' 			=> 'Year 1',
 			'table_index'	=> 'com_year1',
 			'style' 		=> '',

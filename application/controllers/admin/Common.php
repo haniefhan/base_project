@@ -39,6 +39,8 @@ class Common extends Admin_Controller implements ControllerInterface{
 			}elseif($tf['type'] == 'select-year'){
 				$this->load->model($tf['value'][0]);
 				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select_year($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+			}elseif($tf['type'] == 'select-simple'){
+				$data['table_field'][$i]['value'] = $tf['value'];
 			}
 		}
 		$data['primary_key'] = $this->common->primary_key;
@@ -64,6 +66,8 @@ class Common extends Admin_Controller implements ControllerInterface{
 			}elseif($tf['type'] == 'select-year'){
 				$this->load->model($tf['value'][0]);
 				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select_year($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+			}elseif($tf['type'] == 'select-simple'){
+				$data['table_field'][$i]['value'] = $tf['value'];
 			}
 		}
 		$data['primary_key'] = $this->common->primary_key;
@@ -206,6 +210,8 @@ class Common extends Admin_Controller implements ControllerInterface{
 				// $this->konsentrasi->dt_join = array('mst_prodi', 'mst_jenjang');
 				$indexs[$i] = 'group.name as group_name';
 				$dt_join[] = 'group';
+			}elseif($index == 'com_jk'){
+				$indexs[$i] = "CASE com_jk WHEN 1 THEN 'Laki-Laki' WHEN 2 THEN 'Perempuan' END as jk";
 			}
 		}
 

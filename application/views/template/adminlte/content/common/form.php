@@ -40,7 +40,7 @@
 								<div class="<?php echo $input_width; ?>">
 									<?php if($tf['type'] == 'text'){ ?>
 										<input type="text" class="form-control" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" value="<?php echo isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value'] ?>"  <?php if($tf['required']){ ?> required="required" <?php } ?> <?php if(isset($tf['maxlength'])){ ?> maxlength="<?php echo $tf['maxlength']; ?>" <?php }else{ ?>maxlength="255"<?php } ?> placeholder="<?php echo $tf['name'] ?>" />
-									<?php }elseif($tf['type'] == 'select' or $tf['type'] == 'select-year'){ ?>
+									<?php }elseif($tf['type'] == 'select' or $tf['type'] == 'select-year' or $tf['type'] == 'select-simple'){ ?>
 										<?php $select_value = isset($datas[$tf['table_index']])? $datas[$tf['table_index']] : $tf['value']; ?>
 										<select class="form-control autocomplete" id="<?php echo $tf['table_index'] ?>" name="<?php echo $tf['table_index'] ?>" <?php if($tf['required']){ ?> required="required" <?php } ?>>
 											<option value=''>- Select <?php echo $tf['name'] ?> -</option>
