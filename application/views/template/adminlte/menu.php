@@ -16,7 +16,7 @@
                         }
                     ?>
                     <li class="<?php echo $class ?>">
-                        <a href="<?php echo base_url_admin().$menu['url'] ?>">
+                        <a href="<?php echo base_url_admin().$menu['url'] ?>" title="<?php echo $menu['name'] ?>">
                             <i class="<?php echo $menu['icon']; ?>"></i> <span><?php echo $menu['name'] ?></span>
                         </a>
                     </li>
@@ -33,7 +33,7 @@
                         }
                     ?>
                     <li class="treeview <?php echo $class ?>">
-                        <a href="#">
+                        <a href="#"  title="<?php echo $menu['name'] ?>">
                             <i class="<?php echo $menu['icon']; ?>"></i> <span><?php echo $menu['name'] ?></span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-left pull-right"></i>
@@ -50,7 +50,7 @@
                                         $class = 'active';
                                     }
                                 ?>
-                                <li class="<?php echo $class ?>"><a href="<?php echo base_url_admin().$menu2['url'] ?>"><i class="fa fa-circle-o"></i> <?php echo $menu2['name'] ?></a></li>
+                                <li class="<?php echo $class ?>"><a href="<?php echo base_url_admin().$menu2['url'] ?>"  title="<?php echo $menu2['name'] ?>"><i class="fa fa-circle-o"></i> <?php echo $menu2['name'] ?></a></li>
                             <?php } ?>
                         </ul>
                     </li>
@@ -71,3 +71,10 @@
     </section>
     <!-- /.sidebar -->
 </aside>
+<style type="text/css">
+    ul.sidebar-menu li a{
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+</style>
