@@ -92,8 +92,8 @@ class Menu_model extends MY_Model {
 			'sortable' 		=> true,
 			// form param
 			'in_form' 		=> true,
-			'type' 			=> 'numeric', // hidden, text, select, textarea, date, datepicker, numeric, money
-			'value' 		=> 1,
+			'type' 			=> 'select-simple', // hidden, text, select, textarea, date, datepicker, numeric, money
+			'value' 		=> array(1 => 'Active', 0 => 'Inactive'),
 			'required' 		=> true,
 			'maxlength' 	=> 1,
 			// print param
