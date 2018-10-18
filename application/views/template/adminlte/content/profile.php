@@ -9,6 +9,7 @@
 					$url = base_url_admin().'profile/update';
 				?>
 				<form role="form" class="form form-horizontal" action="<?php echo $url ?>" method="POST">
+					<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 					<div class="form-group">
 						<label class="control-label col-lg-2 col-md-3 col-sm-3 col-xs-12" for="username">Username *</label>
 						<div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">

@@ -32,6 +32,7 @@
 				</div>
 				<div class="x_content">
 					<form role="form" class="form-horizontal" action="<?php echo base_url_admin() ?>access/update?id=<?php echo $id ?>" method="POST">
+						<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 						<input type="submit" class="btn btn-primary pull-right" value="Save Access">
 						<br/>
 						<br/>

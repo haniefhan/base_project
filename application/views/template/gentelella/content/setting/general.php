@@ -7,6 +7,7 @@
 			</div>
 			<div class="x_content">
 				<form class="form-horizontal" role="form" action="<?php echo base_url_admin().'general/update' ?>" method="POST">
+					<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 					<div class="form-group">
 						<label class="control-label col-lg-2 col-md-2 col-sm-2 col-xs-2" for="site_title">Site Title</label>
 						<div class="col-lg-10 col-md-10 col-sm-10 col-xs-12">
@@ -68,6 +69,7 @@
 			</div>
 			<div class="x_content">
 				<form action="<?php echo base_url_admin().'general/update?state=logo' ?>" method="POST" enctype="multipart/form-data">
+					<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 					<div class="row">
 						<?php if(!isset($datas['logo'])){ ?>
 						<div class="placeholder">

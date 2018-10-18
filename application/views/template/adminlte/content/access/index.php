@@ -28,6 +28,7 @@
 	<?php if(isset($menus)){ ?>
 		<div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
 			<form role="form" class="form-horizontal" action="<?php echo base_url_admin() ?>access/update?id=<?php echo $id ?>" method="POST">
+				<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 				<div class="box box-primary">
 					<div class="box-header with-border"><h3 class="box-title">Set Access Right</h3></div>
 					<div class="box-body">

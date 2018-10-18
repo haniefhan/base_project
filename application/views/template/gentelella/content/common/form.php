@@ -16,6 +16,7 @@
 				}
 				?>
 				<form role="form" class="form form-horizontal" action="<?php echo $url ?>" method="POST">
+					<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 					<?php foreach ($table_field as $field => $tf) {?>
 						<?php if($tf['in_form'] == true){ ?>
 							<?php

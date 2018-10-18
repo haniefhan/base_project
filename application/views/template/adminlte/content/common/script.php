@@ -104,9 +104,14 @@
 			.select2-container--default .select2-selection--single .select2-selection__arrow{
 				height: 100%;
 			}
-			.select2-container .select2-selection--single{
-				height: 34px;
-				width: 100%;
+			.select2-container{
+				/**/
+				height: 34px!important;
+				width: 100%!important;
+			}
+
+			.select2-selection{
+				height: 34px!important;
 			}
 
 			.select2-container--default .select2-selection--single{

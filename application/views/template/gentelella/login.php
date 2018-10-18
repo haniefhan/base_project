@@ -27,6 +27,7 @@
 				<div class="animate form login_form">
 					<section class="login_content">
 						<form action="<?php echo base_url_admin(); ?>login/signin" method="POST">
+							<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 							<h1>Silahkan Login</h1>
 							<div>
 								<input name="username" type="text" class="form-control" placeholder="Username" required="required" id="username"/>

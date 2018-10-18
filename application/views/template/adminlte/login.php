@@ -43,6 +43,7 @@
                 <div class="clearfix"></div>
             <?php } ?>
             <form action="<?php echo base_url_admin(); ?>login/signin" method="post">
+                <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
                 <div class="form-group has-feedback">
                     <input type="text" class="form-control" placeholder="Username" id="username" name="username" required="required">
                     <span class="glyphicon glyphicon-user form-control-feedback"></span>

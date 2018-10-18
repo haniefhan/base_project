@@ -17,6 +17,7 @@
 <body>
 	<div class="container">
 		<form class="form-signin" action="<?php echo base_url_admin(); ?>login/signin" method="POST">
+			<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 			<center>
 				<img src="<?php echo $this->session->userdata('logo'); ?>" style="max-width:100px">
 			</center>
