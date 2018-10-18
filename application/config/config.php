@@ -469,3 +469,7 @@ $config['time_reference'] = 'local';
 | Array:		array('10.0.1.200', '192.168.5.0/24')
 */
 $config['proxy_ips'] = '';
+
+// for encrypt in edit and delete
+$config['use_encrypt'] = TRUE;
+$config['encryption_key_security'] = 'bb74f3a2cce1a97fff1caafb65edf949';

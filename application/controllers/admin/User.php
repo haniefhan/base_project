@@ -68,7 +68,7 @@ class User extends Admin_Controller implements ControllerInterface{
 		}
 		$data['primary_key'] = $this->user->primary_key;
 		$data['content']	= 'content/common/form';
-		$data['datas']      = $this->user->get($id);
+		$data['datas']      = $this->user->get(decrypt_id($id));
 
 		$data['datas'] = $this->user->reformat_sql_to_form($data['datas']);
 
@@ -107,7 +107,7 @@ class User extends Admin_Controller implements ControllerInterface{
 
 	function update(){
 		$this->db->trans_start();
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 		$data = $this->input->post();
 
 		$data = $this->user->reformat_post_to_sql($data);
@@ -141,7 +141,7 @@ class User extends Admin_Controller implements ControllerInterface{
 	}
 
 	function delete(){
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 
 		if($this->user->delete($id)){
 			$this->session->set_flashdata('notif_status', true);

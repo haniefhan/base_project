@@ -244,3 +244,59 @@ if ( ! function_exists('check_access_menu')){
 		}
 	}
 }
+
+if ( ! function_exists('encrypt_id')){
+	function encrypt_id($id = ''){
+		$CI = & get_instance();
+		if($CI->config->item('use_encrypt')){
+			$CI->load->library('encrypt');
+			// $CI->encrypt->set_cipher('aes-192');
+			$CI->encrypt->set_mode('ctr');
+			$key = $CI->config->item('encryption_key_security');
+
+			$ret = $CI->encrypt->encode($id, $key);
+
+			$id = strtr(
+				$ret,
+				array(
+					'+' => '.',
+					'=' => '-',
+					'/' => '~'
+				)
+			);
+		}
+
+		return $id;
+	}
+}
+
+if ( ! function_exists('decrypt_id')){
+	function decrypt_id($string = ''){
+		$CI = & get_instance();
+		if($CI->config->item('use_encrypt')){
+			$CI->load->library('encrypt');
+			// $CI->encrypt->set_cipher('aes-128');
+			$CI->encrypt->set_mode('ctr');
+			$key = $CI->config->item('encryption_key_security');
+
+			$string = strtr(
+				$string,
+				array(
+					'.' => '+',
+					'-' => '=',
+					'~' => '/'
+				)
+			);
+
+			$string = $CI->encrypt->decode($string, $key);
+
+			if($string == false){
+				$CI->session->set_flashdata('notif_status', false);
+				$CI->session->set_flashdata('notif_msg', "No data found with the ID you entered! Please don't play with ID!");
+				redirect(base_url_admin().'dashboard');
+			}
+		}
+
+		return $string;
+	}
+}

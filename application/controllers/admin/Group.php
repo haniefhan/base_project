@@ -50,7 +50,7 @@ class Group extends Admin_Controller implements ControllerInterface{
 		$data['table_field'] = $this->group->table_field;
 		$data['primary_key'] = $this->group->primary_key;
 		$data['content']	= 'content/common/form';
-		$data['datas']      = $this->group->get($id);
+		$data['datas']      = $this->group->get(decrypt_id($id));
 
 		$this->template($data);
 	}
@@ -74,7 +74,7 @@ class Group extends Admin_Controller implements ControllerInterface{
 
 	function update(){
 		$this->db->trans_start();
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 		$data = $this->input->post();
 
 		$st = $this->group->update($id, $data);
@@ -91,7 +91,7 @@ class Group extends Admin_Controller implements ControllerInterface{
 	}
 
 	function delete(){
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 		if($this->group->delete($id)){
 			$this->load->model("Menugroup_model", 'access');
 			$this->access->delete_by(array('group_id' => $id));

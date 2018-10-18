@@ -72,7 +72,7 @@ class Common extends Admin_Controller implements ControllerInterface{
 		}
 		$data['primary_key'] = $this->common->primary_key;
 		$data['content']	= 'content/common/form';
-		$data['datas']      = $this->common->get($id);
+		$data['datas']      = $this->common->get(decrypt_id($id));
 
 		$data['datas'] = $this->common->reformat_sql_to_form($data['datas']);
 
@@ -128,7 +128,7 @@ class Common extends Admin_Controller implements ControllerInterface{
 
 	function update(){
 		$this->db->trans_start();
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 		$data = $this->input->post();
 
 		$data = $this->common->reformat_post_to_sql($data);
@@ -179,7 +179,7 @@ class Common extends Admin_Controller implements ControllerInterface{
 	}
 
 	function delete(){
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 
 		// delete the file uploaded
 		$data = $this->common->get($id);

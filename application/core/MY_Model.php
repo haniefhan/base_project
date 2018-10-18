@@ -1120,10 +1120,10 @@ class MY_Model extends CI_Model
                 else{
                     $act = '';
                     if($this->dt_edit_action == true){
-                        $act .= '<a class="btn btn-success btn-xs" href="'.$this->dt_url_action.'edit?'.$this->dt_index_edit.'='.$data[$index].'">'.$this->dt_edit_label.'</a>&nbsp;';
+                        $act .= '<a class="btn btn-success btn-xs" href="'.$this->dt_url_action.'edit?'.$this->dt_index_edit.'='.encrypt_id($data[$index]).'">'.$this->dt_edit_label.'</a>&nbsp;';
                     }
                     if($this->dt_delete_action == true){
-                        $act .= '<a class="btn btn-danger btn-xs delete" href="'.$this->dt_url_action.'delete?'.$this->dt_index_edit.'='.$data[$index].'">'.$this->dt_delete_label.'</a>';
+                        $act .= '<a class="btn btn-danger btn-xs delete" href="'.$this->dt_url_action.'delete?'.$this->dt_index_edit.'='.encrypt_id($data[$index]).'">'.$this->dt_delete_label.'</a>';
                     }
 
                     $return['data'][$i][] = $act;
@@ -1587,10 +1587,10 @@ class MY_Excel_Model extends CI_Model{
                     else{
                         $act = '';
                         if($this->dt_edit_action == true){
-                            $act .= '<a class="btn btn-success btn-xs" href="'.$this->dt_url_action.'edit?'.$this->dt_index_edit.'='.$data[$index].'">'.$this->dt_edit_label.'</a>&nbsp;';
+                            $act .= '<a class="btn btn-success btn-xs" href="'.$this->dt_url_action.'edit?'.$this->dt_index_edit.'='.encrypt_id($data[$index]).'">'.$this->dt_edit_label.'</a>&nbsp;';
                         }
                         if($this->dt_delete_action == true){
-                            $act .= '<a class="btn btn-danger btn-xs delete" href="'.$this->dt_url_action.'delete?'.$this->dt_index_edit.'='.$data[$index].'">'.$this->dt_delete_label.'</a>';
+                            $act .= '<a class="btn btn-danger btn-xs delete" href="'.$this->dt_url_action.'delete?'.$this->dt_index_edit.'='.encrypt_id($data[$index]).'">'.$this->dt_delete_label.'</a>';
                         }
                         $return['data'][$i][] = $act;
                     }

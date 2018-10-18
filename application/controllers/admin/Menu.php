@@ -62,7 +62,7 @@ class Menu extends Admin_Controller implements ControllerInterface{
 		}
 		$data['primary_key'] = $this->menu->primary_key;
 		$data['content']	= 'content/common/form';
-		$data['datas']      = $this->menu->get($id);
+		$data['datas']      = $this->menu->get(decrypt_id($id));
 
 		$data['datas'] = $this->menu->reformat_sql_to_form($data['datas']);
 
@@ -89,7 +89,7 @@ class Menu extends Admin_Controller implements ControllerInterface{
 
 	function update(){
 		$this->db->trans_start();
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 		$data = $this->input->post();
 
 		$data = $this->menu->reformat_post_to_sql($data);
@@ -108,7 +108,7 @@ class Menu extends Admin_Controller implements ControllerInterface{
 	}
 
 	function delete(){
-		$id = $this->input->get('id');
+		$id = decrypt_id($this->input->get('id'));
 
 		if($this->menu->delete($id)){
 			$this->session->set_flashdata('notif_status', true);
