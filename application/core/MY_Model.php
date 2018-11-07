@@ -110,7 +110,10 @@ class MY_Model extends CI_Model
 
         $this->_fetch_table();
 
-        $this->_database = $this->db;
+        if($this->_database == null) $this->_database = $this->db;
+        else{
+            $this->_database = $this->load->database($this->_database, true);
+        }
 
         array_unshift($this->before_create, 'protect_attributes');
         array_unshift($this->before_update, 'protect_attributes');
@@ -284,9 +287,9 @@ class MY_Model extends CI_Model
             $_prepared_nokey = array();
             foreach ($data as $col => $val)
             {
-                $_prepared[$this->_database->protect_identifiers($col)] = $this->db->escape($val);
+                $_prepared[$this->_database->protect_identifiers($col)] = $this->_database->escape($val);
                 if($col != $primary_field)
-                    $_prepared_nokey[$this->_database->protect_identifiers($col)] = $this->db->escape($val);
+                    $_prepared_nokey[$this->_database->protect_identifiers($col)] = $this->_database->escape($val);
             }
 
             $this->_database->query("INSERT INTO ".$this->_database->protect_identifiers($this->_table)." (".implode(',', array_keys($_prepared)).") VALUES (".implode(',', array_values($_prepared)).") ON DUPLICATE KEY UPDATE ".urldecode(http_build_query($_prepared_nokey, '', ', ')));
@@ -1130,7 +1133,7 @@ class MY_Model extends CI_Model
                 }
             }
         }
-        $return['lastQuery'] = $this->db->last_query();
+        $return['lastQuery'] = $this->_database->last_query();
         $return['recordsTotal'] = $this->_count_all_datatable();
         $return['recordsFiltered'] = $this->_get_data_datatable($order, $search_value, 'count', $columns);
         return json_encode($return);
@@ -1140,11 +1143,11 @@ class MY_Model extends CI_Model
         
         if(count($this->dt_where) > 0){
             foreach ($this->dt_where as $index => $value) {
-                $this->db->where($index, $value);
+                $this->_database->where($index, $value);
             }
         }
 
-        $this->db->select("COUNT(*) as total");
+        $this->_database->select("COUNT(*) as total");
         $data = $this->get_all();
         return $data[0]['total'];
     }
@@ -1153,7 +1156,7 @@ class MY_Model extends CI_Model
         
         if(count($this->dt_where) > 0){
             foreach ($this->dt_where as $index => $value) {
-                $this->db->where($index, $value);
+                $this->_database->where($index, $value);
             }
         }
 
@@ -1163,15 +1166,15 @@ class MY_Model extends CI_Model
         }
 
         if($search_value != ''){
-            $this->db->group_start();
+            $this->_database->group_start();
             foreach ($this->dt_indexs as $i => $index) {
                 if($columns[$i]['searchable'] == 'true' or $columns[$i]['searchable'] == '1'){
                     $dex = explode(' as ', $index);
                     $index = $dex[0];
-                    $this->db->or_like($index, $search_value);
+                    $this->_database->or_like($index, $search_value);
                 }
             }
-            $this->db->group_end();
+            $this->_database->group_end();
         }
 
         foreach ($this->dt_indexs as $i => $index) {
@@ -1185,12 +1188,12 @@ class MY_Model extends CI_Model
 
         if($type == 'data'){
             $this->group_by($this->dt_group);
-            $this->db->offset($this->input->get('start'));
-            $this->db->limit($this->input->get('length'));
+            $this->_database->offset($this->input->get('start'));
+            $this->_database->limit($this->input->get('length'));
             return $this->get_all();
         }elseif($type == 'count'){
-            // $this->db->select("COUNT(DISTINCT ".$this->dt_indexs[0].") as total");
-            $this->db->select("COUNT(*) as total");
+            // $this->_database->select("COUNT(DISTINCT ".$this->dt_indexs[0].") as total");
+            $this->_database->select("COUNT(*) as total");
             $data = $this->get_all();
             return $data[0]['total'];
         }
@@ -1351,7 +1354,7 @@ class MY_Model extends CI_Model
             $enum_map = $this->enum_map;
         }
 
-        $type = $this->db->query( "SHOW COLUMNS FROM ".$this->_table." WHERE Field = '".$enum_index."'" )->row(0)->Type;
+        $type = $this->_database->query( "SHOW COLUMNS FROM ".$this->_table." WHERE Field = '".$enum_index."'" )->row(0)->Type;
         preg_match("/^enum\(\'(.*)\'\)$/", $type, $matches);
         $enum = explode("','", $matches[1]);
         foreach ($enum as $index => $value) {
@@ -1607,7 +1610,7 @@ class MY_Excel_Model extends CI_Model{
     private function _count_all_datatable(){
         /*if(count($this->dt_where) > 0){
             foreach ($this->dt_where as $index => $value) {
-                $this->db->where($index, $value);
+                $this->_database->where($index, $value);
             }
         }*/
         $objWorksheet = $this->objPHPExcel->getSheet($this->activeSheet);
