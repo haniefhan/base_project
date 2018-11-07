@@ -228,7 +228,7 @@ if ( ! function_exists('date_format_ext')){
 				
 			}
 			$date = $tgl.$separator.$bln.$separator.$thn;
-			if($datetime == true) $date .= $jam.':'.$menit;
+			if($datetime == true) $date .= ' '.$jam.':'.$menit;
 		}
 
 		return $date;
