@@ -44,6 +44,7 @@
                     <div class="clearfix"></div>
                 <?php } ?>
                 <form action="<?php echo base_url_admin(); ?>login/reset_password" method="post">
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
                     <div class="form-group has-feedback">
                         <input type="text" class="form-control" placeholder="Email" id="email" name="email" required="required">
                         <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
@@ -69,6 +70,7 @@
                     <div class="clearfix"></div>
                 <?php } ?>
                 <form action="<?php echo base_url_admin(); ?>login/do_change_password" method="post">
+                    <input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
                     <div class="form-group has-feedback">
                         <input type="hidden" name="code" value="<?php echo $code; ?>">
                         <input type="password" class="form-control" placeholder="Password" id="password" name="password" required="required">
