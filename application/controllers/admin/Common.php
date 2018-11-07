@@ -341,5 +341,109 @@ class Common extends Admin_Controller implements ControllerInterface{
 		header('Content-Disposition: attachment; filename="'.$filename.'.xlsx"');
 		$objWriter->save('php://output');
 	}
+
+	public function upload_csv(){
+		$type = $this->input->get('type');
+		if($type == 'upload'){
+
+		}else{
+			$filename = 'Format CSV '.$this->title.'.csv';
+			$f = fopen('php://memory', 'w');
+			
+			$head_field = array();
+			foreach ($this->unit->table_field as $field) {
+				if($field['in_form'] == true && $field['type'] != 'separator'){
+					$head_field[] = $field['name'];
+				}
+			}
+			fputcsv($f, $head_field);
+			fseek($f, 0);
+
+			header('Content-Type: application/csv');
+			header('Content-Disposition: attachment; filename="'.$filename.'";');
+			fpassthru($f);
+		}
+	}
+
+	public function upload_excel(){
+		$type = $this->input->get('type');
+		$this->load->library('excel');
+
+		if($type == 'upload'){
+			$file = $_FILES['file'];
+
+			$objPHPExcel = new PHPExcel();
+			
+			try {
+			    $file_path = $file['tmp_name'];
+
+			    $inputFileType = PHPExcel_IOFactory::identify($file_path);
+			    $objReader = PHPExcel_IOFactory::createReader($inputFileType);
+			    $objPHPExcel = $objReader->load($file_path);
+			} catch(Exception $e) {
+			    die('Error loading file "'.pathinfo($file_path,PATHINFO_BASENAME).'": '.$e->getMessage());
+			}
+
+			$objWorksheet = $objPHPExcel->getSheet(0);
+			$firstRow = 2;
+			$lastRow = $objWorksheet->getHighestRow();
+
+			$datas = array();
+			$no = 0;
+			for ($row = $firstRow; $row <= $lastRow ; $row++) {
+				$huruf = 'A';
+
+				foreach ($this->unit->table_field as $field) {
+					if($field['in_form'] == true && $field['type'] != 'separator'){
+						$datas[$no][$field['table_index']] = $objWorksheet->getCell($huruf.$row)->getValue();
+						$huruf++;
+					}
+				}
+				$no++;
+			}
+
+			if($this->input->post('reset_all')){
+				$this->unit->empty_table();
+				$this->unit->insert_batch($datas);
+			}else{
+				foreach ($datas as $data) {
+					$this->unit->insert_update_duplicate($this->unit->primary_key, $data);
+				}
+			}
+
+			$this->session->set_flashdata('notif_status', true);
+			$this->session->set_flashdata('notif_msg', 'Update Insert '.$no.' data '.$this->title.' success');
+			redirect($this->redirect_url);
+		}else{
+			$filename = 'Format Excel '.$this->title.'.xls';
+
+			$objPHPExcel = new PHPExcel();
+			$objPHPExcel->getProperties()->setCreator($this->session->userdata('site_title'));
+			$objPHPExcel->getProperties()->setTitle($filename);
+
+			$objWorksheet = $objPHPExcel->getActiveSheet();
+			
+			$head_field = array();
+			foreach ($this->unit->table_field as $field) {
+				if($field['in_form'] == true && $field['type'] != 'separator'){
+					$head_field[] = $field['name'];
+				}
+			}
+
+			$huruf = 'A';
+			$row = 1;
+			foreach ($head_field as $field) {
+				$objWorksheet->getCell($huruf.$row)->setValue($field);
+				$objWorksheet->getColumnDimension($huruf)->setAutoSize(true);
+				$huruf++;
+			}
+
+			$objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel5');
+
+			header('Content-Type: application/vnd.ms-excel');
+			header('Content-Disposition: attachment; filename="'.$filename.'"');
+			$objWriter->save('php://output');
+		}
+	}
 }
 ?>
