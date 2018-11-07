@@ -256,14 +256,15 @@ if ( ! function_exists('encrypt_id')){
 
 			$ret = $CI->encrypt->encode($id, $key);
 
-			$id = strtr(
-				$ret,
-				array(
-					'+' => '.',
-					'=' => '-',
-					'/' => '~'
-				)
-			);
+			$id = bin2hex($ret);
+			// $id = strtr(
+			// 	$ret,
+			// 	array(
+			// 		'+' => '.',
+			// 		'=' => '-',
+			// 		'/' => '~'
+			// 	)
+			// );
 		}
 
 		return $id;
@@ -279,14 +280,15 @@ if ( ! function_exists('decrypt_id')){
 			$CI->encrypt->set_mode('ctr');
 			$key = $CI->config->item('encryption_key_security');
 
-			$string = strtr(
-				$string,
-				array(
-					'.' => '+',
-					'-' => '=',
-					'~' => '/'
-				)
-			);
+			$string = hex2bin($string);
+			// $string = strtr(
+			// 	$string,
+			// 	array(
+			// 		'.' => '+',
+			// 		'-' => '=',
+			// 		'~' => '/'
+			// 	)
+			// );
 
 			$string = $CI->encrypt->decode($string, $key);
 
