@@ -1079,6 +1079,11 @@ class MY_Model extends CI_Model
         return $this->_temporary_return_type == 'array' ? $method . '_array' : $method;
     }
 
+    public function empty_table(){
+        // $this->_database->empty_table($this->_table);
+        $this->_database->truncate($this->_table);
+    }
+
     /**
      * For Datatable
      */
