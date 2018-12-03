@@ -3,7 +3,10 @@ class Menu_model extends MY_Model {
 	protected $_table 		= 'menu';
 	public $primary_key = 'id';
 
-	public $belongs_to = array('menu' => array('from_column' => 'parent', 'to_column' => 'id'));
+	public $belongs_to = array(
+		'menu' => array('from_column' => 'parent', 'to_column' => 'id'),
+		'menugroup' => array('from_column' => 'id', 'to_column' => 'menu_id'),
+	);
 
 	public $before_create = array('create_mark');
 	public $before_update = array('update_mark');
@@ -155,8 +158,34 @@ class Menu_model extends MY_Model {
 		),
 	);
 
-	public function menu_structured(){
-		$res = $this->get_many_by(array('status' => 1));
+	public function get_children($parent_id = 0, $group_id = 0){
+		$parent = $parent_id;
+
+		$where = array('status' => 1, 'parent' => $parent_id);
+		$this->order_by('order', 'ASC');
+		if($group_id != 0) {
+			$this->join('menugroup');
+			$where['group_id'] = $group_id;
+		}
+		$datas = $this->get_many_by($where);
+
+		$tree = array();
+		foreach ($datas as $i => $data) {
+			unset($datas[$i]['create_date']);
+			unset($datas[$i]['create_by']);
+			unset($datas[$i]['update_date']);
+			unset($datas[$i]['update_by']);
+
+			$tree[$data['order']] = $datas[$i];
+			$tree[$data['order']]['children'] = $this->get_children($data['id'], $group_id);
+		}
+
+		ksort($tree);
+		return $tree;
+	}
+
+	public function menu_structured($group_id = 0){
+		/*$res = $this->get_many_by(array('status' => 1));
 
 		$tree = array();
 		$child = array();
@@ -185,6 +214,27 @@ class Menu_model extends MY_Model {
 			}
 		}
 		ksort($tree);
+		return $tree;*/
+		$where = array('status' => 1, 'parent' => 0);
+		$this->order_by('order', 'ASC');
+		if($group_id != 0) {
+			$this->join('menugroup');
+			$where['group_id'] = $group_id;
+		}
+		$datas = $this->get_many_by($where);
+
+		$tree = array();
+		foreach ($datas as $i => $data) {
+			unset($datas[$i]['create_date']);
+			unset($datas[$i]['create_by']);
+			unset($datas[$i]['update_date']);
+			unset($datas[$i]['update_by']);
+
+			$tree[$data['order']] = $datas[$i];
+			$tree[$data['order']]['children'] = $this->get_children($data['id'], $group_id);
+		}
+
+		ksort($tree);		
 		return $tree;
 	}
 

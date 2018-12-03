@@ -1,5 +1,44 @@
 <?php
-if ( ! function_exists('set_menu')){
+if(!function_exists('set_access_grant')){
+	function set_access_grant($menu = array()){
+		$menu_ini = $menu;
+		$admin_folder = 'admin/';
+		$acc_grant = array();
+		$in_access = array();
+
+		if($menu_ini['view'] == 1){
+			$acc_grant[] = $admin_folder.$menu_ini['url'].'/index';
+			$acc_grant[] = $admin_folder.$menu_ini['url'];
+			$acc_grant[] = $admin_folder.$menu_ini['url'].'/datatable';
+			$in_access[$menu_ini['url']] = $menu_ini['url'];
+		}
+
+		if($menu_ini['add'] == 1){
+			$acc_grant[] = $admin_folder.$menu_ini['url'].'/add';
+			$acc_grant[] = $admin_folder.$menu_ini['url'].'/insert';
+		}
+
+		if($menu_ini['edit'] == 1){
+			$acc_grant[] = $admin_folder.$menu_ini['url'].'/edit';
+			$acc_grant[] = $admin_folder.$menu_ini['url'].'/update';
+		}
+
+		if($menu_ini['delete'] == 1){
+			$acc_grant[] = $admin_folder.$menu_ini['url'].'/delete';
+		}
+
+		if(count($menu_ini['children']) > 0){
+			foreach ($menu_ini['children'] as $chd) {
+				list($acc_grant2, $in_access2) = set_access_grant($chd);
+				$acc_grant = array_merge($acc_grant, $acc_grant2);
+				$in_access = array_merge($in_access, $in_access2);
+			}
+		}
+		return array($acc_grant, $in_access);
+	}
+}
+
+if(!function_exists('set_menu')){
 	/* // old type
 	function set_menu(){
 		$CI = & get_instance();
@@ -38,13 +77,26 @@ if ( ! function_exists('set_menu')){
 			$CI->session->set_userdata('menus', $tree);
 		}
 	}*/
-
 	function set_menu($group_id = 0){
 		$CI = & get_instance();
 		if($CI->session->userdata('menus')){
 			return $CI->session->userdata('menus');
 		}else{
+			$CI->load->model('Menu_model', 'menu');
+			$res = $CI->menu->menu_structured($group_id);
+
+			$acc_grant = array();
+			$in_access = array();
+
 			$admin_folder = 'admin/';
+
+			foreach ($res as $i => $menu) {
+				list($acc_grant2, $in_access2) = set_access_grant($menu);
+				$acc_grant = array_merge($acc_grant, $acc_grant2);
+				$in_access = array_merge($in_access, $in_access2);
+			}
+			
+			/*$admin_folder = 'admin/';
 			$CI->db->select('id, name, url, icon, parent, order');
 			$CI->db->select('view, add, edit, delete');
 			$CI->db->join('menu', 'menugroup.menu_id = menu.id', 'LEFT');
@@ -136,7 +188,7 @@ if ( ! function_exists('set_menu')){
 				if($v['delete'] == 1){
 					$acc_grant[] = $admin_folder.$v['url'].'/delete';
 				}
-			}
+			}*/
 
 			/* @haniefhan : for special case for menu like detail, or cetak */
 			$CI->load->config('special_access');
@@ -158,15 +210,15 @@ if ( ! function_exists('set_menu')){
 				}
 			}
 
-			ksort($tree);
+			ksort($res);
 			
-			$CI->session->set_userdata('menus', $tree);
+			$CI->session->set_userdata('menus', $res);
 			$CI->session->set_userdata('acc_grant', $acc_grant);
 		}
 	}
 }
 
-if ( ! function_exists('admin_template')){
+if ( ! function_exists('parse_accessgrant')){
 	function parse_accessgrant($url = ''){
 		if(strpos($url, '?') != false){
 			$u = explode('?', $url);

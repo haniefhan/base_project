@@ -56,15 +56,25 @@
 										<?php } ?>
 									</tr>
 									<?php if(isset($menu['children'])){ ?>
-										<?php foreach ($menu['children'] as $j => $menu) {?>
+										<?php foreach ($menu['children'] as $j => $menu2) {?>
 											<tr>
 												<td></td>
-												<td> -- <?php echo $menu['name']; ?></td>
+												<td>-- <?php echo $menu2['name']; ?></td>
 												<?php foreach ($access_name as $access) {?>
-													<?php $sel = ''; if(isset($datas[$menu['id']])){ if($datas[$menu['id']][$access] == 1) $sel = 'checked'; } ?>
-													<td class="text-center"><input class="child-<?php echo $i ?>" type="checkbox" name="menus[<?php echo $menu['id'] ?>][<?php echo $access ?>]" value="1" <?php echo $sel ?>></td>
+													<?php $sel = ''; if(isset($datas[$menu2['id']])){ if($datas[$menu2['id']][$access] == 1) $sel = 'checked'; } ?>
+													<td class="text-center"><input class="child-<?php echo $i ?>" type="checkbox" name="menus[<?php echo $menu2['id'] ?>][<?php echo $access ?>]" value="1" <?php echo $sel ?>></td>
 												<?php } ?>
 											</tr>
+											<?php foreach ($menu2['children'] as $j => $menu3) {?>
+												<tr>
+													<td></td>
+													<td>&nbsp;&nbsp;&nbsp;&nbsp;-- <?php echo $menu3['name']; ?></td>
+													<?php foreach ($access_name as $access) {?>
+														<?php $sel = ''; if(isset($datas[$menu3['id']])){ if($datas[$menu3['id']][$access] == 1) $sel = 'checked'; } ?>
+														<td class="text-center"><input class="child-<?php echo $i ?>" type="checkbox" name="menus[<?php echo $menu3['id'] ?>][<?php echo $access ?>]" value="1" <?php echo $sel ?>></td>
+													<?php } ?>
+												</tr>
+											<?php } ?>
 										<?php } ?>
 									<?php } ?>
 								<?php } ?>

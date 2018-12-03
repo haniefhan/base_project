@@ -1,3 +1,48 @@
+<?php
+    function parse_menu($menu = array()){
+        $current = current_url();
+        $menu_ini = $menu;
+        $class = '';
+        $status = 0;
+        if(base_url_admin().$menu_ini['url'] == $current){
+            $class = 'active';
+            $status = 1;
+        }
+        // check if have children
+        $html_children = '';
+        if(isset($menu_ini['children'])){
+            if(count($menu_ini['children']) > 0){
+                foreach ($menu_ini['children'] as $menu_ini2) {
+                    $m = parse_menu($menu_ini2);
+                    $html_children .= $m[0];
+                    if($status == 0){
+                        $status = $m[1];
+                    }
+                }
+                $class .= ' treeview ';
+                if($status == 1){
+                    $class .= ' active ';
+                }
+            }
+        }
+        
+        $html  = '<li class="'.$class.'">';
+        $html .= '   <a href="'.base_url_admin().$menu_ini['url'].'" title="'.$menu_ini['name'].'">';
+        $html .= '       <i class="'.$menu_ini['icon'].'"></i> <span>'.$menu_ini['name'].'</span>';
+        if($html_children != ''){
+            $html .= '          <span class="pull-right-container"><i class="fa fa-angle-left pull-right"></i></span>';
+        }
+        $html .= '   </a>';
+        if($html_children != ''){
+            $html .= '  <ul class="treeview-menu">';
+            $html .= '  '.$html_children;
+            $html .= '  </ul>';
+        }
+        $html .= '</li>';
+
+        return array($html, $status);
+    }
+?>
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
@@ -7,55 +52,9 @@
             <?php $menus = $this->session->userdata('menus');?>
             <li class="header">Menu Utama</li>
             <?php foreach ($menus as $i => $menu) { ?>
-                <?php if(!isset($menu['children'])){ ?>
-                    <?php
-                        // set active
-                        $class = '';
-                        if(base_url_admin().$menu['url'] == $current){
-                            $class = 'active';
-                        }
-                    ?>
-                    <li class="<?php echo $class ?>">
-                        <a href="<?php echo base_url_admin().$menu['url'] ?>" title="<?php echo $menu['name'] ?>">
-                            <i class="<?php echo $menu['icon']; ?>"></i> <span><?php echo $menu['name'] ?></span>
-                        </a>
-                    </li>
-                <?php }else{ ?>
-                    <?php
-                        // set active
-                        $class = '';
-                        foreach ($menu['children'] as $j => $menu2) {
-                            if(base_url_admin().$menu2['url'] == $current){
-                                $class = 'active';
-                            }elseif(strpos($current, base_url_admin().$menu2['url']) !== false){
-                                $class = 'active';
-                            }
-                        }
-                    ?>
-                    <li class="treeview <?php echo $class ?>">
-                        <a href="#"  title="<?php echo $menu['name'] ?>">
-                            <i class="<?php echo $menu['icon']; ?>"></i> <span><?php echo $menu['name'] ?></span>
-                            <span class="pull-right-container">
-                                <i class="fa fa-angle-left pull-right"></i>
-                            </span>
-                        </a>
-                        <ul class="treeview-menu">
-                            <?php foreach ($menu['children'] as $j => $menu2) {?>
-                                <?php
-                                    // set active
-                                    $class = '';
-                                    if(base_url_admin().$menu2['url'] == $current){
-                                        $class = 'active';
-                                    }elseif(strpos($current, base_url_admin().$menu2['url']) !== false){
-                                        $class = 'active';
-                                    }
-                                ?>
-                                <li class="<?php echo $class ?>"><a href="<?php echo base_url_admin().$menu2['url'] ?>"  title="<?php echo $menu2['name'] ?>"><i class="fa fa-circle-o"></i> <?php echo $menu2['name'] ?></a></li>
-                            <?php } ?>
-                        </ul>
-                    </li>
-                <?php } ?>
+                <?php $m = parse_menu($menu); echo $m[0]; ?>
             <?php } ?>
+            
             <li>
                 <a href="<?php echo base_url_admin().'login/signout' ?>">
                     <i class="fa fa-sign-out"></i> <span>Sign Out</span>
