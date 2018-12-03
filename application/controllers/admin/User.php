@@ -35,10 +35,10 @@ class User extends Admin_Controller implements ControllerInterface{
 		foreach ($data['table_field'] as $i => $tf) {
 			if($tf['type'] == 'select'){
 				$this->load->model($tf['value'][0]);
-				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+				$data['table_field'][$i]['value'] = $this->{$tf['value'][0]}->populate_select($tf['value'][1], $tf['value'][2], $tf['value'][3]);
 			}elseif($tf['type'] == 'select-year'){
 				$this->load->model($tf['value'][0]);
-				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select_year($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+				$data['table_field'][$i]['value'] = $this->{$tf['value'][0]}->populate_select_year($tf['value'][1], $tf['value'][2], $tf['value'][3]);
 			}
 		}
 		$data['primary_key'] = $this->user->primary_key;
@@ -60,10 +60,10 @@ class User extends Admin_Controller implements ControllerInterface{
 		foreach ($data['table_field'] as $i => $tf) {
 			if($tf['type'] == 'select'){
 				$this->load->model($tf['value'][0]);
-				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+				$data['table_field'][$i]['value'] = $this->{$tf['value'][0]}->populate_select($tf['value'][1], $tf['value'][2], $tf['value'][3]);
 			}elseif($tf['type'] == 'select-year'){
 				$this->load->model($tf['value'][0]);
-				$data['table_field'][$i]['value'] = $this->$tf['value'][0]->populate_select_year($tf['value'][1], $tf['value'][2], $tf['value'][3]);
+				$data['table_field'][$i]['value'] = $this->{$tf['value'][0]}->populate_select_year($tf['value'][1], $tf['value'][2], $tf['value'][3]);
 			}
 		}
 		$data['primary_key'] = $this->user->primary_key;
