@@ -1148,20 +1148,41 @@ class MY_Model extends CI_Model
         
         if(count($this->dt_where) > 0){
             foreach ($this->dt_where as $index => $value) {
-                $this->_database->where($index, $value);
+                // $this->_database->where($index, $value);
+                if(is_array($value)){
+                    if(strpos($index, '!=') !== false){
+                        $index = str_replace('!=', '', $index);
+                        $this->_database->where_not_in($index, $value);
+                    }else{
+                        $this->_database->where_in($index, $value);
+                    }
+                }else{
+                    $this->_database->where($index, $value);
+                }
             }
         }
 
-        $this->_database->select("COUNT(*) as total");
-        $data = $this->get_all();
-        return $data[0]['total'];
+        // $this->_database->select("COUNT(*) as total");
+        // $data = $this->get_all();
+        // return $data[0]['total'];
+        return $this->_database->count_all_results($this->_table);
     }
 
     private function _get_data_datatable($order = array(), $search_value = '', $type = 'data', $columns = array()){ // $type == 'data'/'count'
         
         if(count($this->dt_where) > 0){
             foreach ($this->dt_where as $index => $value) {
-                $this->_database->where($index, $value);
+                // $this->_database->where($index, $value);
+                if(is_array($value)){
+                    if(strpos($index, '!=') !== false){
+                        $index = str_replace('!=', '', $index);
+                        $this->_database->where_not_in($index, $value);
+                    }else{
+                        $this->_database->where_in($index, $value);
+                    }
+                }else{
+                    $this->_database->where($index, $value);
+                }
             }
         }
 
@@ -1186,8 +1207,13 @@ class MY_Model extends CI_Model
             $dex = explode(' as ', $index);
             $index = $dex[0];
             if(count($dex) > 1) $index = $dex[1];
-            if($i == $order[0]['column']){
+            /*if($i == $order[0]['column']){
                 $this->order_by($index, $order[0]['dir']);
+            }*/
+            foreach ($order as $j => $ord) {
+                if($i == $ord['column']){
+                    $this->order_by($index, $ord['dir']);
+                }
             }
         }
 
@@ -1198,9 +1224,10 @@ class MY_Model extends CI_Model
             return $this->get_all();
         }elseif($type == 'count'){
             // $this->_database->select("COUNT(DISTINCT ".$this->dt_indexs[0].") as total");
-            $this->_database->select("COUNT(*) as total");
-            $data = $this->get_all();
-            return $data[0]['total'];
+            // $this->_database->select("COUNT(*) as total");
+            // $data = $this->get_all();
+            // return $data[0]['total'];
+            return $this->_database->count_all_results($this->_table);
         }
     }
 
