@@ -351,7 +351,7 @@ class Common extends Admin_Controller implements ControllerInterface{
 			$f = fopen('php://memory', 'w');
 			
 			$head_field = array();
-			foreach ($this->unit->table_field as $field) {
+			foreach ($this->common->table_field as $field) {
 				if($field['in_form'] == true && $field['type'] != 'separator'){
 					$head_field[] = $field['name'];
 				}
@@ -393,9 +393,20 @@ class Common extends Admin_Controller implements ControllerInterface{
 			for ($row = $firstRow; $row <= $lastRow ; $row++) {
 				$huruf = 'A';
 
-				foreach ($this->unit->table_field as $field) {
+				foreach ($this->common->table_field as $field) {
 					if($field['in_form'] == true && $field['type'] != 'separator'){
-						$datas[$no][$field['table_index']] = $objWorksheet->getCell($huruf.$row)->getValue();
+						if($field['type'] == 'date'){
+							$datas[$no][$field['table_index']] = $objWorksheet->getCell($huruf.$row)->getValue();
+							if(is_numeric($datas[$no][$field['table_index']])){
+								$date = $datas[$no][$field['table_index']] - 1;
+								$datas[$no][$field['table_index']] = date('Y-m-d', strtotime('1899-12-31+'.$date.' days'));
+							}elseif(is_string($datas[$no][$field['table_index']])){
+								// need check if the date is correct for mysql_date
+								// if not correct, then correct it
+							}
+						}else{
+							$datas[$no][$field['table_index']] = $objWorksheet->getCell($huruf.$row)->getValue();
+						}
 						$huruf++;
 					}
 				}
@@ -403,11 +414,11 @@ class Common extends Admin_Controller implements ControllerInterface{
 			}
 
 			if($this->input->post('reset_all')){
-				$this->unit->empty_table();
-				$this->unit->insert_batch($datas);
+				$this->common->empty_table();
+				$this->common->insert_batch($datas);
 			}else{
 				foreach ($datas as $data) {
-					$this->unit->insert_update_duplicate($this->unit->primary_key, $data);
+					$this->common->insert_update_duplicate($this->common->primary_key, $data);
 				}
 			}
 
@@ -424,7 +435,7 @@ class Common extends Admin_Controller implements ControllerInterface{
 			$objWorksheet = $objPHPExcel->getActiveSheet();
 			
 			$head_field = array();
-			foreach ($this->unit->table_field as $field) {
+			foreach ($this->common->table_field as $field) {
 				if($field['in_form'] == true && $field['type'] != 'separator'){
 					$head_field[] = $field['name'];
 				}
