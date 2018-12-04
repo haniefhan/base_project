@@ -6,25 +6,43 @@ if(!function_exists('set_access_grant')){
 		$acc_grant = array();
 		$in_access = array();
 
-		if($menu_ini['view'] == 1){
-			$acc_grant[] = $admin_folder.$menu_ini['url'].'/index';
-			$acc_grant[] = $admin_folder.$menu_ini['url'];
-			$acc_grant[] = $admin_folder.$menu_ini['url'].'/datatable';
+		// if($menu_ini['view'] == 1){
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'].'/index';
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'];
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'].'/datatable';
+		// 	$in_access[$menu_ini['url']] = $menu_ini['url'];
+		// }
+
+		// if($menu_ini['add'] == 1){
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'].'/add';
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'].'/insert';
+		// }
+
+		// if($menu_ini['edit'] == 1){
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'].'/edit';
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'].'/update';
+		// }
+
+		// if($menu_ini['delete'] == 1){
+		// 	$acc_grant[] = $admin_folder.$menu_ini['url'].'/delete';
+		// }
+
+		// if(count($menu_ini['children']) > 0){
+		// 	foreach ($menu_ini['children'] as $chd) {
+		// 		list($acc_grant2, $in_access2) = set_access_grant($chd);
+		// 		$acc_grant = array_merge($acc_grant, $acc_grant2);
+		// 		$in_access = array_merge($in_access, $in_access2);
+		// 	}
+		// }
+		
+		foreach (json_decode($menu_ini['access_manage'], true) as $mi) {
+			if($mi == 'view'){
+				$acc_grant[] = $admin_folder.$menu_ini['url'];
+				$acc_grant[] = $admin_folder.$menu_ini['url'].'/index';
+			}else{
+				$acc_grant[] = $admin_folder.$menu_ini['url'].'/'.$mi;
+			}
 			$in_access[$menu_ini['url']] = $menu_ini['url'];
-		}
-
-		if($menu_ini['add'] == 1){
-			$acc_grant[] = $admin_folder.$menu_ini['url'].'/add';
-			$acc_grant[] = $admin_folder.$menu_ini['url'].'/insert';
-		}
-
-		if($menu_ini['edit'] == 1){
-			$acc_grant[] = $admin_folder.$menu_ini['url'].'/edit';
-			$acc_grant[] = $admin_folder.$menu_ini['url'].'/update';
-		}
-
-		if($menu_ini['delete'] == 1){
-			$acc_grant[] = $admin_folder.$menu_ini['url'].'/delete';
 		}
 
 		if(count($menu_ini['children']) > 0){
@@ -34,49 +52,12 @@ if(!function_exists('set_access_grant')){
 				$in_access = array_merge($in_access, $in_access2);
 			}
 		}
+
 		return array($acc_grant, $in_access);
 	}
 }
 
 if(!function_exists('set_menu')){
-	/* // old type
-	function set_menu(){
-		$CI = & get_instance();
-		if($CI->session->userdata('menus')){
-			return $CI->session->userdata('menus');
-		}else{
-			$res = $CI->db->get('menu')->result_array();
-			
-			$tree = array();
-			$child = array();
-			foreach ($res as $i => $v) {
-				if($v['parent'] != 0){
-					unset($v['create_date']);
-					unset($v['create_by']);
-					unset($v['update_date']);
-					unset($v['update_by']);
-
-					$child[$v['parent']][$v['order']] = $v;
-					unset($res[$i]);
-				}
-			}
-
-			foreach ($res as $i => $v) {
-				unset($v['create_date']);
-				unset($v['create_by']);
-				unset($v['update_date']);
-				unset($v['update_by']);
-				
-				$tree[(int)$v['order']] = $v;
-				if(isset($child[$v['id']])){
-					$tree[$v['order']]['children'] = $child[$v['id']];
-				}
-			}
-			ksort($tree);
-			
-			$CI->session->set_userdata('menus', $tree);
-		}
-	}*/
 	function set_menu($group_id = 0){
 		$CI = & get_instance();
 		if($CI->session->userdata('menus')){

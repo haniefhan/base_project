@@ -35,7 +35,7 @@ class Access extends Admin_Controller implements ControllerInterface{
 
 			$this->load->model("Menu_model", 'menu');
 			$data['menus']		= $this->menu->menu_structured();
-			$data['access_name'] = $this->menu->access_name();
+			$data['access_name'] = $this->menu->all_access_name();
 
 			$this->template($data);
 		}else{
@@ -53,13 +53,17 @@ class Access extends Admin_Controller implements ControllerInterface{
 		$post = $this->input->post();
 		$data = array();
 		if(isset($post['menus'])){
-			$data = $post['menus'];
-			foreach ($data as $i => $v) {
-				foreach ($access as $acc) {
-					if(!isset($data[$i][$acc])) $data[$i][$acc] = 0;
-				}
-				$data[$i]['group_id'] = $id;
-				$data[$i]['menu_id'] = $i;
+			// foreach ($data as $i => $v) {
+			// 	foreach ($access as $acc) {
+			// 		if(!isset($data[$i][$acc])) $data[$i][$acc] = 0;
+			// 	}
+			// 	$data[$i]['group_id'] = $id;
+			// 	$data[$i]['menu_id'] = $i;
+			// }
+			foreach ($post['menus'] as $menu_id => $menu) {
+				$data[$menu_id]['menu_id'] = $menu_id;
+				$data[$menu_id]['group_id'] = $id;
+				$data[$menu_id]['access_grant'] = json_encode($menu);
 			}
 		}
 		

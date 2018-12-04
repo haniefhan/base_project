@@ -140,6 +140,24 @@ class Menu_model extends MY_Model {
 		),
 		array(
 			// table param
+			'name' 			=> 'Access Manage',
+			'table_index'	=> 'access_manage',
+			'style' 		=> '',
+			'in_table' 		=> true,
+			// datatable param
+			'searchable' 	=> true,
+			'sortable' 		=> true,
+			// form param
+			'in_form' 		=> false,
+			'type' 			=> 'text', // hidden, text, select, textarea, date, datepicker, numeric, money
+			'value' 		=> '',
+			'required' 		=> false,
+			'maxlength' 	=> 255,
+			// print param
+			'in_print'		=> true,
+		),
+		array(
+			// table param
 			'name' 			=> 'Action',
 			'table_index'	=> 'id',
 			'style' 		=> '', // 'width:15%;',
@@ -239,7 +257,19 @@ class Menu_model extends MY_Model {
 	}
 
 	public function access_name(){
-		return array('view', 'add', 'edit', 'delete');
+		// return array('view', 'add', 'edit', 'delete');
+		return array('view', 'datatable', 'add', 'insert', 'edit', 'update', 'delete');
+	}
+
+	public function all_access_name(){
+		$ret = array();
+		$this->select('access_manage');
+		foreach ($this->get_all() as $menu) {
+			foreach (json_decode($menu['access_manage'], true) as $mng) {
+				if(!in_array($mng, $ret)) $ret[] = $mng;
+			}
+		}
+		return $ret;
 	}
 
 	public function populate_select($index_field = '', $value_field = '', $where = array(), $join = array()){

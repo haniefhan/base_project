@@ -1,5 +1,5 @@
 <div class="row">
-	<div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
+	<div class="col-lg-9 col-md-10 col-sm-12 col-xs-12">
 		<div class="box box-primary">
 			<div class="box-body">
 				<form role="form" class="form-horizontal" action="<?php echo base_url_admin() ?>access/edit" method="GET">
@@ -26,7 +26,7 @@
 	<?php // $this->load->view($this->session->userdata('template_admin_use').'notification'); ?>
 	<!-- #Notification -->
 	<?php if(isset($menus)){ ?>
-		<div class="col-lg-8 col-md-10 col-sm-12 col-xs-12">
+		<div class="col-lg-9 col-md-12 col-sm-12 col-xs-12">
 			<form role="form" class="form-horizontal" action="<?php echo base_url_admin() ?>access/update?id=<?php echo $id ?>" method="POST">
 				<input type="hidden" name="<?php echo $this->security->get_csrf_token_name(); ?>" value="<?php echo $this->security->get_csrf_hash(); ?>" />
 				<div class="box box-primary">
@@ -38,40 +38,60 @@
 						<table class="table table-striped table-bordered table-hover">
 							<thead>
 								<tr>
-									<th>No</th>
+									<th style="width: 5%;">No</th>
 									<th>Menu</th>
 									<?php foreach ($access_name as $access) {?>
-										<th style="width: 10%;" class="text-center"><?php echo ucfirst($access); ?></th>
+										<th style="width: 5%;" class="text-center"><?php echo ucfirst(str_replace('_', ' ', $access)); ?></th>
 									<?php } ?>
 								</tr>
 							</thead>
 							<tbody>
 								<?php $no = 1; foreach ($menus as $i => $menu) {?>
+									<?php 
+										$access_manage = json_decode($menu['access_manage'], true);
+										if(!is_array($access_manage)) $access_manage = array();
+									?>
 									<tr>
 										<td><?php echo $no; $no++; ?>.</td>
 										<td><?php echo $menu['name'] ?> <input type="checkbox" class="verticalCheck childCheck pull-right" id="<?php echo $i ?>" title="Select All Right and Child"></td>
 										<?php foreach ($access_name as $access) {?>
-											<?php $sel = ''; if(isset($datas[$menu['id']])){ if($datas[$menu['id']][$access] == 1) $sel = 'checked'; } ?>
-											<td class="text-center"><input type="checkbox" name="menus[<?php echo $menu['id'] ?>][<?php echo $access ?>]" value="1" <?php echo $sel ?>></td>
+											<td class="text-center">
+												<?php if(in_array($access, $access_manage)){ ?>
+													<?php $sel = ''; if(isset($datas[$menu['id']][$access])){ if($datas[$menu['id']][$access] == 1) $sel = 'checked'; } ?>
+													<input type="checkbox" name="menus[<?php echo $menu['id'] ?>][]" value="<?php echo $access ?>" <?php echo $sel ?>>
+												<?php } ?>
+											</td>
 										<?php } ?>
 									</tr>
 									<?php if(isset($menu['children'])){ ?>
 										<?php foreach ($menu['children'] as $j => $menu2) {?>
+											<?php 
+												$access_manage = json_decode($menu2['access_manage'], true);
+												if(!is_array($access_manage)) $access_manage = array();
+											?>
 											<tr>
 												<td></td>
 												<td>-- <?php echo $menu2['name']; ?></td>
-												<?php foreach ($access_name as $access) {?>
-													<?php $sel = ''; if(isset($datas[$menu2['id']])){ if($datas[$menu2['id']][$access] == 1) $sel = 'checked'; } ?>
-													<td class="text-center"><input class="child-<?php echo $i ?>" type="checkbox" name="menus[<?php echo $menu2['id'] ?>][<?php echo $access ?>]" value="1" <?php echo $sel ?>></td>
+												<?php foreach ($access_name as $access) { ?>
+													<td class="text-center">
+														<?php if(in_array($access, $access_manage)){ ?>
+															<?php $sel = ''; if(isset($datas[$menu2['id']][$access])){ if($datas[$menu2['id']][$access] == 1) $sel = 'checked'; } ?>
+															<input type="checkbox" class="child-<?php echo $i ?>" name="menus[<?php echo $menu2['id'] ?>][]" value="<?php echo $access ?>" <?php echo $sel ?>>
+														<?php } ?>
+													</td>
 												<?php } ?>
 											</tr>
 											<?php foreach ($menu2['children'] as $j => $menu3) {?>
 												<tr>
 													<td></td>
 													<td>&nbsp;&nbsp;&nbsp;&nbsp;-- <?php echo $menu3['name']; ?></td>
-													<?php foreach ($access_name as $access) {?>
-														<?php $sel = ''; if(isset($datas[$menu3['id']])){ if($datas[$menu3['id']][$access] == 1) $sel = 'checked'; } ?>
-														<td class="text-center"><input class="child-<?php echo $i ?>" type="checkbox" name="menus[<?php echo $menu3['id'] ?>][<?php echo $access ?>]" value="1" <?php echo $sel ?>></td>
+													<?php foreach ($access_name as $access) { ?>
+														<td class="text-center">
+															<?php if(in_array($access, $access_manage)){ ?>
+																<?php $sel = ''; if(isset($datas[$menu3['id']][$access])){ if($datas[$menu3['id']][$access] == 1) $sel = 'checked'; } ?>
+																<input type="checkbox" class="child-<?php echo $i ?>" name="menus[<?php echo $menu3['id'] ?>][]" value="<?php echo $access ?>" <?php echo $sel ?>>
+															<?php } ?>
+														</td>
 													<?php } ?>
 												</tr>
 											<?php } ?>
@@ -79,7 +99,17 @@
 									<?php } ?>
 								<?php } ?>
 							</tbody>
+							<tfoot>
+								<tr>
+									<th style="width: 5%;">No</th>
+									<th>Menu</th>
+									<?php foreach ($access_name as $access) {?>
+										<th style="width: 5%;" class="text-center"><?php echo ucfirst(str_replace('_', ' ', $access)); ?></th>
+									<?php } ?>
+								</tr>
+							</tfoot>
 						</table>
+						<br/>
 						<input type="submit" class="btn btn-primary pull-right" value="Save Access">
 					</div>
 				</div>

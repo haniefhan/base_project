@@ -18,7 +18,7 @@ class Menu extends Admin_Controller implements ControllerInterface{
 
 		// because it's simple index and form, use menu form
 		$data['table_field'] = $this->menu->table_field;
-		$data['content']	= 'content/common/index';
+		$data['content']	= 'content/menu/index';
 
 		$this->template($data);
 	}
@@ -39,7 +39,9 @@ class Menu extends Admin_Controller implements ControllerInterface{
 			}
 		}
 		$data['primary_key'] = $this->menu->primary_key;
-		$data['content']	= 'content/common/form';
+		$data['content']	= 'content/menu/form';
+		$data['basic_access'] = $this->menu->access_name();
+
 		$this->template($data);
 	}
 
@@ -61,8 +63,9 @@ class Menu extends Admin_Controller implements ControllerInterface{
 			}
 		}
 		$data['primary_key'] = $this->menu->primary_key;
-		$data['content']	= 'content/common/form';
+		$data['content']	= 'content/menu/form';
 		$data['datas']      = $this->menu->get(decrypt_id($id));
+		$data['basic_access'] = $this->menu->access_name();
 
 		$data['datas'] = $this->menu->reformat_sql_to_form($data['datas']);
 
@@ -73,9 +76,45 @@ class Menu extends Admin_Controller implements ControllerInterface{
 		$this->db->trans_start();
 		$data = $this->input->post();
 
+		if(isset($data['basic_access'])){
+			$basic_access = $data['basic_access'];
+			unset($data['basic_access']);
+		}
+
+		if(isset($data['add_access'])){
+			$add_access = $data['add_access'];
+			unset($data['add_access']);
+		}
+		
+		if(isset($data['add_manage'])){
+			$add_manage = $data['add_manage'];
+			unset($data['add_manage']);
+		}
+
 		$data = $this->menu->reformat_post_to_sql($data);
 
-		if($this->menu->insert($data)){
+		if($id = $this->menu->insert($data)){
+			$access_manage = array();
+			if(isset($basic_access)){
+				foreach ($basic_access as $accs) {
+					$acc = explode(', ', $accs);
+					foreach ($acc as $ac) {
+						array_push($access_manage, $ac);
+					}
+				}
+			}
+
+			if(isset($add_manage)){
+				foreach ($add_manage as $i => $acc) {
+					if($add_access[$i] != ''){
+						$add_access[$i] = str_replace(' ', '_', $add_access[$i]);
+						array_push($access_manage, $add_access[$i]);
+					}
+				}
+			}
+
+			$this->menu->update($id, array('access_manage' => json_encode($access_manage)));
+
 			$this->session->set_flashdata('notif_status', true);
 			$this->session->set_flashdata('notif_msg', 'Add new '.$this->title.' success');
 		}else{
@@ -91,11 +130,47 @@ class Menu extends Admin_Controller implements ControllerInterface{
 		$this->db->trans_start();
 		$id = decrypt_id($this->input->get('id'));
 		$data = $this->input->post();
+		
+		if(isset($data['basic_access'])){
+			$basic_access = $data['basic_access'];
+			unset($data['basic_access']);
+		}
+
+		if(isset($data['add_access'])){
+			$add_access = $data['add_access'];
+			unset($data['add_access']);
+		}
+		
+		if(isset($data['add_manage'])){
+			$add_manage = $data['add_manage'];
+			unset($data['add_manage']);
+		}
 
 		$data = $this->menu->reformat_post_to_sql($data);
 
 		$st = $this->menu->update($id, $data);
 		if($st !== false){
+			$access_manage = array();
+			if(isset($basic_access)){
+				foreach ($basic_access as $accs) {
+					$acc = explode(', ', $accs);
+					foreach ($acc as $ac) {
+						array_push($access_manage, $ac);
+					}
+				}
+			}
+
+			if(isset($add_manage)){
+				foreach ($add_manage as $i => $acc) {
+					if($add_access[$i] != ''){
+						$add_access[$i] = str_replace(' ', '_', $add_access[$i]);
+						array_push($access_manage, $add_access[$i]);
+					}
+				}
+			}
+
+			$this->menu->update($id, array('access_manage' => json_encode($access_manage)));
+
 			$this->session->set_flashdata('notif_status', true);
 			$this->session->set_flashdata('notif_msg', 'Update '.$this->title.' success');
 		}else{
@@ -104,6 +179,7 @@ class Menu extends Admin_Controller implements ControllerInterface{
 		}
 		$this->db->trans_complete();
 
+		// redirect($this->redirect_url.'/edit?id='.$this->input->get('id'));
 		redirect($this->redirect_url);
 	}
 
