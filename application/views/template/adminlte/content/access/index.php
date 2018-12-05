@@ -82,6 +82,10 @@
 												<?php } ?>
 											</tr>
 											<?php foreach ($menu2['children'] as $j => $menu3) {?>
+												<?php 
+													$access_manage = json_decode($menu3['access_manage'], true);
+													if(!is_array($access_manage)) $access_manage = array();
+												?>
 												<tr>
 													<td></td>
 													<td>&nbsp;&nbsp;&nbsp;&nbsp;-- <?php echo $menu3['name']; ?></td>
