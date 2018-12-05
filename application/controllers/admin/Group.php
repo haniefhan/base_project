@@ -105,12 +105,13 @@ class Group extends Admin_Controller implements ControllerInterface{
 	}
 
 	public function datatable(){
+		$uri = str_replace('/datatable', '', uri_string());
 		$indexs = $this->group->get_dt_table_field();
 		$this->group->dt_indexs        = $indexs;// array('gn_id', 'gn_name', "gn_id");
 
 		$this->group->dt_action_index  = (count($indexs) - 1);
-		$this->group->dt_edit_action   = true;
-		$this->group->dt_delete_action = true;
+		$this->group->dt_edit_action   = check_access_menu($uri.'/edit');
+		$this->group->dt_delete_action = check_access_menu($uri.'/delete');
 		$this->group->dt_url_action    = base_url_admin().$this->controller.'/';
 		$this->group->dt_index_edit    = 'id';
 		// $this->group->dt_where       = array("user_id" => $this->session->userdata('id'));

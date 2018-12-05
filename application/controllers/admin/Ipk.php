@@ -109,12 +109,13 @@ class Ipk extends Admin_Controller implements ControllerInterface{
 	}
 
 	public function datatable(){
+		$uri = str_replace('/datatable', '', uri_string());
 		$indexs = $this->ipk->get_dt_table_field();
 
 		$this->ipk->dt_indexs        = $indexs;
 		$this->ipk->dt_action_index  = (count($indexs) - 1);
-		$this->ipk->dt_edit_action   = true;
-		$this->ipk->dt_delete_action = true;
+		$this->ipk->dt_edit_action   = check_access_menu($uri.'/edit');
+		$this->ipk->dt_delete_action = check_access_menu($uri.'/delete');
 		$this->ipk->dt_url_action    = base_url_admin().$this->controller.'/';
 		$this->ipk->dt_index_edit    = 'id';
 		// $this->ipk->dt_where       = array("user_id" => $this->session->userdata('id'));

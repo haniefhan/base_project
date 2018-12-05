@@ -197,6 +197,7 @@ class Menu extends Admin_Controller implements ControllerInterface{
 	}
 
 	public function datatable(){
+		$uri = str_replace('/datatable', '', uri_string());
 		$indexs = $this->menu->get_dt_table_field();
 
 		// if use join and 'as' in SELECT
@@ -212,8 +213,8 @@ class Menu extends Admin_Controller implements ControllerInterface{
 
 		$this->menu->dt_indexs        = $indexs;
 		$this->menu->dt_action_index  = (count($indexs) - 1);
-		$this->menu->dt_edit_action   = true;
-		$this->menu->dt_delete_action = true;
+		$this->menu->dt_edit_action   = check_access_menu($uri.'/edit');
+		$this->menu->dt_delete_action = check_access_menu($uri.'/delete');
 		$this->menu->dt_url_action    = base_url_admin().$this->controller.'/';
 		$this->menu->dt_index_edit    = 'id';
 		// $this->menu->dt_where       = array("user_id" => $this->session->userdata('id'));

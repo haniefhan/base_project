@@ -154,6 +154,7 @@ class User extends Admin_Controller implements ControllerInterface{
 	}
 
 	public function datatable(){
+		$uri = str_replace('/datatable', '', uri_string());
 		$indexs = $this->user->get_dt_table_field();
 
 		// if use join and 'as' in SELECT
@@ -173,8 +174,8 @@ class User extends Admin_Controller implements ControllerInterface{
 
 		$this->user->dt_indexs        = $indexs;// array('gn_id', 'gn_name', "gn_id");
 		$this->user->dt_action_index  = (count($indexs) - 1);
-		$this->user->dt_edit_action   = true;
-		$this->user->dt_delete_action = true;
+		$this->user->dt_edit_action   = check_access_menu($uri.'/edit');
+		$this->user->dt_delete_action = check_access_menu($uri.'/delete');
 		$this->user->dt_url_action    = base_url_admin().$this->controller.'/';
 		$this->user->dt_index_edit    = 'id';
 		// $this->user->dt_where       = array("user_id" => $this->session->userdata('id'));
