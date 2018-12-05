@@ -35,7 +35,7 @@ if(!function_exists('set_access_grant')){
 		// 	}
 		// }
 		
-		foreach (json_decode($menu_ini['access_manage'], true) as $mi) {
+		foreach (json_decode($menu_ini['access_grant'], true) as $mi) {
 			if($mi == 'view'){
 				$acc_grant[] = $admin_folder.$menu_ini['url'];
 				$acc_grant[] = $admin_folder.$menu_ini['url'].'/index';
