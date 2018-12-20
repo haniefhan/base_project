@@ -22,7 +22,7 @@ class Ajaxdata extends Public_Controller {
 		$this->load->model(ucwords($model), 'select');
 
 		if($this->input->get('q') != ''){
-			$selects = $this->select->get_many_like(array($index_value => $this->input->get('q')));
+			$selects = $this->select->get_many_like(array('LOWER('.$index_value.')' => strtolower($this->input->get('q'))));
 		}
 
 		if($this->input->get('whr') != ''){
