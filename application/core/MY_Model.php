@@ -1102,6 +1102,8 @@ class MY_Model extends CI_Model
     public $dt_join             = array();
     public $dt_where            = array();
 
+    public $dt_count_with_join = false;
+
     public function datatable(){
         $search = $this->input->get('search');
         $columns = $this->input->get('columns');
@@ -1159,6 +1161,12 @@ class MY_Model extends CI_Model
                 }else{
                     $this->_database->where($index, $value);
                 }
+            }
+        }
+
+        if($this->dt_count_with_join == true){
+            foreach ($this->dt_join as $jn) {
+                $this->join($jn);
             }
         }
 
@@ -1341,6 +1349,8 @@ class MY_Model extends CI_Model
                 $this->join($j);   
             }
         }
+
+        $this->order_by($value_field, 'ASC');
         foreach ($this->get_many_by($where) as $data) {
             if(is_array($value_field)){
                 $ret[$data[$index_field]] = '';
