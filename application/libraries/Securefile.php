@@ -11,10 +11,11 @@
 class Securefile {
     public $file_folder_path = '';
     public $allowed_file_type = '*';
+    public $max_width = 800;
 
     public function __construct() {
         $this->ci =& get_instance();
-        $this->file_folder_path = $this->ci->config->item('file_folder_path');
+        if($this->file_folder_path == '') $this->file_folder_path = $this->ci->config->item('file_folder_path');
     }
 
     public function check_file_exist($file_path = '', $with_path = false){
@@ -97,7 +98,32 @@ class Securefile {
         }
 
         if($this->is_allowed($filename)){
-            if(move_uploaded_file($file['tmp_name'], $this->file_folder_path.$destination)){
+            $ext = $this->get_extension($file['name']);
+            if($ext == 'png' || $ext == 'jpg' || $ext == 'jpeg'){
+                $max_width = $this->max_width; // px
+                list($width, $height, $type, $attr) = getimagesize($file['tmp_name']);
+
+                if($width > $max_width){
+                    $ratio  = $max_width / $width;
+                    $new_width  = $max_width;
+                    $new_height = $height * $ratio;
+
+                    $src = imagecreatefromstring(file_get_contents($file['tmp_name']));
+                    $dst = imagecreatetruecolor($new_width, $new_height);
+
+                    imagecopyresampled($dst, $src, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+                    imagedestroy($src);
+                    if($ext == 'png') $st = imagepng($dst, $this->file_folder_path.$destination);
+                    else if($ext == 'jpg' or $ext == 'jpeg') $st = imagejpeg($dst, $this->file_folder_path.$destination);
+                    imagedestroy($dst);
+                }else{
+                   $st = move_uploaded_file($file['tmp_name'], $this->file_folder_path.$destination); 
+                }
+            }else{
+                $st = move_uploaded_file($file['tmp_name'], $this->file_folder_path.$destination); 
+            }
+
+            if($st){
                 return $destination;
             }
         }else{
@@ -151,13 +177,13 @@ class Securefile {
         }
 
         if($inline == true){
-            $filename = basename($filepath);
-            header('Content-Type: '.$this->_get_content_type($filepath));
+            $filename = basename($path);
+            header('Content-Type: '.$this->_get_content_type($path));
             header('Content-Disposition: inline; filename='.$filename);
-            header('Content-Length: ' . filesize($filepath));
+            header('Content-Length: ' . filesize($path));
             ob_clean();
             flush();
-            readfile($filepath);
+            readfile($path);
         }else{
             return $data;
         }
