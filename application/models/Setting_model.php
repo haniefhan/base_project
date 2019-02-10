@@ -16,5 +16,10 @@ class Setting_model extends MY_Model {
 		}
 		return $ret;
 	}
+
+	public function get_setting($name = ''){
+		$datas = $this->get_by(array('name' => $name));
+		return $datas['value'];
+	}
 }
 ?>
