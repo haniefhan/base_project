@@ -1,6 +1,31 @@
 <?php
-    function parse_menu($menu = array()){
+    function get_base_current_url(){
         $current = current_url();
+        $cur = explode('?', $current);
+        $current = $cur[0];
+
+        // remove index, add, edit
+        $arr_remove = array('index', 'add', 'edit');
+        $cur = explode('/', $current);
+
+        $current = '';
+        foreach ($cur as $i => $cr) {
+            if($i == (count($cur) - 1)){
+                if(!in_array($cr, $arr_remove)){
+                    if($current != '') $current .= '/';
+                    $current .= $cr;
+                }
+            }else{
+                if($current != '') $current .= '/';
+                $current .= $cr;
+            }
+        }
+
+        return $current;
+    }
+    
+    function parse_menu($menu = array()){
+        $current = get_base_current_url();
         $menu_ini = $menu;
         $class = '';
         $status = 0;
@@ -46,7 +71,7 @@
 <aside class="main-sidebar">
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
-        <?php $current = current_url(); ?>
+        <?php $current = get_base_current_url(); ?>
         <!-- sidebar menu: : style can be found in sidebar.less -->
         <ul class="sidebar-menu" data-widget="tree">
             <?php $menus = $this->session->userdata('menus');?>
