@@ -1163,7 +1163,16 @@ class MY_Model extends CI_Model
                         $this->_database->where_in($index, $value);
                     }
                 }else{
-                    $this->_database->where($index, $value);
+                    if(strpos($index, 'or|') !== false){
+                        $index = str_replace('or|', '', $index);
+                        $this->_database->or_where($index, $value);
+                    }elseif($index == 'group_start'){
+                        $this->_database->group_start();
+                    }elseif($index == 'group_end'){
+                        $this->_database->group_end();
+                    }else{
+                        $this->_database->where($index, $value);
+                    }
                 }
             }
         }
@@ -1193,7 +1202,16 @@ class MY_Model extends CI_Model
                         $this->_database->where_in($index, $value);
                     }
                 }else{
-                    $this->_database->where($index, $value);
+                    if(strpos($index, 'or|') !== false){
+                        $index = str_replace('or|', '', $index);
+                        $this->_database->or_where($index, $value);
+                    }elseif($index == 'group_start'){
+                        $this->_database->group_start();
+                    }elseif($index == 'group_end'){
+                        $this->_database->group_end();
+                    }else{
+                        $this->_database->where($index, $value);
+                    }
                 }
             }
         }
