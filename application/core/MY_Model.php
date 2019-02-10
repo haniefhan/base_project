@@ -1301,7 +1301,7 @@ class MY_Model extends CI_Model
         $table_field = $this->table_field;
 
         foreach ($table_field as $i => $tf) {
-            if($tf['in_form'] == true){
+            if(isset($data[$tf['table_index']])){
                 if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']]);
                 elseif($tf['type'] == 'datetime') $data[$tf['table_index']] = $this->reformat_datetime($data[$tf['table_index']]);
                 elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
@@ -1315,8 +1315,8 @@ class MY_Model extends CI_Model
         $table_field = $this->table_field;
 
         foreach ($table_field as $i => $tf) {
-            if($tf['in_form'] == true){
-                if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
+            if(isset($data[$tf['table_index']])){
+                if(($tf['type'] == 'date' or $tf['type'] == 'datepicker')) $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']], '-', '/');
                 elseif($tf['type'] == 'datetime') $data[$tf['table_index']] = $this->reformat_datetime($data[$tf['table_index']], '-', '/');
                 elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
             }
