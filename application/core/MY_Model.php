@@ -1103,6 +1103,7 @@ class MY_Model extends CI_Model
     public $dt_where            = array();
 
     public $dt_count_with_join = false;
+    public $dt_show_last_query = false;
 
     public function datatable(){
         $search = $this->input->get('search');
@@ -1140,7 +1141,10 @@ class MY_Model extends CI_Model
                 }
             }
         }
-        $return['lastQuery'] = $this->_database->last_query();
+
+        if($this->dt_show_last_query == true){
+            $return['lastQuery'] = $this->_database->last_query();
+        }
         $return['recordsTotal'] = $this->_count_all_datatable();
         $return['recordsFiltered'] = $this->_get_data_datatable($order, $search_value, 'count', $columns);
         return json_encode($return);
