@@ -28,7 +28,14 @@
 			<!-- <div class="pull-right hidden-xs">
 				<b>Version</b> 2.4.0
 			</div> -->
-			<strong>Copyright &copy; <?php echo date('Y') ?> <a href="#">Hanief Studio</a>.</strong> All rights
+			<?php 
+				$copyright_year_start = 2018;
+				$copyright_year_text = $copyright_year_start;
+				if(date('Y') > $copyright_year_start){
+					$copyright_year_text .= ' - '.date('Y');
+				}
+			?>
+			<strong>Copyright &copy; <?php echo $copyright_year_text; ?> <a href="#">Hanief Studio</a>.</strong> All rights
 			reserved.
 		</footer>
 		<div class="control-sidebar-bg"></div>
