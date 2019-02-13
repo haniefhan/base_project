@@ -48,9 +48,11 @@
 						<?php }elseif($tf['type'] == 'money'){ ?>
 							$('td:eq(<?php echo $n; ?>)', nRow).html('Rp. <span class="pull-right">'+numberWithCommas(aData[<?php echo $n ?>])+'</span>');
 						<?php }elseif($tf['type'] == 'date' or $tf['type'] == 'datepicker'){ ?>
-							d = aData[<?php echo $n ?>].split('-');
-							dd = d[2]+'/'+d[1]+'/'+d[0];
-							$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
+							if(aData[<?php echo $n ?>] != null){
+								d = aData[<?php echo $n ?>].split('-');
+								dd = d[2]+'/'+d[1]+'/'+d[0];
+								$('td:eq(<?php echo $n; ?>)', nRow).html(dd);
+							}
 						<?php }elseif($tf['type'] == 'datetime'){ ?>
 							if(aData[<?php echo $n ?>] != null){
 								d = aData[<?php echo $n ?>].split(' ');
