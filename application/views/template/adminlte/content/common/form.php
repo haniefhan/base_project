@@ -131,6 +131,9 @@
 					</div>
 				</form>
 			</div>
+			<div class="overlay">
+				<i class="fa fa-spinner fa-spin"></i>
+			</div>
 		</div>
 	</div>
 </div>

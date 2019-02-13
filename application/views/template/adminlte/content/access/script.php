@@ -27,5 +27,11 @@
 				leftColumns: 1,
 			}
 		});
+
+		$('div.overlay').hide();
+
+		$(window).on('beforeunload', function(){
+			$('div.overlay').show();
+		});
 	})
 </script>

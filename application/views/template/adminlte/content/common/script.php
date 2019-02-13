@@ -79,12 +79,25 @@
 				// {"bSearchable" : false, "bSortable": false}
 			]
 		});
+		
+		$('div.overlay').hide();
+
+		$(window).on('beforeunload', function(){
+			$('div.overlay').show();
+		});
 	})
 </script>
 <?php }elseif($state == 'add' or $state == 'edit'){ ?>
 	<script type="text/javascript">
 		$(document).ready(function(){
-			$('form input').eq(0).focus();
+			// $("form input[type!='hidden']").eq(0).focus();
+			$("form input:not(:disabled):not([readonly]):not([type='hidden'])").eq(0).focus();
+
+			$('div.overlay').hide();
+
+			$(window).on('beforeunload', function(){
+				$('div.overlay').show();
+			});
 		})
 	</script>
 	<?php 

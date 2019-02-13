@@ -70,6 +70,9 @@
                     <!-- /.col -->
                 </div>
             </form>
+            <div class="overlay">
+                <i class="fa fa-spinner fa-spin"></i>
+            </div>
         </div>
         <!-- /.login-box-body -->
     </div>
@@ -83,6 +86,41 @@
         window.onload = function() {
             var input = document.getElementById("username").focus();
         }
+        $(function(){
+            $('div.overlay').hide();
+
+            $(window).on('beforeunload', function(){
+                $('div.overlay').show();
+            });
+        })
     </script>
+    <style type="text/css">
+        div.login-box-body{
+            position: relative;
+        }
+
+        .login-box-body .overlay, .overlay-wrapper .overlay {
+            z-index: 50;
+            background: rgba(255,255,255,0.7);
+            border-radius: 3px;
+        }
+
+        .login-box-body>.overlay, .overlay-wrapper>.overlay, .login-box-body>.loading-img, .overlay-wrapper>.loading-img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .login-box-body .overlay>.fa, .overlay-wrapper .overlay>.fa {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            margin-left: -15px;
+            margin-top: -15px;
+            color: #000;
+            font-size: 25px;
+        }
+    </style>
 </body>
 </html>
