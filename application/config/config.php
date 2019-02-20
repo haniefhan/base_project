@@ -472,4 +472,4 @@ $config['proxy_ips'] = '';
 
 // for encrypt in edit and delete
 $config['use_encrypt'] = TRUE;
-$config['encryption_key_security'] = 'bb74f3a2cce1a97fff1caafb65edf949';
+$config['encryption_key_security'] = hex2bin('bb74f3a2cce1a97fff1caafb65edf949');

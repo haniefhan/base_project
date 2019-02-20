@@ -282,22 +282,22 @@ if ( ! function_exists('encrypt_id')){
 	function encrypt_id($id = ''){
 		$CI = & get_instance();
 		if($CI->config->item('use_encrypt')){
-			$CI->load->library('encrypt');
-			// $CI->encrypt->set_cipher('aes-192');
-			$CI->encrypt->set_mode('ctr');
-			$key = $CI->config->item('encryption_key_security');
+			if(version_compare(phpversion(), '7.0', '<')){
+				$CI->load->library('encrypt');
+				// $CI->encrypt->set_cipher('aes-192');
+				$CI->encrypt->set_mode('ctr');
+				$key = $CI->config->item('encryption_key_security');
 
-			$ret = $CI->encrypt->encode($id, $key);
+				$ret = $CI->encrypt->encode($id, $key);
 
-			$id = bin2hex($ret);
-			// $id = strtr(
-			// 	$ret,
-			// 	array(
-			// 		'+' => '.',
-			// 		'=' => '-',
-			// 		'/' => '~'
-			// 	)
-			// );
+				$id = bin2hex($ret);
+			}else{
+				// because mycrypt (library used in library encrypt) deprecated and removed in PHP 7.2
+				$CI->load->library('encryption');
+				$key = $CI->config->item('encryption_key_security');
+				$CI->encryption->initialize(array('driver' => 'openssl', 'chiper' => 'aes-128', 'mode' => 'ecb', 'key' => $key));
+				$id = $CI->encryption->encrypt($id);
+			}
 		}
 
 		return $id;
@@ -308,22 +308,22 @@ if ( ! function_exists('decrypt_id')){
 	function decrypt_id($string = ''){
 		$CI = & get_instance();
 		if($CI->config->item('use_encrypt')){
-			$CI->load->library('encrypt');
-			// $CI->encrypt->set_cipher('aes-128');
-			$CI->encrypt->set_mode('ctr');
-			$key = $CI->config->item('encryption_key_security');
+			if(version_compare(phpversion(), '7.0', '<')){
+				$CI->load->library('encrypt');
+				// $CI->encrypt->set_cipher('aes-128');
+				$CI->encrypt->set_mode('ctr');
+				$key = $CI->config->item('encryption_key_security');
 
-			$string = hex2bin($string);
-			// $string = strtr(
-			// 	$string,
-			// 	array(
-			// 		'.' => '+',
-			// 		'-' => '=',
-			// 		'~' => '/'
-			// 	)
-			// );
+				$string = hex2bin($string);
 
-			$string = $CI->encrypt->decode($string, $key);
+				$string = $CI->encrypt->decode($string, $key);
+			}else{
+				// because mycrypt (library used in library encrypt) deprecated and removed in PHP 7.2
+				$CI->load->library('encryption');
+				$key = $CI->config->item('encryption_key_security');
+				$CI->encryption->initialize(array('driver' => 'openssl', 'chiper' => 'aes-128', 'mode' => 'ecb', 'key' => $key));
+				$string = $CI->encryption->decrypt($string);
+			}
 
 			if($string == false){
 				$CI->session->set_flashdata('notif_status', false);
