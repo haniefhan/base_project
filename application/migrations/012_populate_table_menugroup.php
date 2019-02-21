@@ -29,21 +29,26 @@ class Migration_Populate_Table_Menugroup extends CI_Migration {
 		$datas[] = array(
 			'group_id' => 1,
 			'menu_id' => 5,
-			'access_grant' => '["view","edit","update"]',
+			'access_grant' => '["view","datatable","add","insert","edit","update","delete"]',
 		);
 		$datas[] = array(
 			'group_id' => 1,
 			'menu_id' => 6,
-			'access_grant' => '["view"]',
-		);
-		$datas[] = array(
-			'group_id' => 1,
-			'menu_id' => 7,
 			'access_grant' => '["view","edit","update"]',
 		);
 		$datas[] = array(
 			'group_id' => 1,
+			'menu_id' => 7,
+			'access_grant' => '["view"]',
+		);
+		$datas[] = array(
+			'group_id' => 1,
 			'menu_id' => 8,
+			'access_grant' => '["view","edit","update"]',
+		);
+		$datas[] = array(
+			'group_id' => 1,
+			'menu_id' => 9,
 			'access_grant' => '["view","edit","update","change_color"]',
 		);
 

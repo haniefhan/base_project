@@ -54,7 +54,7 @@ class Migration_Create_Table_User extends CI_Migration {
 				'type' => 'DATETIME',
 				'null' => TRUE
 				),
-			'udpate_by' => array(
+			'update_by' => array(
 				'type' => 'INT',
 				'constraint' => 11,
 				'null' => TRUE

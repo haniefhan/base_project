@@ -67,7 +67,7 @@ class Migration_Create_Table_Menu extends CI_Migration {
 				'type' => 'DATETIME',
 				'null' => TRUE
 				),
-			'udpate_by' => array(
+			'update_by' => array(
 				'type' => 'INT',
 				'constraint' => 11,
 				'null' => TRUE
