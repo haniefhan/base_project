@@ -295,7 +295,7 @@ if ( ! function_exists('encrypt_id')){
 				// because mycrypt (library used in library encrypt) deprecated and removed in PHP 7.2
 				$CI->load->library('encryption');
 				$key = $CI->config->item('encryption_key_security');
-				$CI->encryption->initialize(array('driver' => 'openssl', 'chiper' => 'aes-128', 'mode' => 'ecb', 'key' => $key));
+				$CI->encryption->initialize(array('driver' => 'openssl', 'chiper' => 'aes-128', 'mode' => 'ctr', 'key' => $key));
 				$id = $CI->encryption->encrypt($id);
 			}
 		}
@@ -321,7 +321,8 @@ if ( ! function_exists('decrypt_id')){
 				// because mycrypt (library used in library encrypt) deprecated and removed in PHP 7.2
 				$CI->load->library('encryption');
 				$key = $CI->config->item('encryption_key_security');
-				$CI->encryption->initialize(array('driver' => 'openssl', 'chiper' => 'aes-128', 'mode' => 'ecb', 'key' => $key));
+				$CI->encryption->initialize(array('driver' => 'openssl', 'chiper' => 'aes-128', 'mode' => 'ctr', 'key' => $key));
+				$string = str_replace(' ', '+', $string); // because '+'' in url became 'space' when opened in browser
 				$string = $CI->encryption->decrypt($string);
 			}
 
