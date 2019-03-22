@@ -1304,7 +1304,7 @@ class MY_Model extends CI_Model
             if(isset($data[$tf['table_index']])){
                 if($tf['type'] == 'date' or $tf['type'] == 'datepicker') $data[$tf['table_index']] = $this->reformat_date($data[$tf['table_index']]);
                 elseif($tf['type'] == 'datetime') $data[$tf['table_index']] = $this->reformat_datetime($data[$tf['table_index']]);
-                elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']]);
+                elseif($tf['type'] == 'numeric' or $tf['type'] == 'money') $data[$tf['table_index']] = $this->reformat_numeric($data[$tf['table_index']], true);
             }
         }
 
@@ -1344,10 +1344,11 @@ class MY_Model extends CI_Model
         }
     }
 
-    protected function reformat_numeric($numeric = 0){
+    public function reformat_numeric($numeric = 0, $reformat_decimal = false){
         // indonesian format
         if(strpos($numeric, '.')){
             $numeric = str_replace('.', '', $numeric);
+            if($reformat_decimal == true) $numeric = str_replace('.', '', $numeric);
         }elseif(strpos($numeric, ',')){
             $numeric = str_replace(',', '.', $numeric);
         }
