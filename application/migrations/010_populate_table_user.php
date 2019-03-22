@@ -20,6 +20,6 @@ class Migration_Populate_Table_User extends CI_Migration {
 	}
 
 	public function down(){
-		$this->db->empty_table('user');
+		$this->db->truncate('user');
 	}
 }

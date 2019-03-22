@@ -56,6 +56,6 @@ class Migration_Populate_Table_Menugroup extends CI_Migration {
 	}
 
 	public function down(){
-		$this->db->empty_table('menugroup');
+		$this->db->truncate('menugroup');
 	}
 }

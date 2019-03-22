@@ -60,6 +60,6 @@ class Migration_Populate_Table_Setting extends CI_Migration {
 	}
 
 	public function down(){
-		$this->db->empty_table('setting');
+		$this->db->truncate('setting');
 	}
 }

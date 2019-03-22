@@ -34,6 +34,6 @@ class Migration_Populate_Table_Template extends CI_Migration {
 	}
 
 	public function down(){
-		$this->db->empty_table('template');
+		$this->db->truncate('template');
 	}
 }

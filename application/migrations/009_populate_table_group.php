@@ -7,7 +7,7 @@ class Migration_Populate_Table_Group extends CI_Migration {
 		$datas = array();
 
 		$datas[] = array(
-			'name' => "Administrator",
+			'name' => "Super Admin",
 			'create_date' => date('Y-m-d H:i:s'),
 		);
 
@@ -15,6 +15,6 @@ class Migration_Populate_Table_Group extends CI_Migration {
 	}
 
 	public function down(){
-		$this->db->empty_table('group');
+		$this->db->truncate('group');
 	}
 }

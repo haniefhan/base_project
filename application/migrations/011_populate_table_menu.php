@@ -110,6 +110,6 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 	}
 
 	public function down(){
-		$this->db->empty_table('menu');
+		$this->db->truncate('menu');
 	}
 }
