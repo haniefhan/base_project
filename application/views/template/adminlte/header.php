@@ -18,6 +18,31 @@
     </a>
     <div class="navbar-custom-menu">
         <ul class="nav navbar-nav">
+            <li class="dropdown tasks-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <i class="fa fa-bell-o"></i>
+                    <?php if($notification['new'] > 0){ ?>
+                        <span class="label label-danger"><?php echo $notification['new']; ?></span>
+                    <?php } ?>
+                </a>
+                <ul class="dropdown-menu">
+                    <li class="header">You have <?php echo $notification['new']; ?> new notifications</li>
+                    <li>
+                        <ul class="menu">
+                            <?php foreach ($notification['datas'] as $data) {?>
+                                <li>
+                                    <a href="<?php echo base_url_admin().'notification/read?id='.$data['ntf_id']; ?>">
+                                        <h3>
+                                            <?php echo $data['ntf_content'] ?><small class="pull-right" title="<?php echo date('d/m/Y H:i', strtotime($data['create_date'])); ?>"><i class="fa fa-clock-o"></i> <?php echo $data['ago']; ?></small>
+                                        </h3>
+                                    </a>
+                                </li>
+                            <?php } ?>
+                        </ul>
+                    </li>
+                    <li class="footer"><a href="<?php echo base_url_admin().'notification'; ?>">View all</a></li>
+                </ul>
+            </li>
             <li class="dropdown user user-menu">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <img src="<?php echo asset_admin_url() ?>dist/img/avatar.png" class="user-image" alt="User Image">

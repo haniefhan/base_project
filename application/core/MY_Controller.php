@@ -63,6 +63,9 @@ class Admin_Controller extends MY_Controller{
 			$data['breadcrumb'][] = array('url' => $bc['url'], 'name' => $bc['name']);
 		}
 
+		$this->load->model('Notification_model', 'notification');
+		$data['notification'] = $this->notification->get_notification();
+
 		$this->load->view($this->session->userdata('template_admin'), $data);
 	}
 }
