@@ -3,7 +3,7 @@ class Group_model extends MY_Model {
 	protected $_table 		= 'group';
 	public $primary_key = 'id';
 
-	public $before_create = array('create_mark');
+	public $before_create = array('create_mark', 'add_notification');
 	public $before_update = array('update_mark');
 
 	public $table_field = array(
@@ -62,5 +62,11 @@ class Group_model extends MY_Model {
 			'in_print'		=> false,
 		),
 	);
+
+	public function add_notification($row = array()){
+		$this->load->model('Notification_model', 'notification');
+		$this->notification->add_notification(1, 10);
+		return $row;
+	}
 }
 ?>
