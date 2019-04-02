@@ -32,7 +32,7 @@
                             <?php foreach ($notification['datas'] as $data) {?>
                                 <?php 
                                     $color = '#666666';
-                                    if($data['ntf_read'] == 0){
+                                    if($data['ntf_read'] == 1){
                                         $color = '#DDDDDD';
                                     }
                                 ?>
