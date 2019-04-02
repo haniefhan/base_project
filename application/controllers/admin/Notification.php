@@ -53,6 +53,8 @@ class Notification extends Admin_Controller{
 					$indexs[$i] .= "WHEN ".$index." THEN '".$value."' ";
 				}
 				$indexs[$i] .= "END as ntf_types";
+			}elseif($index == 'ntf_url'){
+				$indexs[$i] = "CONCAT('<a href=\"".base_url_admin()."', `ntf_url`, '\" class=\"btn btn-primary btn-xs\">Open Link</a>') as ntf_urls";
 			}
 		}
 
