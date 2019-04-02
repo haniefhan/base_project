@@ -29,8 +29,7 @@ class Notification extends Admin_Controller{
 		$this->notification->select('ntf_url');
 		$notif = $this->notification->get_by(array('ntf_id' => $id));
 
-		$this->update($id, array('ntf_read' => 1));
-
+		$this->notification->update($id, array('ntf_read' => 1));
 		redirect(base_url_admin().$notif['ntf_url']);
 	}
 
