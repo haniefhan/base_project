@@ -30,10 +30,16 @@
                     <li>
                         <ul class="menu">
                             <?php foreach ($notification['datas'] as $data) {?>
+                                <?php 
+                                    $color = '#666666';
+                                    if($data['ntf_read'] == 0){
+                                        $color = '#DDDDDD';
+                                    }
+                                ?>
                                 <li>
                                     <a href="<?php echo base_url_admin().'notification/read?id='.$data['ntf_id']; ?>">
-                                        <h3>
-                                            <?php echo $data['ntf_content'] ?><small class="pull-right" title="<?php echo date('d/m/Y H:i', strtotime($data['create_date'])); ?>"><i class="fa fa-clock-o"></i> <?php echo $data['ago']; ?></small>
+                                        <h3 style="color: <?php echo $color; ?>;">
+                                            <?php echo $data['ntf_content'] ?><small class="pull-right" title="<?php echo date('d/m/Y H:i', strtotime($data['create_date'])); ?>" style="color: <?php echo $color; ?>;"><i class="fa fa-clock-o"></i> <?php echo $data['ago']; ?></small>
                                         </h3>
                                     </a>
                                 </li>
