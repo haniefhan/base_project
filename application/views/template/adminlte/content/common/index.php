@@ -12,7 +12,9 @@
 				<?php if(check_access_menu(uri_string().'/upload_excel')){ ?>
 					<a href="#" class="btn btn-warning pull-right btn-sm" data-toggle="modal" data-target="#modal-upload"><i class="fa fa-file-excel-o"></i> Upload Excel</a>
 				<?php } ?>
-				<a href="<?php echo base_url_admin().$controller.'/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Add <?php echo $title ?></a>
+				<?php if(check_access_menu(uri_string().'/add')){ ?>
+					<a href="<?php echo base_url_admin().$controller.'/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Add <?php echo $title ?></a>
+				<?php } ?>
 				<!-- <div class="clearfix"></div> -->
 			</div>
 			<div class="box-body table-responsive">
