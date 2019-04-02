@@ -45,6 +45,8 @@ class Notification extends Admin_Controller{
 			}elseif($index == 'menu_id'){
 				$indexs[$i] = 'menu.name as menu_name';
 				$dt_join[] = 'menu';
+			}elseif($index == 'ntf_read'){
+				$indexs[$i] = "CASE ntf_read WHEN 0 THEN 'Unread' WHEN 1 THEN 'Read' END as ntf_reads";
 			}elseif($index == 'ntf_type'){
 				$indexs[$i] = "CASE ntf_type ";
 				foreach ($this->notification->notif_types as $d) {
