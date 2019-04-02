@@ -49,8 +49,8 @@ class Notification extends Admin_Controller{
 				$indexs[$i] = "CASE ntf_read WHEN 0 THEN 'Unread' WHEN 1 THEN 'Read' END as ntf_reads";
 			}elseif($index == 'ntf_type'){
 				$indexs[$i] = "CASE ntf_type ";
-				foreach ($this->notification->notif_types as $d) {
-					$indexs[$i] .= "WHEN 1 THEN '".$d."' ";
+				foreach ($this->notification->notif_types as $index => $value) {
+					$indexs[$i] .= "WHEN ".$index." THEN '".$value."' ";
 				}
 				$indexs[$i] .= "END as ntf_types";
 			}
