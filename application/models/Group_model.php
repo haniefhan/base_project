@@ -3,6 +3,9 @@ class Group_model extends MY_Model {
 	protected $_table 		= 'group';
 	public $primary_key = 'id';
 
+	public $before_create = array('create_mark');
+	public $before_update = array('update_mark');
+
 	public $table_field = array(
 		0 => array(
 			// table param
