@@ -32,6 +32,10 @@ class General extends Admin_Controller implements ControllerInterface{
 			$data = array();
 			$no = 0;
 			foreach ($post as $i => $v) {
+				if(is_array($v)){
+					$v = implode(',', $v);
+				}
+
 				$data[$no] = array('name' => $i, 'value' => $v);
 				$no++;
 			}
