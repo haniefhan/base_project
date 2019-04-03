@@ -14,6 +14,7 @@ class Migration_Populate_Table_User extends CI_Migration {
 			'email' => "haniefstudio@gmail.com",
 			'group_id' => 1,
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 
 		$this->db->insert_batch('user', $datas);

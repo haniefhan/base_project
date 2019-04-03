@@ -16,6 +16,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "Access Management",
@@ -27,6 +28,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "User",
@@ -38,6 +40,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view","datatable","add","insert","edit","update","delete"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "Group",
@@ -49,6 +52,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view","datatable","add","insert","edit","update","delete"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "Menu",
@@ -60,6 +64,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view","datatable","add","insert","edit","update","delete"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "Access Right",
@@ -71,6 +76,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view","edit","update"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "Setting",
@@ -82,6 +88,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "General",
@@ -93,6 +100,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view","edit","update"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 		$datas[] = array(
 			'name' => "Theme",
@@ -104,6 +112,7 @@ class Migration_Populate_Table_Menu extends CI_Migration {
 			'state' => "view",
 			'access_manage' => '["view","edit","update","change_color"]',
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 
 		$this->db->insert_batch('menu', $datas);

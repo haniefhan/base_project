@@ -9,6 +9,7 @@ class Migration_Populate_Table_Group extends CI_Migration {
 		$datas[] = array(
 			'name' => "Super Admin",
 			'create_date' => date('Y-m-d H:i:s'),
+			'create_by' => 1,
 		);
 
 		$this->db->insert_batch('group', $datas);
