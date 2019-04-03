@@ -67,7 +67,7 @@ class Notification extends Admin_Controller{
 		$this->notification->dt_delete_action = check_access_menu($uri.'/delete');
 		$this->notification->dt_url_action    = base_url_admin().$this->controller.'/';
 		$this->notification->dt_index_edit    = 'id';
-		// $this->group->dt_where       = array("user_id" => $this->session->userdata('id'));
+		$this->notification->dt_where         = array("user_id" => $this->session->userdata('id'));
 
 		echo $this->notification->datatable();
 	}
