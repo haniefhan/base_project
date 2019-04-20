@@ -15,7 +15,7 @@
 
 			<ul class="nav navbar-nav">
 				<?php foreach ($menus as $i => $menu) { ?>
-					<?php if(!isset($menu['children'])){ ?>
+					<?php if(count($menu['children']) == 0){ ?>
 						<li>
 							<a href="<?php echo base_url_admin().$menu['url'] ?>"><?php echo $menu['name']; ?></a>
 						</li>
