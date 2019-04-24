@@ -56,7 +56,7 @@ class Admin_Controller extends MY_Controller{
 		}
 
 		if(isset($data['state'])){
-			$data['breadcrumb'][] = array('url' => current_url(), 'name' => $data['title']);
+			$data['breadcrumb'][] = array('url' => current_url().'?'.$_SERVER['QUERY_STRING'], 'name' => $data['title']);
 		}
 
 		foreach ($this->breadcrumb as $bc) {
