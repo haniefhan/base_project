@@ -19,11 +19,16 @@
 			}
 		}
 
+		order = [0, 'asc'];
+		<?php if(isset($dt_order)){ ?>
+			order = [<?php echo $dt_order[0] ?>, "<?php echo $dt_order[1]; ?>"];
+		<?php } ?>
+
 		table = $('#tb-<?php echo $controller ?>').DataTable({
 			"processing": true,
 			"serverSide": true,
 			"ajax": "<?php echo $datatable; ?>",
-			"order": [[0, 'asc']],
+			"order": [order],
 			"pageLength": 25,
 			"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 				//numbering
