@@ -45,6 +45,27 @@
 						<li><a href="<?php echo base_url_admin().'login/signout' ?>"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
 					</ul>
 				</li>
+				<li role="presentation" class="dropdown">
+					<a href="javascript:;" class="dropdown-toggle info-number" data-toggle="dropdown" aria-expanded="false">
+						<i class="fa fa-envelope-o"></i>
+						<?php if($notification['new'] > 0){ ?>
+							<span class="badge bg-green"><?php echo $notification['new']; ?></span>
+						<?php } ?>
+					</a>
+					<ul id="menu1" class="dropdown-menu list-unstyled msg_list" role="menu">
+						<?php foreach ($notification['datas'] as $data) {?>
+							<li>
+								<a href="<?php echo base_url_admin().'notification/read?id='.$data['ntf_id']; ?>">
+									<span>
+										<span><?php echo $data['ntf_title']; ?></span>
+										<span class="time" title="<?php echo date('d/m/Y H:i', strtotime($data['create_date'])); ?>"><?php echo $data['ago']; ?></span>
+									</span>
+									<span class="message"><?php echo $data['ntf_content']; ?></span>
+								</a>
+							</li>
+						<?php } ?>
+					</ul>
+				</li>
 			</ul>
 		</nav>
 	</div>
