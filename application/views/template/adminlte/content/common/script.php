@@ -21,12 +21,17 @@
 				return number;
 			}
 		}
+		
+		order = [0, 'asc'];
+		<?php if(isset($dt_order)){ ?>
+			order = [<?php echo $dt_order[0] ?>, "<?php echo $dt_order[1]; ?>"];
+		<?php } ?>
 
 		table = $('#tb-<?php echo $controller ?>').DataTable({
 			"processing": true,
 			"serverSide": true,
 			"ajax": "<?php echo $datatable; ?>",
-			"order": [[0, 'asc']],
+			"order": [order],
 			"pageLength": 25,
 			"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull) {
 				//numbering
@@ -106,7 +111,7 @@
 			$types[$tf['type']] = $tf['type'];
 		}
 	?>
-	<?php if(isset($types['select'])){ ?>
+	<?php if(isset($types['select']) or isset($types['select-simple']) or isset($types['select-year'])){ ?>
 		<!-- select with select2 autocomplete -->
 		<script type="text/javascript" src="<?php echo asset_admin_url() ?>bower_components/select2/dist/js/select2.min.js"></script>
 		<link rel="stylesheet" type="text/css" href="<?php echo asset_admin_url() ?>bower_components/select2/dist/css/select2.min.css">
