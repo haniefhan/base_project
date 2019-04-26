@@ -11,5 +11,18 @@
 
 			$(this).parent().parent().parent().find(':checkbox.child-'+id).prop('checked', check);
 		})
+
+		$('table#table-access').DataTable({
+			scrollY : "400px",
+			scrollX : true,
+			scrollCollapse : true,
+			paging : false,
+			searching : false,
+			ordering : false,
+			bInfo : false,
+			fixedColumns:   {
+				leftColumns: 1,
+			}
+		});
 	})
 </script>

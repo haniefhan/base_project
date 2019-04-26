@@ -4,7 +4,9 @@
 		<div class="x_panel">
 			<div class="x_title">
 				<h2><?php echo $title; ?></h2>
-				<a href="<?php echo base_url_admin().'user/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Tambah User</a>
+				<?php if(check_access_menu(uri_string().'/add')){ ?>
+					<a href="<?php echo base_url_admin().'user/add' ?>" class="btn btn-success pull-right btn-sm"><i class="fa fa-plus"></i> Tambah User</a>
+				<?php } ?>
 				<div class="clearfix"></div>
 			</div>
 			<div class="x_content">
